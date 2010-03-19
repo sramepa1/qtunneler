@@ -4,6 +4,37 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <logicalFolder name="f3" displayName="GUI" projectFiles="true">
+        <itemPath>GameWindow.h</itemPath>
+        <itemPath>InitDialog.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f2" displayName="Logic" projectFiles="true">
+        <itemPath>Clicker.h</itemPath>
+        <itemPath>Controller.h</itemPath>
+        <itemPath>Dispatcher.h</itemPath>
+        <itemPath>Evaluator.h</itemPath>
+        <itemPath>NetReceiver.h</itemPath>
+        <itemPath>NetSender.h</itemPath>
+        <itemPath>Packet.h</itemPath>
+        <itemPath>PacketQueue.h</itemPath>
+        <itemPath>QueueReceiver.h</itemPath>
+        <itemPath>QueueSender.h</itemPath>
+        <itemPath>Receiver.h</itemPath>
+        <itemPath>Sender.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f1" displayName="Model" projectFiles="true">
+        <itemPath>Base.h</itemPath>
+        <itemPath>BaseWall.h</itemPath>
+        <itemPath>Border.h</itemPath>
+        <itemPath>Explosion.h</itemPath>
+        <itemPath>Matrix.h</itemPath>
+        <itemPath>Model.h</itemPath>
+        <itemPath>Projectile.h</itemPath>
+        <itemPath>RoundObj.h</itemPath>
+        <itemPath>Stone.h</itemPath>
+        <itemPath>Tank.h</itemPath>
+        <itemPath>VectorObj.h</itemPath>
+      </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -12,7 +43,40 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>main.cpp</itemPath>
+      <logicalFolder name="f2" displayName="GUI" projectFiles="true">
+        <itemPath>GameWindow.cpp</itemPath>
+        <itemPath>GameWindow.ui</itemPath>
+        <itemPath>InitDialog.cpp</itemPath>
+        <itemPath>InitDialog.ui</itemPath>
+        <itemPath>main.cpp</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f3" displayName="Logic" projectFiles="true">
+        <itemPath>Clicker.cpp</itemPath>
+        <itemPath>Controller.cpp</itemPath>
+        <itemPath>Dispatcher.cpp</itemPath>
+        <itemPath>Evaluator.cpp</itemPath>
+        <itemPath>NetReceiver.cpp</itemPath>
+        <itemPath>NetSender.cpp</itemPath>
+        <itemPath>Packet.cpp</itemPath>
+        <itemPath>PacketQueue.cpp</itemPath>
+        <itemPath>QueueReceiver.cpp</itemPath>
+        <itemPath>QueueSender.cpp</itemPath>
+        <itemPath>Receiver.cpp</itemPath>
+        <itemPath>Sender.cpp</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f1" displayName="Model" projectFiles="true">
+        <itemPath>Base.cpp</itemPath>
+        <itemPath>BaseWall.cpp</itemPath>
+        <itemPath>Border.cpp</itemPath>
+        <itemPath>Explosion.cpp</itemPath>
+        <itemPath>Matrix.cpp</itemPath>
+        <itemPath>Model.cpp</itemPath>
+        <itemPath>Projectile.cpp</itemPath>
+        <itemPath>RoundObj.cpp</itemPath>
+        <itemPath>Stone.cpp</itemPath>
+        <itemPath>Tank.cpp</itemPath>
+        <itemPath>VectorObj.cpp</itemPath>
+      </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -29,7 +93,7 @@
         <platform>2</platform>
       </toolsSet>
       <qt>
-        <modules>core gui</modules>
+        <modules>core gui network</modules>
       </qt>
       <compileType>
         <linkerTool>
@@ -37,6 +101,24 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <packaging>
+        <packType>Debian</packType>
+        <packFileList>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+        </packFileList>
+        <packInfoList>
+          <packInfoListElem name="Package" value="QTunneler" mandatory="true"/>
+          <packInfoListElem name="Version" value="1.0" mandatory="true"/>
+          <packInfoListElem name="Architecture" value="i386" mandatory="false"/>
+          <packInfoListElem name="Maintainer" value="pavel" mandatory="false"/>
+          <packInfoListElem name="Description" value="..." mandatory="false"/>
+        </packInfoList>
+      </packaging>
     </conf>
     <conf name="Release" type="4">
       <toolsSet>
