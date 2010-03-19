@@ -13,7 +13,7 @@ TMPDIR=build/${CND_CONF}/${CND_PLATFORM}/tmp-packaging
 TMPDIRNAME=tmp-packaging
 OUTPUT_PATH=${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/QTunneler
 OUTPUT_BASENAME=QTunneler
-PACKAGE_TOP_DIR=QTunneler/
+PACKAGE_TOP_DIR=/usr/
 
 # Functions
 function checkReturnCode
@@ -58,16 +58,33 @@ mkdir -p ${TMPDIR}
 
 # Copy files and create directories and links
 cd "${TOP}"
-makeDirectory ${TMPDIR}/QTunneler/bin
+makeDirectory ${TMPDIR}//usr/bin
 copyFileToTmpDir "${OUTPUT_PATH}" "${TMPDIR}/${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}" 0755
 
 
-# Generate tar file
+# Create control file
 cd "${TOP}"
-rm -f ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/package/QTunneler.tar
-cd ${TMPDIR}
-tar -vcf ../../../../${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/package/QTunneler.tar *
+CONTROL_FILE=${TMPDIR}/DEBIAN/control
+rm -f ${CONTROL_FILE}
+mkdir -p ${TMPDIR}/DEBIAN
+
+cd "${TOP}"
+echo 'Package: QTunneler' >> ${CONTROL_FILE}
+echo 'Version: 1.0' >> ${CONTROL_FILE}
+echo 'Architecture: i386' >> ${CONTROL_FILE}
+echo 'Maintainer: pavel' >> ${CONTROL_FILE}
+echo 'Description: ...' >> ${CONTROL_FILE}
+
+# Create Debian Package
+cd "${TOP}"
+cd "${TMPDIR}/.."
+dpkg-deb  --build ${TMPDIRNAME}
 checkReturnCode
+cd "${TOP}"
+mkdir -p  ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/package
+mv ${TMPDIR}.deb ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/package/QTunneler.deb
+checkReturnCode
+echo Debian: ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/package/QTunneler.deb
 
 # Cleanup
 cd "${TOP}"
