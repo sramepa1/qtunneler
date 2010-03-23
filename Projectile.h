@@ -12,11 +12,15 @@
 
 class Projectile : public RoundObj{
 public:
-    Projectile();
-    Projectile(const Projectile& orig);
+    Projectile(int i, char rot):rotation(rot),RoundObj(i) {}
     virtual ~Projectile();
-private:
 
+    virtual char getRotation() const {return rotation;}
+
+private:
+    char rotation;
+
+    Projectile(const Projectile& orig) {}
 };
 
 #endif	/* _PROJECTILE_H */

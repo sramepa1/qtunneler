@@ -13,10 +13,11 @@
 class QueueReceiver : public Receiver {
 public:
     QueueReceiver();
-    QueueReceiver(const QueueReceiver& orig);
     virtual ~QueueReceiver();
+
 private:
 
+    QueueReceiver(const QueueReceiver& orig);
 };
 
 #endif	/* _QUEUERECEIVER_H */

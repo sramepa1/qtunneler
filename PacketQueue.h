@@ -10,11 +10,12 @@
 
 class PacketQueue {
 public:
-    PacketQueue();
-    PacketQueue(const PacketQueue& orig);
+    PacketQueue();    
     virtual ~PacketQueue();
+    
 private:
 
+    PacketQueue(const PacketQueue& orig);
 };
 
 #endif	/* _PACKETQUEUE_H */

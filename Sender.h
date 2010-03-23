@@ -11,10 +11,11 @@
 class Sender {
 public:
     Sender();
-    Sender(const Sender& orig);
     virtual ~Sender();
+
 private:
 
+    Sender(const Sender& orig);
 };
 
 #endif	/* _SENDER_H */

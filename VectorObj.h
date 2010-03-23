@@ -8,13 +8,22 @@
 #ifndef _VECTOROBJ_H
 #define	_VECTOROBJ_H
 
+#include <QtCore>
+
 class VectorObj {
 public:
     VectorObj();
-    VectorObj(const VectorObj& orig);
     virtual ~VectorObj();
+    
+    virtual void addCoord(int x, int y);
+    
+    virtual const QPair<int,int>* const getCoords(int index) const;
+    virtual size_t getCoordCount() const {return vec.size();}
+    
 private:
+    QVector<QPair<int, int> > vec;
 
+    VectorObj(const VectorObj& orig);
 };
 
 #endif	/* _VECTOROBJ_H */

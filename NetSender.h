@@ -12,11 +12,12 @@
 
 class NetSender : public Sender{
 public:
-    NetSender();
-    NetSender(const NetSender& orig);
+    NetSender();    
     virtual ~NetSender();
-private:
 
+private:
+    
+    NetSender(const NetSender& orig);
 };
 
 #endif	/* _NETSENDER_H */

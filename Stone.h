@@ -13,10 +13,12 @@
 class Stone : public VectorObj {
 public:
     Stone();
-    Stone(const Stone& orig);
     virtual ~Stone();
+
 private:
 
+
+    Stone(const Stone& orig);
 };
 
 #endif	/* _STONE_H */

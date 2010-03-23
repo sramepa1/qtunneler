@@ -12,11 +12,17 @@
 
 class Explosion : public RoundObj{
 public:
-    Explosion();
-    Explosion(const Explosion& orig);
+    Explosion(int i, int rad, int seed):RoundObj(i),radius(rad),srand(seed) {}
     virtual ~Explosion();
-private:
 
+    virtual int getRadius() const {return radius;}
+    virtual int getRandomSeed() const {return srand;}
+
+private:
+    int radius;
+    int srand;
+
+    Explosion(const Explosion& orig);
 };
 
 #endif	/* _EXPLOSION_H */

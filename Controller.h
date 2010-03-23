@@ -11,10 +11,11 @@
 class Controller {
 public:
     Controller();
-    Controller(const Controller& orig);
     virtual ~Controller();
-private:
 
+private:
+    
+    Controller(const Controller& orig);
 };
 
 #endif	/* _CONTROLLER_H */

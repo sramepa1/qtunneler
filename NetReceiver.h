@@ -13,10 +13,10 @@
 class NetReceiver : public Receiver {
 public:
     NetReceiver();
-    NetReceiver(const NetReceiver& orig);
     virtual ~NetReceiver();
-private:
 
+private:
+    NetReceiver(const NetReceiver& orig);
 };
 
 #endif	/* _NETRECEIVER_H */
