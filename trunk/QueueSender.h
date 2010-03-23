@@ -13,10 +13,11 @@
 class QueueSender : public Sender {
 public:
     QueueSender();
-    QueueSender(const QueueSender& orig);
     virtual ~QueueSender();
+
 private:
 
+    QueueSender(const QueueSender& orig);
 };
 
 #endif	/* _QUEUESENDER_H */

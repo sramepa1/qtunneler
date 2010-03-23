@@ -12,11 +12,16 @@
 
 class Tank : public RoundObj {
 public:
-    Tank();
-    Tank(const Tank& orig);
+    Tank(int i):RoundObj(i) {}
     virtual ~Tank();
+
+    char rotation;
+    int hp;
+    int energy;
+    
 private:
 
+    Tank(const Tank& orig);
 };
 
 #endif	/* _TANK_H */

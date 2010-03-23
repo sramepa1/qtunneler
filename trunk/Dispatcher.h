@@ -11,10 +11,11 @@
 class Dispatcher {
 public:
     Dispatcher();
-    Dispatcher(const Dispatcher& orig);
     virtual ~Dispatcher();
-private:
 
+private:
+    
+    Dispatcher(const Dispatcher& orig);
 };
 
 #endif	/* _DISPATCHER_H */

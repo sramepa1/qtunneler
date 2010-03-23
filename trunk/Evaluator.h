@@ -10,11 +10,12 @@
 
 class Evaluator {
 public:
-    Evaluator();
-    Evaluator(const Evaluator& orig);
+    Evaluator();    
     virtual ~Evaluator();
+    
 private:
 
+    Evaluator(const Evaluator& orig);
 };
 
 #endif	/* _EVALUATOR_H */

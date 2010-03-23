@@ -12,11 +12,15 @@
 
 class BaseWall : public VectorObj {
 public:
-    BaseWall();
-    BaseWall(const BaseWall& orig);
+    BaseWall(int i):color(i){}
     virtual ~BaseWall();
-private:
 
+    virtual int getColor() const {return color;}
+
+private:
+    int color;
+    
+    BaseWall(const BaseWall& orig);
 };
 
 #endif	/* _BASEWALL_H */

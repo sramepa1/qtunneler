@@ -10,11 +10,12 @@
 
 class Clicker {
 public:
-    Clicker();
-    Clicker(const Clicker& orig);
+    Clicker();    
     virtual ~Clicker();
-private:
 
+private:
+    
+    Clicker(const Clicker& orig);
 };
 
 #endif	/* _CLICKER_H */

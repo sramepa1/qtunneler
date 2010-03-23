@@ -11,10 +11,10 @@
 class Receiver {
 public:
     Receiver();
-    Receiver(const Receiver& orig);
     virtual ~Receiver();
-private:
 
+private:
+    QueueSender(const QueueSender& orig);
 };
 
 #endif	/* _RECEIVER_H */

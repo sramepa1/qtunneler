@@ -10,11 +10,21 @@
 
 class Base {
 public:
-    Base();
-    Base(const Base& orig);
+    Base(int i,int x,int y,int width, int height);
     virtual ~Base();
-private:
+    
+    virtual float getCircleOverlap(int x, int y, int radius) const; // vrati 0..1
+    virtual int getColor() const {return color;}
 
+private:
+    int x1;
+    int y1;
+    int x2;
+    int y2;
+
+    int color;
+
+    Base(const Base& orig);
 };
 
 #endif	/* _BASE_H */

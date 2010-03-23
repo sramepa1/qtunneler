@@ -13,10 +13,10 @@
 class Border : public VectorObj{
 public:
     Border();
-    Border(const Border& orig);
     virtual ~Border();
-private:
 
+private:
+    Border(const Border& orig);
 };
 
 #endif	/* _BORDER_H */

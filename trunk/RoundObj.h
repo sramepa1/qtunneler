@@ -10,11 +10,18 @@
 
 class RoundObj {
 public:
-    RoundObj();
-    RoundObj(const RoundObj& orig);
+    int x;
+    int y;
+    
+    RoundObj(int i) : color(i) {}
     virtual ~RoundObj();
-private:
 
+    virtual int getColor() const {return color;}
+
+private:
+    int color;
+
+    RoundObj(const RoundObj& orig);
 };
 
 #endif	/* _ROUNDOBJ_H */

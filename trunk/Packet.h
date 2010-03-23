@@ -11,10 +11,11 @@
 class Packet {
 public:
     Packet();
-    Packet(const Packet& orig);
     virtual ~Packet();
+
 private:
 
+    Packet(const Packet& orig);
 };
 
 #endif	/* _PACKET_H */
