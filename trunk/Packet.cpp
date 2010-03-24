@@ -10,9 +10,6 @@
 Packet::Packet() {
 }
 
-Packet::Packet(const Packet& orig) {
-}
-
 Packet::~Packet() {
 }
 

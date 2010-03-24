@@ -32,7 +32,7 @@ public:
     QVector<Base*> bases;
     QVector<VectorObj*> vecObjects;
 
-    QHash<int,RoundObj*> roundObjects;
+    QHash<quint32,RoundObj*> roundObjects;
 
 private:
     Model(const Model& orig) {} // disabled

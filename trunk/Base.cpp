@@ -5,14 +5,16 @@
  * Created on 19. březen 2010, 11:38
  */
 
+#include <qt4/QtCore/qglobal.h>
+
 #include "Base.h"
 
 Base::Base() {
 }
 
-Base::Base(const Base& orig) {
-}
-
 Base::~Base() {
 }
 
+qreal Base::getCircleOverlap(quint32 x, quint32 y, quint32 radius) const {
+    
+}

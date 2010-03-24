@@ -14,7 +14,9 @@
 class QueueSender : public Sender {
 public:
     QueueSender();
-    virtual ~QueueSender();\
+    virtual ~QueueSender();
+
+    virtual void sendPacket(Packet p);
 
 protected:
     PacketQueue* queue;

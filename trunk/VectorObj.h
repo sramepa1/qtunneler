@@ -15,15 +15,17 @@ public:
     VectorObj();
     virtual ~VectorObj();
     
-    virtual void addCoord(qint32 x, qint32 y);
+    virtual void addCoord(quint32 x, quint32 y);
     
-    virtual const QPair<qint32,qint32>* const getCoords(qint32 index) const;
+    virtual const QPair<quint32,quint32> getCoords(quint32 index) const;
     virtual quint32 getCoordCount() const {return vec.size();}
+
+    // TODO iterator method? (return Qt const_iterator?)
 
     // TODO abstract drawYourself method (or something similar)
     
 protected:
-    QVector<QPair<qint32, qint32> > vec;
+    QVector<QPair<quint32, quint32> > vec;
 
 private:
     VectorObj(const VectorObj& orig) {} // disabled

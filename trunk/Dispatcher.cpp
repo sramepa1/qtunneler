@@ -10,9 +10,9 @@
 Dispatcher::Dispatcher() {
 }
 
-Dispatcher::Dispatcher(const Dispatcher& orig) {
-}
-
 Dispatcher::~Dispatcher() {
 }
 
+void Dispatcher::addSender(Sender* s) {
+    senders.push_back(s);
+}

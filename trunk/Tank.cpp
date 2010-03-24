@@ -10,9 +10,6 @@
 Tank::Tank() {
 }
 
-Tank::Tank(const Tank& orig) {
-}
-
 Tank::~Tank() {
 }
 

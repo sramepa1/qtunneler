@@ -17,6 +17,8 @@ public:
     NetSender();    
     virtual ~NetSender();
 
+    virtual void sendPacket(Packet p);
+
 private:
     NetSender(const NetSender& orig) {} // disabled
 };

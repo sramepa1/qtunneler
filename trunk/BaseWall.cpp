@@ -10,8 +10,6 @@
 BaseWall::BaseWall() {
 }
 
-BaseWall::BaseWall(const BaseWall& orig) {
-}
 
 BaseWall::~BaseWall() {
 }

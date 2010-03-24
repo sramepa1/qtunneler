@@ -10,9 +10,9 @@
 QueueReceiver::QueueReceiver() {
 }
 
-QueueReceiver::QueueReceiver(const QueueReceiver& orig) {
-}
-
 QueueReceiver::~QueueReceiver() {
 }
 
+Packet QueueReceiver::getPacket() {
+    
+}

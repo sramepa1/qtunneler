@@ -10,9 +10,10 @@
 NetReceiver::NetReceiver() {
 }
 
-NetReceiver::NetReceiver(const NetReceiver& orig) {
-}
-
 NetReceiver::~NetReceiver() {
 }
 
+
+Packet NetReceiver::getPacket() {
+
+}

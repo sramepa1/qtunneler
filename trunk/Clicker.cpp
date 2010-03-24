@@ -10,9 +10,6 @@
 Clicker::Clicker() {
 }
 
-Clicker::Clicker(const Clicker& orig) {
-}
-
 Clicker::~Clicker() {
 }
 

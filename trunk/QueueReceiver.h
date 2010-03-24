@@ -16,6 +16,8 @@ public:
     QueueReceiver(PacketQueue* q);
     virtual ~QueueReceiver();
 
+    virtual Packet getPacket();
+
 protected:
     PacketQueue* queue;
 
