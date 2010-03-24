@@ -8,23 +8,23 @@
 #ifndef _MATRIX_H
 #define	_MATRIX_H
 
-#define DIMENSION 10000
+#define DIMENSION (10*1024)
 
 class Matrix {
 public:
     Matrix();
     virtual ~Matrix();
 
-    virtual bool getXY(int x, int y) const;
-    virtual char getByte(int xDiv8, int y) const;
+    virtual bool getXY(qint32 x, qint32 y) const;
+    virtual quint8 getByte(qint32 xDiv8, qint32 y) const;
 
-    virtual void setXY(int x, int y, bool val);
-    virtual void setByte(int x, int y, char val);
+    virtual void setXY(qint32 x, qint32 y, bool val);
+    virtual void setByte(qint32 x, qint32 y, quint8 val);
 
     virtual void reset();
 
 protected:
-    char** arr;
+    quint8** arr;
 
 private:
     Matrix(const Matrix& orig) {} // disabled

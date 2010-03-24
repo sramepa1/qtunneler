@@ -10,19 +10,19 @@
 
 class Base {
 public:
-    Base(int i,int x,int y,int width, int height);
+    Base(quint8 color,qint32 x,qint32 y,quint32 width, quint32 height);
     virtual ~Base();
     
-    virtual float getCircleOverlap(int x, int y, int radius) const; // vrati 0..1
-    virtual int getColor() const {return color;}
+    virtual float getCircleOverlap(qint32 x, qint32 y, quint32 radius) const; // vrati 0..1
+    virtual quint8 getColor() const {return color;}
 
 protected:
-    int x1;
-    int y1;
-    int x2;
-    int y2;
+    qint32 x1;
+    qint32 y1;
+    qint32 x2;
+    qint32 y2;
 
-    int color;
+    quint32 color;
 
 private:
     Base(const Base& orig) {} // disabled

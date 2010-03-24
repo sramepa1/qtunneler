@@ -12,12 +12,12 @@
 
 class Tank : public RoundObj {
 public:
-    Tank(int i):RoundObj(i) {}
+    Tank(quint32 c):RoundObj(c) {}
     virtual ~Tank();
 
-    char rotation;
-    int hp;
-    int energy;
+    quint8 rotation;
+    quint32 hp;
+    quint32 energy;
     
 private:
     Tank(const Tank& orig) {} // disabled

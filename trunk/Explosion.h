@@ -12,15 +12,15 @@
 
 class Explosion : public RoundObj{
 public:
-    Explosion(int i, int rad, int seed):RoundObj(i),radius(rad),srand(seed) {}
+    Explosion(quint8 c, quint32 rad, qint32 seed):RoundObj(c),radius(rad),srand(seed) {}
     virtual ~Explosion();
 
-    virtual int getRadius() const {return radius;}
-    virtual int getRandomSeed() const {return srand;}
+    virtual quint32 getRadius() const {return radius;}
+    virtual qint32 getRandomSeed() const {return srand;}
 
 protected:
-    int radius;
-    int srand;
+    quint32 radius;
+    qint32 srand;
 
 private:
     Explosion(const Explosion& orig) {} // disabled
