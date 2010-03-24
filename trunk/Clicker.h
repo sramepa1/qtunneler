@@ -8,10 +8,16 @@
 #ifndef _CLICKER_H
 #define	_CLICKER_H
 
+#include "Sender.h"
+
 class Clicker {
 public:
-    Clicker();    
+    Clicker(Sender* s);
     virtual ~Clicker();
+
+protected:
+
+    Sender* sender;
 
 private:    
     Clicker(const Clicker& orig) {} // disabled

@@ -8,11 +8,24 @@
 #ifndef _EVALUATOR_H
 #define	_EVALUATOR_H
 
+#include <QtCore>
+
+#include "PacketQueue.h"
+#include "Receiver.h"
+
 class Evaluator {
 public:
     Evaluator();    
     virtual ~Evaluator();
-    
+
+protected:
+
+    bool evaluating;
+
+    PacketQueue queue;
+
+    QVector<Receiver*> receivers;
+
 private:
     Evaluator(const Evaluator& orig) {} // disabled
 };

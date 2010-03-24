@@ -9,11 +9,15 @@
 #define	_QUEUERECEIVER_H
 
 #include "Receiver.h"
+#include "PacketQueue.h"
 
 class QueueReceiver : public Receiver {
 public:
-    QueueReceiver();
+    QueueReceiver(PacketQueue* q);
     virtual ~QueueReceiver();
+
+protected:
+    PacketQueue* queue;
 
 private:
     QueueReceiver(const QueueReceiver& orig) {} // disabled

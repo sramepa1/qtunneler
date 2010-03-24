@@ -8,6 +8,8 @@
 #ifndef _NETRECEIVER_H
 #define	_NETRECEIVER_H
 
+#include <QtNetwork>
+
 #include "Receiver.h"
 
 class NetReceiver : public Receiver {

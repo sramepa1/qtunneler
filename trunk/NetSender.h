@@ -8,6 +8,8 @@
 #ifndef _NETSENDER_H
 #define	_NETSENDER_H
 
+#include <QtNetwork>
+
 #include "Sender.h"
 
 class NetSender : public Sender{

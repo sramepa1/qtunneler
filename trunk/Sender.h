@@ -8,10 +8,15 @@
 #ifndef _SENDER_H
 #define	_SENDER_H
 
+#include "Packet.h"
+
+
 class Sender {
 public:
     Sender();
     virtual ~Sender();
+
+    virtual void sendPacket(Packet p);
 
 private:
     Sender(const Sender& orig) {} // disabled

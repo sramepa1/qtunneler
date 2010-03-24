@@ -19,6 +19,8 @@ public:
     virtual quint8 getColor() const {return color;}
     virtual quint32 getID() const {return id;}
 
+    // TODO abstract drawYourself method (or something similar)
+
 protected:
     quint8 color;
     quint32 id;
