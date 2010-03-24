@@ -14,8 +14,7 @@ public:
     virtual ~Packet();
 
 private:
-
-    Packet(const Packet& orig);
+    Packet(const Packet& orig) {} // disabled
 };
 
 #endif	/* _PACKET_H */

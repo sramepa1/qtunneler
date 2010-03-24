@@ -23,16 +23,19 @@ public:
 
     virtual void reset();
 
+    // making these private or protected would result in a tremendous method count
+    // better leave them public and open to Controller's logic
+
     Matrix matrix;
     Border* border;
     
-    QVector<Base> bases;
-    QVector<RoundObj> roundObjects;
-    QVector<VectorObj> vecObjects;
+    QVector<Base*> bases;
+    QVector<VectorObj*> vecObjects;
+
+    QHash<int,RoundObj*> roundObjects;
 
 private:
-
-    Model(const Model& orig); //disabled
+    Model(const Model& orig) {} // disabled
 };
 
 #endif	/* _MODEL_H */

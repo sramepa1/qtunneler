@@ -13,9 +13,8 @@ public:
     Controller();
     virtual ~Controller();
 
-private:
-    
-    Controller(const Controller& orig);
+private:    
+    Controller(const Controller& orig) {} // disabled
 };
 
 #endif	/* _CONTROLLER_H */

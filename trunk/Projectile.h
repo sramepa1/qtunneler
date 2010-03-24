@@ -17,10 +17,11 @@ public:
 
     virtual char getRotation() const {return rotation;}
 
-private:
+protected:
     char rotation;
 
-    Projectile(const Projectile& orig) {}
+private:
+    Projectile(const Projectile& orig) {} // disabled
 };
 
 #endif	/* _PROJECTILE_H */

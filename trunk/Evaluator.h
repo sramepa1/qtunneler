@@ -14,8 +14,7 @@ public:
     virtual ~Evaluator();
     
 private:
-
-    Evaluator(const Evaluator& orig);
+    Evaluator(const Evaluator& orig) {} // disabled
 };
 
 #endif	/* _EVALUATOR_H */

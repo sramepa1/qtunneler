@@ -16,9 +16,7 @@ public:
     virtual ~Stone();
 
 private:
-
-
-    Stone(const Stone& orig);
+    Stone(const Stone& orig) {} // disabled
 };
 
 #endif	/* _STONE_H */

@@ -14,8 +14,7 @@ public:
     virtual ~PacketQueue();
     
 private:
-
-    PacketQueue(const PacketQueue& orig);
+    PacketQueue(const PacketQueue& orig) {} // disabled
 };
 
 #endif	/* _PACKETQUEUE_H */

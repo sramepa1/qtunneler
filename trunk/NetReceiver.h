@@ -16,7 +16,7 @@ public:
     virtual ~NetReceiver();
 
 private:
-    NetReceiver(const NetReceiver& orig);
+    NetReceiver(const NetReceiver& orig) {} // disabled
 };
 
 #endif	/* _NETRECEIVER_H */

@@ -13,9 +13,8 @@ public:
     Dispatcher();
     virtual ~Dispatcher();
 
-private:
-    
-    Dispatcher(const Dispatcher& orig);
+private:    
+    Dispatcher(const Dispatcher& orig) {} // disabled
 };
 
 #endif	/* _DISPATCHER_H */

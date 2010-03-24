@@ -16,8 +16,7 @@ public:
     virtual ~NetSender();
 
 private:
-    
-    NetSender(const NetSender& orig);
+    NetSender(const NetSender& orig) {} // disabled
 };
 
 #endif	/* _NETSENDER_H */

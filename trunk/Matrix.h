@@ -23,11 +23,11 @@ public:
 
     virtual void reset();
 
-private:
-
+protected:
     char** arr;
 
-    Matrix(const Matrix& orig);
+private:
+    Matrix(const Matrix& orig) {} // disabled
 };
 
 #endif	/* _MATRIX_H */

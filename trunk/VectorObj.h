@@ -20,10 +20,11 @@ public:
     virtual const QPair<int,int>* const getCoords(int index) const;
     virtual size_t getCoordCount() const {return vec.size();}
     
-private:
+protected:
     QVector<QPair<int, int> > vec;
 
-    VectorObj(const VectorObj& orig);
+private:
+    VectorObj(const VectorObj& orig) {} // disabled
 };
 
 #endif	/* _VECTOROBJ_H */
