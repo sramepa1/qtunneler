@@ -10,18 +10,18 @@
 
 class RoundObj {
 public:
-    int x;
-    int y;
+    qint32 x;
+    qint32 y;
     
-    RoundObj(int c, int i) : color(c),id(i) {}
+    RoundObj(quint8 c, quint32 i) : color(c),id(i) {}
     virtual ~RoundObj();
 
-    virtual int getColor() const {return color;}
-    virtual int getID() const {return id;}
+    virtual quint8 getColor() const {return color;}
+    virtual quint32 getID() const {return id;}
 
 protected:
-    int color;
-    int id;
+    quint8 color;
+    quint32 id;
 
 private:
     RoundObj(const RoundObj& orig) {} // disabled

@@ -12,13 +12,13 @@
 
 class BaseWall : public VectorObj {
 public:
-    BaseWall(int i):color(i){}
+    BaseWall(quint8 c):color(c) {}
     virtual ~BaseWall();
 
-    virtual int getColor() const {return color;}
+    virtual quint32 getColor() const {return color;}
 
 protected:
-    int color;
+    quint32 color;
 
 private:
     BaseWall(const BaseWall& orig) {} // disabled

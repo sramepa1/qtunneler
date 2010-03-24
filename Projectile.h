@@ -12,13 +12,13 @@
 
 class Projectile : public RoundObj{
 public:
-    Projectile(int i, char rot):rotation(rot),RoundObj(i) {}
+    Projectile(quint8 c, quint8 rot):rotation(rot),RoundObj(c) {}
     virtual ~Projectile();
 
-    virtual char getRotation() const {return rotation;}
+    virtual quint8 getRotation() const {return rotation;}
 
 protected:
-    char rotation;
+    quint8 rotation;
 
 private:
     Projectile(const Projectile& orig) {} // disabled
