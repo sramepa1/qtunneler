@@ -9,11 +9,15 @@
 #define	_QUEUESENDER_H
 
 #include "Sender.h"
+#include "PacketQueue.h"
 
 class QueueSender : public Sender {
 public:
     QueueSender();
-    virtual ~QueueSender();
+    virtual ~QueueSender();\
+
+protected:
+    PacketQueue* queue;
 
 private:
     QueueSender(const QueueSender& orig) {} // disabled
