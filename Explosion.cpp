@@ -10,9 +10,6 @@
 Explosion::Explosion() {
 }
 
-Explosion::Explosion(const Explosion& orig) {
-}
-
 Explosion::~Explosion() {
 }
 

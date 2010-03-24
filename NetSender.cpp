@@ -10,9 +10,9 @@
 NetSender::NetSender() {
 }
 
-NetSender::NetSender(const NetSender& orig) {
-}
-
 NetSender::~NetSender() {
 }
 
+void NetSender::sendPacket(Packet p) {
+
+}

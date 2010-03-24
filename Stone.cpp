@@ -10,9 +10,6 @@
 Stone::Stone() {
 }
 
-Stone::Stone(const Stone& orig) {
-}
-
 Stone::~Stone() {
 }
 

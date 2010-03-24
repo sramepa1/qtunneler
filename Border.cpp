@@ -10,9 +10,6 @@
 Border::Border() {
 }
 
-Border::Border(const Border& orig) {
-}
-
 Border::~Border() {
 }
 

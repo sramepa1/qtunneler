@@ -11,12 +11,14 @@
 #include "Packet.h"
 
 
+// interface
+
 class Receiver {
 public:
-    Receiver();
-    virtual ~Receiver();
+    Receiver() {}
+    virtual ~Receiver() {}
 
-    virtual Packet getPacket();
+    virtual Packet getPacket() =0;
 
 private:
     QueueSender(const QueueSender& orig) {} // disabled

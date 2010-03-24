@@ -7,12 +7,24 @@
 
 #include "PacketQueue.h"
 
-PacketQueue::PacketQueue() {
-}
 
-PacketQueue::PacketQueue(const PacketQueue& orig) {
+// TODO don't forget synchronization / mutexes <<<<<<<<<<<<<<<<<<<<<<
+
+
+PacketQueue::PacketQueue() {
 }
 
 PacketQueue::~PacketQueue() {
 }
 
+Packet PacketQueue::peek() const {
+
+}
+
+Packet PacketQueue::pop() {
+
+}
+
+void PacketQueue::push(Packet p) {
+
+}

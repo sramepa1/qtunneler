@@ -17,6 +17,8 @@ public:
     NetReceiver();
     virtual ~NetReceiver();
 
+    virtual Packet getPacket();
+
 private:
     NetReceiver(const NetReceiver& orig) {} // disabled
 };

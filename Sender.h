@@ -11,12 +11,14 @@
 #include "Packet.h"
 
 
+// interface
+
 class Sender {
 public:
-    Sender();
-    virtual ~Sender();
+    Sender() {}
+    virtual ~Sender() {}
 
-    virtual void sendPacket(Packet p);
+    virtual void sendPacket(Packet p) =0;
 
 private:
     Sender(const Sender& orig) {} // disabled

@@ -10,9 +10,9 @@
 QueueSender::QueueSender() {
 }
 
-QueueSender::QueueSender(const QueueSender& orig) {
-}
-
 QueueSender::~QueueSender() {
 }
 
+void QueueSender::sendPacket(Packet p) {
+    
+}

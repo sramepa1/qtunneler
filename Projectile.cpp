@@ -10,9 +10,6 @@
 Projectile::Projectile() {
 }
 
-Projectile::Projectile(const Projectile& orig) {
-}
-
 Projectile::~Projectile() {
 }
 

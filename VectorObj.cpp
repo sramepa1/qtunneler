@@ -10,9 +10,13 @@
 VectorObj::VectorObj() {
 }
 
-VectorObj::VectorObj(const VectorObj& orig) {
-}
-
 VectorObj::~VectorObj() {
 }
 
+void VectorObj::addCoord(qint32 x, qint32 y) {
+    vec.push_back(QPair(x,y));
+}
+
+const QPair<quint32,quint32> VectorObj::getCoords(qint32 index) const {
+    return vec[index];
+}

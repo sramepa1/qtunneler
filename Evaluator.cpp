@@ -10,9 +10,6 @@
 Evaluator::Evaluator() {
 }
 
-Evaluator::Evaluator(const Evaluator& orig) {
-}
-
 Evaluator::~Evaluator() {
 }
 

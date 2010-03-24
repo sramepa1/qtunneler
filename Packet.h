@@ -14,7 +14,7 @@ public:
     Packet(quint32 op, quint32 time, quint32 d1, quint32 d2, quint32 d3)
         : opcode(op), timecode(time), data1(d1), data2(d2), data3(d3) {}
 
-    virtual ~Packet();
+    virtual ~Packet() {}
 
     // use default copy constructor
 

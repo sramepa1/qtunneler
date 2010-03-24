@@ -10,9 +10,5 @@
 RoundObj::RoundObj() {
 }
 
-RoundObj::RoundObj(const RoundObj& orig) {
-}
-
 RoundObj::~RoundObj() {
 }
-
