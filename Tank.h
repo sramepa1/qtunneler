@@ -20,8 +20,7 @@ public:
     int energy;
     
 private:
-
-    Tank(const Tank& orig);
+    Tank(const Tank& orig) {} // disabled
 };
 
 #endif	/* _TANK_H */

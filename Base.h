@@ -16,7 +16,7 @@ public:
     virtual float getCircleOverlap(int x, int y, int radius) const; // vrati 0..1
     virtual int getColor() const {return color;}
 
-private:
+protected:
     int x1;
     int y1;
     int x2;
@@ -24,7 +24,8 @@ private:
 
     int color;
 
-    Base(const Base& orig);
+private:
+    Base(const Base& orig) {} // disabled
 };
 
 #endif	/* _BASE_H */

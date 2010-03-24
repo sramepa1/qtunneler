@@ -17,10 +17,11 @@ public:
 
     virtual int getColor() const {return color;}
 
-private:
+protected:
     int color;
-    
-    BaseWall(const BaseWall& orig);
+
+private:
+    BaseWall(const BaseWall& orig) {} // disabled
 };
 
 #endif	/* _BASEWALL_H */

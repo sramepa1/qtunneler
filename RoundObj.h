@@ -13,15 +13,18 @@ public:
     int x;
     int y;
     
-    RoundObj(int i) : color(i) {}
+    RoundObj(int c, int i) : color(c),id(i) {}
     virtual ~RoundObj();
 
     virtual int getColor() const {return color;}
+    virtual int getID() const {return id;}
+
+protected:
+    int color;
+    int id;
 
 private:
-    int color;
-
-    RoundObj(const RoundObj& orig);
+    RoundObj(const RoundObj& orig) {} // disabled
 };
 
 #endif	/* _ROUNDOBJ_H */

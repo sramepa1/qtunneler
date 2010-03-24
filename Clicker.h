@@ -13,9 +13,8 @@ public:
     Clicker();    
     virtual ~Clicker();
 
-private:
-    
-    Clicker(const Clicker& orig);
+private:    
+    Clicker(const Clicker& orig) {} // disabled
 };
 
 #endif	/* _CLICKER_H */

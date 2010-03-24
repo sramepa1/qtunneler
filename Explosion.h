@@ -18,11 +18,12 @@ public:
     virtual int getRadius() const {return radius;}
     virtual int getRandomSeed() const {return srand;}
 
-private:
+protected:
     int radius;
     int srand;
 
-    Explosion(const Explosion& orig);
+private:
+    Explosion(const Explosion& orig) {} // disabled
 };
 
 #endif	/* _EXPLOSION_H */

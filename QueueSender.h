@@ -16,8 +16,7 @@ public:
     virtual ~QueueSender();
 
 private:
-
-    QueueSender(const QueueSender& orig);
+    QueueSender(const QueueSender& orig) {} // disabled
 };
 
 #endif	/* _QUEUESENDER_H */

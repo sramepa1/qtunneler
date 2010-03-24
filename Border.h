@@ -16,7 +16,7 @@ public:
     virtual ~Border();
 
 private:
-    Border(const Border& orig);
+    Border(const Border& orig) {} // disabled
 };
 
 #endif	/* _BORDER_H */

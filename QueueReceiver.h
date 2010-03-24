@@ -16,8 +16,7 @@ public:
     virtual ~QueueReceiver();
 
 private:
-
-    QueueReceiver(const QueueReceiver& orig);
+    QueueReceiver(const QueueReceiver& orig) {} // disabled
 };
 
 #endif	/* _QUEUERECEIVER_H */

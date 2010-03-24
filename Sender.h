@@ -14,8 +14,7 @@ public:
     virtual ~Sender();
 
 private:
-
-    Sender(const Sender& orig);
+    Sender(const Sender& orig) {} // disabled
 };
 
 #endif	/* _SENDER_H */
