@@ -10,10 +10,10 @@
 
 class RoundObj {
 public:
-    qint32 x;
-    qint32 y;
+    quint32 x;
+    quint32 y;
     
-    RoundObj(quint8 c, quint32 i) : color(c),id(i) {}
+    RoundObj(quint32 _x, quint32 _y, quint8 _color, quint32 _id) : x(_x), y(_y), color(_color), id(_id) {}
     virtual ~RoundObj();
 
     virtual quint8 getColor() const {return color;}
