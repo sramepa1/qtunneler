@@ -11,6 +11,9 @@ Matrix::Matrix() {
     arr = new quint8* [DIMENSION/8];
     for(quint32 i = 0; i < DIMENSION/8; i++) {
         arr[i] = new quint8[DIMENSION];
+        for (quint32 j = 0; j < DIMENSION; j++) {
+            setByte(i,j,0xFF);
+        }
     }
 }
 
