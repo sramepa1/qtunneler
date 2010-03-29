@@ -9,6 +9,8 @@
 #define	_CONTROLLER_H
 
 #include <QtCore>
+#include "Receiver.h"
+#include "Model.h"
 
 class Controller {
 public:

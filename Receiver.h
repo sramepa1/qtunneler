@@ -19,9 +19,6 @@ public:
     virtual ~Receiver() {}
 
     virtual Packet getPacket() =0;
-
-private:
-    QueueSender(const QueueSender& orig) {} // disabled
 };
 
 #endif	/* _RECEIVER_H */

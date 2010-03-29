@@ -12,7 +12,7 @@
 
 class Tank : public RoundObj {
 public:
-    Tank(quint32 c):RoundObj(c) {}
+    Tank(quint32 x, quint32 y, quint8 color, quint32 id, quint32 id):RoundObj(x,y,color,id) {}
     virtual ~Tank();
 
     quint8 rotation;
@@ -20,7 +20,7 @@ public:
     quint32 energy;
     
 private:
-    Tank(const Tank& orig) {} // disabled
+    Tank(const Tank& orig) : RoundObj(0,0) {} // disabled
 };
 
 #endif	/* _TANK_H */

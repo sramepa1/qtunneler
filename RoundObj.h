@@ -8,6 +8,8 @@
 #ifndef _ROUNDOBJ_H
 #define	_ROUNDOBJ_H
 
+#include <QtCore>
+
 class RoundObj {
 public:
     quint32 x;
@@ -25,7 +27,6 @@ protected:
     quint8 color;
     quint32 id;
 
-private:
     RoundObj(const RoundObj& orig) {} // disabled
 };
 

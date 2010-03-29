@@ -7,8 +7,6 @@
 
 #include "RoundObj.h"
 
-RoundObj::RoundObj() {
-}
 
 RoundObj::~RoundObj() {
 }

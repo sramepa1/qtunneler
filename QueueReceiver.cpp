@@ -7,9 +7,6 @@
 
 #include "QueueReceiver.h"
 
-QueueReceiver::QueueReceiver() {
-}
-
 QueueReceiver::~QueueReceiver() {
 }
 
