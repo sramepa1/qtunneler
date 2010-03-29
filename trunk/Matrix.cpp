@@ -5,6 +5,8 @@
  * Created on 19. březen 2010, 11:41
  */
 
+#include <QtCore>
+
 #include "Matrix.h"
 
 Matrix::Matrix() {
@@ -24,7 +26,7 @@ Matrix::~Matrix() {
     delete arr;
 }
 
-quint8 Matrix::getByte(qint32 xDiv8, qint32 y) const {
+quint8 Matrix::getByte(quint32 xDiv8, quint32 y) const {
     return arr[xDiv8][y];
 }
 

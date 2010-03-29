@@ -12,7 +12,7 @@
 
 class Explosion : public RoundObj{
 public:
-    Explosion(quint8 c, quint32 rad, qint32 seed):RoundObj(c),radius(rad),srand(seed) {}
+    Explosion(quint32 x, quint32 y, quint8 color, quint32 id, quint32 rad, qint32 seed):RoundObj(x,y,color,id),radius(rad),srand(seed) {}
     virtual ~Explosion();
 
     virtual quint32 getRadius() const {return radius;}
@@ -23,7 +23,7 @@ protected:
     qint32 srand;
 
 private:
-    Explosion(const Explosion& orig) {} // disabled
+    Explosion(const Explosion& orig) : RoundObj(orig) {} // disabled
 };
 
 #endif	/* _EXPLOSION_H */

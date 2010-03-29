@@ -9,6 +9,7 @@
 #define	_PACKETQUEUE_H
 
 #include <QtCore>
+#include "Packet.h"
 
 // TODO Synchronized class, needs mutexes
 

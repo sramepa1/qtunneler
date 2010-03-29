@@ -7,9 +7,6 @@
 
 #include "Clicker.h"
 
-Clicker::Clicker() {
-}
-
 Clicker::~Clicker() {
 }
 

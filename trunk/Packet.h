@@ -8,12 +8,13 @@
 #ifndef _PACKET_H
 #define	_PACKET_H
 
+#include <QtCore>
+
 class Packet {
 public:
-    Packet() : Packet(0,0,0,0,0) {}
-    Packet(quint32 op, quint32 time, quint32 d1, quint32 d2, quint32 d3)
+    Packet(quint32 op =0, quint32 time =0, quint32 d1 =0, quint32 d2 =0, quint32 d3 =0)
         : opcode(op), timecode(time), data1(d1), data2(d2), data3(d3) {}
-
+        
     virtual ~Packet() {}
 
     // use default copy constructor
