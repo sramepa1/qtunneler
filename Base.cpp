@@ -8,10 +8,18 @@
 #include <qt4/QtCore/qglobal.h>
 
 #include "Base.h"
+#include <cmath>
 
-Base::~Base() {
-}
+qreal Base::getCircleOverlap(quint32 _x, quint32 _y, quint32 _radius) const {
+    //Cokoli jiného má mouchy
 
-qreal Base::getCircleOverlap(quint32 x, quint32 y, quint32 radius) const {
-    
+    qreal value;
+
+    if((x1 <= _x && x2 >= _x) && (y1 <= _y && y2 >= _y)){
+        value = 1;
+    }else{
+        value = 0;
+    }
+
+    return value;
 }
