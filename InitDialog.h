@@ -8,15 +8,43 @@
 #ifndef _INITDIALOG_H
 #define	_INITDIALOG_H
 
-#include "ui_InitDialog.h"
+#include <QObject>
+#include <QtGui>
 
-class InitDialog : public QDialog {
+#include "GameWindow.h"
+#include "InitVector.h"
+#include "Validator.h"
+
+class InitDialog : public QWidget {
     Q_OBJECT
+
 public:
-    InitDialog();
+    InitDialog(GameWindow* _gameWindow, Validator* _validator);
     virtual ~InitDialog();
+
+public slots:
+    void buttonClicked();
+    void validated(QString message);
+
+signals:
+    void dialogOK(InitVector vec);
+
 private:
-    Ui::InitDialog widget;
+
+    QRadioButton* createRadio;
+    QRadioButton* joinRadio;
+
+    QLabel* hostLabel;
+    QLabel* portLabel;
+
+    QLineEdit* hostField;
+    QLineEdit* portField;
+
+    QDialogButtonBox* buttonBox;
+
+
+    GameWindow* gameWindow;
+    Validator* validator;
 };
 
 #endif	/* _INITDIALOG_H */
