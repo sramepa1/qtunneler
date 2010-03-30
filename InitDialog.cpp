@@ -7,10 +7,7 @@
 
 #include "InitDialog.h"
 
-InitDialog::InitDialog(GameWindow* _gameWindow, Validator* _validator) {
-
-    gameWindow = _gameWindow;
-    validator = _validator;
+InitDialog::InitDialog() {
 
     setWindowTitle("QTunneler");
 
@@ -56,6 +53,7 @@ InitDialog::InitDialog(GameWindow* _gameWindow, Validator* _validator) {
     hostField->setMaxLength(512);
     hostField->setMinimumWidth(256);
     hostField->setEnabled(false);
+    hostField->setText("127.0.0.1"); // TODO find out actual IP
 
     createRadio->show();
     joinRadio->show();
@@ -66,8 +64,9 @@ InitDialog::InitDialog(GameWindow* _gameWindow, Validator* _validator) {
     buttonBox->show();
 
     connect(buttonBox,SIGNAL(accepted()),this,SLOT(buttonClicked()));
-    connect(this, SIGNAL(dialogOK(InitVector)), validator, SLOT(validate(InitVector)));
-    connect(validator, SIGNAL(validated(QString)), this, SLOT(validated(QString)));
+
+    connect(createRadio,SIGNAL(clicked()),this,SLOT(createSelected()));
+    connect(joinRadio,SIGNAL(clicked()),this,SLOT(joinSelected()));
 
 }
 
@@ -75,12 +74,33 @@ InitDialog::~InitDialog() {
 }
 
 void InitDialog::buttonClicked() {
-    emit dialogOK(InitVector(createRadio->isChecked(),portField->text(),hostField->text()));
+    emit validateDialog(InitVector(createRadio->isChecked(),portField->text(),hostField->text()));
 }
 
 void InitDialog::validated(QString message) {
     if(message.isEmpty()) {
         hide();
-        gameWindow->show();
+        emit switchToWindow();
+    }else {
+        QMessageBox msgBox;
+        msgBox.setText("An error has occurred.");
+        msgBox.setInformativeText(message);
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.exec();
     }
+}
+
+void InitDialog::createSelected() {
+    hostField->setText("127.0.0.1"); // TODO find out actual IP
+    hostField->setEnabled(false);
+}
+
+void InitDialog::joinSelected() {
+    hostField->clear();
+    hostField->setEnabled(true);
+}
+
+void InitDialog::showDialog() {
+    show();
 }

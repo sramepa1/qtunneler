@@ -5,21 +5,24 @@
  * Created on 30. březen 2010, 11:18
  */
 
-#ifndef _VALIDATOR_H
-#define	_VALIDATOR_H
+#ifndef _INITIALIZER_H
+#define	_INITIALIZER_H
 
 #include <QObject>
 #include <QtCore>
 
 #include "InitVector.h"
 
-class Validator : public QObject {
+class Initializer : public QObject {
 
     Q_OBJECT
 
 public:
-    Validator() {}
-    virtual ~Validator() {}
+    Initializer() {}
+    virtual ~Initializer() {}
+
+    void initGUI();
+    QString initCore(bool create, quint32 port, QString host);
 
 public slots:
     void validate(InitVector vec);
@@ -29,5 +32,5 @@ signals:
 
 };
 
-#endif	/* _VALIDATOR_H */
+#endif	/* _INITIALIZER_H */
 

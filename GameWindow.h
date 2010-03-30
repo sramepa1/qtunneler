@@ -8,15 +8,34 @@
 #ifndef _GAMEWINDOW_H
 #define	_GAMEWINDOW_H
 
-#include "ui_GameWindow.h"
+#include <QtGui>
+#include <QObject>
 
 class GameWindow : public QMainWindow {
+
     Q_OBJECT
+
 public:
     GameWindow();
-    virtual ~GameWindow();
+    virtual ~GameWindow() {}
+
+public slots:
+    void hideWindowAndSwitch();
+    void showWindow();
+    void exit();
+
+signals:
+    void switchToDialog();
+
 private:
-    Ui::GameWindow widget;
+    QWidget* drawArea;
+
+    QMenuBar* menuBar;
+    QMenu* menuGame;
+    QAction* actionCreateJoin;
+    QAction* actionExit;
+
+    QStatusBar* statusBar;
 };
 
 #endif	/* _GAMEWINDOW_H */

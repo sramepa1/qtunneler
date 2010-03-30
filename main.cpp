@@ -7,9 +7,7 @@
 
 #include <QtGui/QApplication>
 
-#include "InitDialog.h"
-#include "GameWindow.h"
-#include "Validator.h"
+#include "Initializer.h"
 
 int main(int argc, char *argv[]) {
     // initialize resources, if needed
@@ -17,14 +15,9 @@ int main(int argc, char *argv[]) {
 
     QApplication app(argc, argv);
     
-    GameWindow* g = new GameWindow();
-    
-    Validator* v = new Validator();
+    Initializer* init = new Initializer();
 
-    InitDialog* dialog = new InitDialog(g,v);
-    dialog->show();
-
-    // create and show your widgets here
+    init->initGUI();
 
     return app.exec();
 }
