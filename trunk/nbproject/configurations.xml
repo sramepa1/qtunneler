@@ -14,6 +14,7 @@
         <itemPath>Dispatcher.h</itemPath>
         <itemPath>Evaluator.h</itemPath>
         <itemPath>InitVector.h</itemPath>
+        <itemPath>Initializer.h</itemPath>
         <itemPath>NetReceiver.h</itemPath>
         <itemPath>NetSender.h</itemPath>
         <itemPath>Packet.h</itemPath>
@@ -22,7 +23,6 @@
         <itemPath>QueueSender.h</itemPath>
         <itemPath>Receiver.h</itemPath>
         <itemPath>Sender.h</itemPath>
-        <itemPath>Validator.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f1" displayName="Model" projectFiles="true">
         <itemPath>Base.h</itemPath>
@@ -47,7 +47,6 @@
                    projectFiles="true">
       <logicalFolder name="f2" displayName="GUI" projectFiles="true">
         <itemPath>GameWindow.cpp</itemPath>
-        <itemPath>GameWindow.ui</itemPath>
         <itemPath>InitDialog.cpp</itemPath>
         <itemPath>main.cpp</itemPath>
       </logicalFolder>
@@ -56,13 +55,13 @@
         <itemPath>Controller.cpp</itemPath>
         <itemPath>Dispatcher.cpp</itemPath>
         <itemPath>Evaluator.cpp</itemPath>
+        <itemPath>Initializer.cpp</itemPath>
         <itemPath>NetReceiver.cpp</itemPath>
         <itemPath>NetSender.cpp</itemPath>
         <itemPath>Packet.cpp</itemPath>
         <itemPath>PacketQueue.cpp</itemPath>
         <itemPath>QueueReceiver.cpp</itemPath>
         <itemPath>QueueSender.cpp</itemPath>
-        <itemPath>Validator.cpp</itemPath>
       </logicalFolder>
       <logicalFolder name="f1" displayName="Model" projectFiles="true">
         <itemPath>Base.cpp</itemPath>

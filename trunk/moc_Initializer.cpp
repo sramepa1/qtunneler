@@ -1,15 +1,15 @@
 /****************************************************************************
-** Meta object code from reading C++ file 'Validator.h'
+** Meta object code from reading C++ file 'Initializer.h'
 **
-** Created: Tue Mar 30 13:30:25 2010
+** Created: Tue Mar 30 20:25:16 2010
 **      by: The Qt Meta Object Compiler version 61 (Qt 4.5.2)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "Validator.h"
+#include "Initializer.h"
 #if !defined(Q_MOC_OUTPUT_REVISION)
-#error "The header file 'Validator.h' doesn't include <QObject>."
+#error "The header file 'Initializer.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 61
 #error "This file was generated using the moc from 4.5.2. It"
 #error "cannot be used with the include files from this version of Qt."
@@ -17,7 +17,7 @@
 #endif
 
 QT_BEGIN_MOC_NAMESPACE
-static const uint qt_meta_data_Validator[] = {
+static const uint qt_meta_data_Initializer[] = {
 
  // content:
        2,       // revision
@@ -29,38 +29,38 @@ static const uint qt_meta_data_Validator[] = {
        0,    0, // constructors
 
  // signals: signature, parameters, type, tag, flags
-      19,   11,   10,   10, 0x05,
+      21,   13,   12,   12, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-      42,   38,   10,   10, 0x0a,
+      44,   40,   12,   12, 0x0a,
 
        0        // eod
 };
 
-static const char qt_meta_stringdata_Validator[] = {
-    "Validator\0\0message\0validated(QString)\0"
+static const char qt_meta_stringdata_Initializer[] = {
+    "Initializer\0\0message\0validated(QString)\0"
     "vec\0validate(InitVector)\0"
 };
 
-const QMetaObject Validator::staticMetaObject = {
-    { &QObject::staticMetaObject, qt_meta_stringdata_Validator,
-      qt_meta_data_Validator, 0 }
+const QMetaObject Initializer::staticMetaObject = {
+    { &QObject::staticMetaObject, qt_meta_stringdata_Initializer,
+      qt_meta_data_Initializer, 0 }
 };
 
-const QMetaObject *Validator::metaObject() const
+const QMetaObject *Initializer::metaObject() const
 {
     return &staticMetaObject;
 }
 
-void *Validator::qt_metacast(const char *_clname)
+void *Initializer::qt_metacast(const char *_clname)
 {
     if (!_clname) return 0;
-    if (!strcmp(_clname, qt_meta_stringdata_Validator))
-        return static_cast<void*>(const_cast< Validator*>(this));
+    if (!strcmp(_clname, qt_meta_stringdata_Initializer))
+        return static_cast<void*>(const_cast< Initializer*>(this));
     return QObject::qt_metacast(_clname);
 }
 
-int Validator::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int Initializer::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
     _id = QObject::qt_metacall(_c, _id, _a);
     if (_id < 0)
@@ -77,7 +77,7 @@ int Validator::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void Validator::validated(QString _t1)
+void Initializer::validated(QString _t1)
 {
     void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);

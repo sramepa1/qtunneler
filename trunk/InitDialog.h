@@ -13,21 +13,26 @@
 
 #include "GameWindow.h"
 #include "InitVector.h"
-#include "Validator.h"
 
 class InitDialog : public QWidget {
     Q_OBJECT
 
 public:
-    InitDialog(GameWindow* _gameWindow, Validator* _validator);
+    InitDialog();
     virtual ~InitDialog();
 
 public slots:
     void buttonClicked();
     void validated(QString message);
 
+    void createSelected();
+    void joinSelected();
+
+    void showDialog();
+
 signals:
-    void dialogOK(InitVector vec);
+    void validateDialog(InitVector vec);
+    void switchToWindow();
 
 private:
 
@@ -42,9 +47,6 @@ private:
 
     QDialogButtonBox* buttonBox;
 
-
-    GameWindow* gameWindow;
-    Validator* validator;
 };
 
 #endif	/* _INITDIALOG_H */
