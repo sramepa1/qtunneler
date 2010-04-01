@@ -8,19 +8,31 @@
 #include "InitDialog.h"
 #include "GameWindow.h"
 #include "Initializer.h"
+#include "SettingsDialog.h"
+#include "SettingsController.h"
 
 void Initializer::initGUI() {
 
-    GameWindow* gameWindow = new GameWindow();
+    SettingsModel* model = new SettingsModel();
+    settingsDialog = new SettingsDialog(model);
+    settingsController = new SettingsController(model,settingsDialog);
 
-    InitDialog* initDialog = new InitDialog();
+    initDialog = new InitDialog();
+    gameWindow = new GameWindow();
+
     initDialog->show();
 
-    connect(initDialog,SIGNAL(switchToWindow()),gameWindow,SLOT(showWindow()));
+    connect(initDialog,SIGNAL(switchToSettings()),settingsDialog,SLOT(showSettings()));
     connect(gameWindow,SIGNAL(switchToDialog()),initDialog,SLOT(showDialog()));
 
     connect(initDialog, SIGNAL(validateDialog(InitVector)), this, SLOT(validate(InitVector)));
     connect(this, SIGNAL(validated(QString)), initDialog, SLOT(validated(QString)));
+
+    connect(settingsDialog,SIGNAL(startGame()),this,SLOT(initCore()));
+    connect(settingsController,SIGNAL(startGame()),this,SLOT(initCore()));
+
+    connect(settingsDialog,SIGNAL(disconnect()),settingsController,SLOT(disconnect()));
+    connect(settingsController,SIGNAL(disconnected()),initDialog,SLOT(showDialog()));
     
 }
 
@@ -31,17 +43,16 @@ void Initializer::validate(InitVector vec) {
     if(!ok || port > 65535) {
         emit validated(vec.port + " is not a valid port number");
     } else {
-        emit validated(initCore(vec.create,port,vec.host));
+        emit validated(settingsController->initNetwork(vec.create,port,vec.host));
     }
 }
 
+void Initializer::initCore() {
 
-QString Initializer::initCore(bool create, quint32 port, QString host){
+    // TODO - start game core. Or REinitialize, core might already be present from last game.
+    
+    // data to do this - in settingsModel
 
-    // TODO initialize app core, start with networking, return error string (if any)
-
-    // TODO - or REinitialize, core might already be present from last game.
-
-    return QString();
+    settingsDialog->hide();
+    gameWindow->show();
 }
-

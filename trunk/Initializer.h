@@ -1,5 +1,5 @@
 /* 
- * File:   Validator.h
+ * File:   Initializer.h
  * Author: pavel
  *
  * Created on 30. březen 2010, 11:18
@@ -9,9 +9,14 @@
 #define	_INITIALIZER_H
 
 #include <QObject>
-#include <QtCore>
+#include <QString>
 
+#include "GameWindow.h"
+#include "InitDialog.h"
 #include "InitVector.h"
+#include "SettingsModel.h"
+#include "SettingsController.h"
+#include "SettingsDialog.h"
 
 class Initializer : public QObject {
 
@@ -21,14 +26,20 @@ public:
     Initializer() {}
     virtual ~Initializer() {}
 
-    void initGUI();
-    QString initCore(bool create, quint32 port, QString host);
+    virtual void initGUI();
 
 public slots:
-    void validate(InitVector vec);
+    virtual void validate(InitVector vec);
+    virtual void initCore();
 
 signals:
     void validated(QString message);
+
+protected:
+    GameWindow* gameWindow;
+    SettingsController* settingsController;
+    SettingsDialog* settingsDialog;
+    InitDialog* initDialog;
 
 };
 

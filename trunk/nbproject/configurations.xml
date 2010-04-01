@@ -7,6 +7,9 @@
       <logicalFolder name="f3" displayName="GUI" projectFiles="true">
         <itemPath>GameWindow.h</itemPath>
         <itemPath>InitDialog.h</itemPath>
+        <itemPath>SettingsController.h</itemPath>
+        <itemPath>SettingsDialog.h</itemPath>
+        <itemPath>SettingsModel.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="Logic" projectFiles="true">
         <itemPath>Clicker.h</itemPath>
@@ -19,6 +22,7 @@
         <itemPath>NetSender.h</itemPath>
         <itemPath>Packet.h</itemPath>
         <itemPath>PacketQueue.h</itemPath>
+        <itemPath>Player.h</itemPath>
         <itemPath>QueueReceiver.h</itemPath>
         <itemPath>QueueSender.h</itemPath>
         <itemPath>Receiver.h</itemPath>
@@ -48,6 +52,9 @@
       <logicalFolder name="f2" displayName="GUI" projectFiles="true">
         <itemPath>GameWindow.cpp</itemPath>
         <itemPath>InitDialog.cpp</itemPath>
+        <itemPath>SettingsController.cpp</itemPath>
+        <itemPath>SettingsDialog.cpp</itemPath>
+        <itemPath>SettingsModel.cpp</itemPath>
         <itemPath>main.cpp</itemPath>
       </logicalFolder>
       <logicalFolder name="f3" displayName="Logic" projectFiles="true">

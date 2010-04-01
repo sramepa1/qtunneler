@@ -9,17 +9,17 @@
 
 GameWindow::GameWindow() {
 
-    setWindowTitle("QTunneler");
+    setWindowTitle("QTunneler"); // TODO macro
 
-    actionCreateJoin = new QAction("Create/Join",this);
-    actionExit = new QAction("Exit",this);
+    menuBar = new QMenuBar(this);
+    menuGame = new QMenu(tr("&Game"),menuBar);
+
+    actionCreateJoin = new QAction(tr("&Create/Join"),menuGame);
+    actionExit = new QAction(tr("E&xit"),menuGame);
     
-    menuGame = new QMenu("Game");
-    menuBar = new QMenuBar;
+    drawArea = new QWidget(this);
     
-    drawArea = new QWidget();
-    
-    statusBar = new QStatusBar;
+    statusBar = new QStatusBar(this);
 
     menuGame->addAction(actionCreateJoin);
     menuGame->addAction(actionExit);
@@ -29,7 +29,7 @@ GameWindow::GameWindow() {
     setCentralWidget(drawArea);
     setStatusBar(statusBar);
 
-    statusBar->showMessage("Initializing game. Please wait...");
+    statusBar->showMessage(tr("Initializing game. Please wait..."));
 
     setMinimumSize(640,480);
 
@@ -45,11 +45,7 @@ void GameWindow::hideWindowAndSwitch() {
     emit switchToDialog();
 }
 
-void GameWindow::showWindow() {
-    show();
-}
-
 void GameWindow::exit() {
     close();
-    // TODO
+    // TODO ?
 }
