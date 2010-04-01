@@ -15,6 +15,7 @@
 #include "InitVector.h"
 
 class InitDialog : public QWidget {
+
     Q_OBJECT
 
 public:
@@ -22,19 +23,19 @@ public:
     virtual ~InitDialog();
 
 public slots:
-    void buttonClicked();
-    void validated(QString message);
+    virtual void buttonClicked();
+    virtual void validated(QString message);
 
-    void createSelected();
-    void joinSelected();
+    virtual void createSelected();
+    virtual void joinSelected();
 
-    void showDialog();
+    virtual void showDialog();
 
 signals:
     void validateDialog(InitVector vec);
-    void switchToWindow();
+    void switchToSettings();
 
-private:
+protected:
 
     QRadioButton* createRadio;
     QRadioButton* joinRadio;
@@ -45,6 +46,7 @@ private:
     QLineEdit* hostField;
     QLineEdit* portField;
 
+    QLabel* statusLabel;
     QDialogButtonBox* buttonBox;
 
 };

@@ -20,14 +20,13 @@ public:
     virtual ~GameWindow() {}
 
 public slots:
-    void hideWindowAndSwitch();
-    void showWindow();
-    void exit();
+    virtual void hideWindowAndSwitch();
+    virtual void exit();
 
 signals:
     void switchToDialog();
 
-private:
+protected:
     QWidget* drawArea;
 
     QMenuBar* menuBar;

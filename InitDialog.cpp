@@ -9,36 +9,30 @@
 
 InitDialog::InitDialog() {
 
-    setWindowTitle("QTunneler");
+    setWindowTitle("QTunneler"); // TODO macro
 
-    createRadio = new QRadioButton("Create game");
-    joinRadio = new QRadioButton("Join game");
-    hostLabel = new QLabel("host:");
-    portLabel = new QLabel("port:");
-    hostField = new QLineEdit();
-    portField = new QLineEdit();
-    buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok);
+    createRadio = new QRadioButton(tr("&Create game"),this);
+    joinRadio = new QRadioButton(tr("&Join game"),this);
+    hostLabel = new QLabel(tr("host:"),this);
+    portLabel = new QLabel(tr("port:"),this);
+    hostField = new QLineEdit(this);
+    portField = new QLineEdit(this);
+    statusLabel = new QLabel("",this);
+    buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok, Qt::Horizontal, this);
 
     hostLabel->setBuddy(hostField);
     portLabel->setBuddy(portField);
 
-    createRadio->setParent(this);
-    joinRadio->setParent(this);
-    hostLabel->setParent(this);
-    portLabel->setParent(this);
-    hostField->setParent(this);
-    portField->setParent(this);
-    buttonBox->setParent(this);
-
     QGridLayout* layout = new QGridLayout();
 
-    layout->addWidget(createRadio,0,0,1,2,Qt::AlignLeft);
-    layout->addWidget(joinRadio,1,0,1,2,Qt::AlignLeft);
-    layout->addWidget(hostLabel,2,0,Qt::AlignRight);
-    layout->addWidget(hostField,2,1);
-    layout->addWidget(portLabel,3,0,Qt::AlignRight);
-    layout->addWidget(portField,3,1);
-    layout->addWidget(buttonBox,4,0,1,2,Qt::AlignRight);
+    layout->addWidget(createRadio,0,0,1,3,Qt::AlignLeft);
+    layout->addWidget(joinRadio,1,0,1,3,Qt::AlignLeft);
+    layout->addWidget(hostLabel,2,0,1,1,Qt::AlignRight);
+    layout->addWidget(hostField,2,1,1,2,Qt::AlignLeft);
+    layout->addWidget(portLabel,3,0,1,1,Qt::AlignRight);
+    layout->addWidget(portField,3,1,1,2,Qt::AlignLeft);
+    layout->addWidget(statusLabel,4,0,1,2,Qt::AlignLeft);
+    layout->addWidget(buttonBox,4,2,1,1,Qt::AlignRight);
 
 
     setLayout(layout);
@@ -61,6 +55,7 @@ InitDialog::InitDialog() {
     hostField->show();
     portLabel->show();
     portField->show();
+    statusLabel->show();
     buttonBox->show();
 
     connect(buttonBox,SIGNAL(accepted()),this,SLOT(buttonClicked()));
@@ -74,16 +69,18 @@ InitDialog::~InitDialog() {
 }
 
 void InitDialog::buttonClicked() {
+    statusLabel->setText(tr("Connecting..."));
     emit validateDialog(InitVector(createRadio->isChecked(),portField->text(),hostField->text()));
 }
 
 void InitDialog::validated(QString message) {
+    statusLabel->clear();
     if(message.isEmpty()) {
         hide();
-        emit switchToWindow();
+        emit switchToSettings();
     }else {
         QMessageBox msgBox;
-        msgBox.setText("An error has occurred.");
+        msgBox.setText(tr("An error has occurred."));
         msgBox.setInformativeText(message);
         msgBox.setStandardButtons(QMessageBox::Ok);
         msgBox.setIcon(QMessageBox::Critical);

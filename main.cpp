@@ -5,7 +5,7 @@
  * Created on 19. březen 2010, 11:15
  */
 
-#include <QtGui/QApplication>
+#include <QApplication>
 
 #include "Initializer.h"
 
@@ -15,9 +15,8 @@ int main(int argc, char *argv[]) {
 
     QApplication app(argc, argv);
     
-    Initializer* init = new Initializer();
-
-    init->initGUI();
+    Initializer init;
+    init.initGUI();
 
     return app.exec();
 }
