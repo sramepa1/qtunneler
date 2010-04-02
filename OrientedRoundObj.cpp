@@ -10,8 +10,10 @@
 OrientedRoundObj::~OrientedRoundObj() {
 }
 
-bool OrientedRoundObj::moveInDirection(quint32 steps){
-    
+QPair<quint32, quint32> OrientedRoundObj::getMoveCoorinates(quint32 steps){
+    quint32 x = this->x;
+    quint32 y = this->y;
+
     switch (rotation){
         case NORTH :
             y += steps;
@@ -43,4 +45,14 @@ bool OrientedRoundObj::moveInDirection(quint32 steps){
             y += steps;
             break;
     }
+
+    return QPair<quint32, quint32>(x, y);
 }
+
+void OrientedRoundObj::move(quint32 steps){
+    QPair<quint32, quint32> pair = getMoveCoorinates(steps);
+    x = pair.first;
+    y = pair.second;
+}
+
+

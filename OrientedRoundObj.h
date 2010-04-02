@@ -29,12 +29,13 @@ public:
     OrientedRoundObj(quint32 x, quint32 y, quint8 color, quint32 id, direction _rotation) : RoundObj(x, y, color, id), rotation(_rotation) {}
     virtual ~OrientedRoundObj();
 
-    virtual bool moveInDirection(quint32 steps = 1);
+    virtual QPair<quint32, quint32> getMoveCoorinates(quint32 steps = 1);
+    virtual void move(quint32 steps = 1);
 
     direction rotation;
     
-private:
-    OrientedRoundObj(const OrientedRoundObj& orig) {} // disabled
+protected:
+    OrientedRoundObj(const OrientedRoundObj& orig) : RoundObj(orig) {} // disabled
 };
 
 #endif	/* _ORIENTEDVECTOROBJ_H */
