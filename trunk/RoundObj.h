@@ -11,19 +11,6 @@
 #include <QtCore>
 #include "DefaultValues.h"
 
-/* Round object's rotation
- *
- *         7  0  1
- *          \ | /
- *        6 - + - 2
- *          / | \
- *         5  4  3
- */
-
-enum direction {
-    NORTH, NORTH_EAST, EAST, SOUTH_EAST, SOUTH, SOUTH_WEST, WEST, NORTH_WEST
-};
-
 class RoundObj {
 public:
     quint32 x;
@@ -35,7 +22,7 @@ public:
     virtual quint8 getColor() const {return color;}
     virtual quint32 getID() const {return id;}
 
-    // TODO abstract drawYourself method (or something similar)
+    // TODO abstract drawYourself method (or something similar) ???
 
 protected:
     quint8 color;

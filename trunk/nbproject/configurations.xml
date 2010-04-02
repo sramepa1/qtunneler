@@ -30,6 +30,7 @@
         <itemPath>Explosion.h</itemPath>
         <itemPath>Matrix.h</itemPath>
         <itemPath>Model.h</itemPath>
+        <itemPath>OrientedRoundObj.h</itemPath>
         <itemPath>Projectile.h</itemPath>
         <itemPath>RoundObj.h</itemPath>
         <itemPath>Stone.h</itemPath>
@@ -70,6 +71,7 @@
         <itemPath>Explosion.cpp</itemPath>
         <itemPath>Matrix.cpp</itemPath>
         <itemPath>Model.cpp</itemPath>
+        <itemPath>OrientedRoundObj.cpp</itemPath>
         <itemPath>Projectile.cpp</itemPath>
         <itemPath>RoundObj.cpp</itemPath>
         <itemPath>Stone.cpp</itemPath>

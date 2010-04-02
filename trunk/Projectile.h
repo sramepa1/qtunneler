@@ -8,21 +8,16 @@
 #ifndef _PROJECTILE_H
 #define	_PROJECTILE_H
 
-#include "RoundObj.h"
 #include "DefaultValues.h"
+#include "OrientedRoundObj.h"
 
-class Projectile : public RoundObj{
+class Projectile : public OrientedRoundObj{
 public:
-    Projectile(quint32 x, quint32 y, quint8 color, quint32 id, direction _rotation) : rotation(_rotation), RoundObj(x, y, color, id) {}
+    Projectile(quint32 x, quint32 y, quint8 color, quint32 id, direction rotation) : OrientedRoundObj(x, y, color, id, rotation) {}
     virtual ~Projectile();
 
-    virtual quint8 getRotation() const {return rotation;}
-
-protected:
-    direction rotation;
-
 private:
-    Projectile(const Projectile& orig) : RoundObj(orig) {} // disabled
+    Projectile(const Projectile& orig) : OrientedRoundObj(orig) {} // disabled
 };
 
 #endif	/* _PROJECTILE_H */
