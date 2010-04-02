@@ -9,6 +9,7 @@
 #define	_BORDER_H
 
 #include "VectorObj.h"
+#include "DefaultValues.h"
 
 class Border : public VectorObj{
 public:

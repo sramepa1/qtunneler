@@ -11,7 +11,6 @@
 #include <cmath>
 
 qreal Base::getCircleOverlap(quint32 _x, quint32 _y, quint32 _radius) const {
-    //Cokoli jiného má mouchy
 
     qreal value;
 

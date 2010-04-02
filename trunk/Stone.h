@@ -9,6 +9,7 @@
 #define	_STONE_H
 
 #include "VectorObj.h"
+#include "DefaultValues.h"
 
 class Stone : public VectorObj {
 public:

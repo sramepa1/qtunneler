@@ -9,18 +9,19 @@
 #define	_EXPLOSION_H
 
 #include "RoundObj.h"
+#include "DefaultValues.h"
 
 class Explosion : public RoundObj{
 public:
-    Explosion(quint32 x, quint32 y, quint8 color, quint32 id, quint32 rad, qint32 seed):RoundObj(x,y,color,id),radius(rad),srand(seed) {}
+    Explosion(quint32 x, quint32 y, quint8 color, quint32 id, quint32 _radius, qint32 _seed) : RoundObj(x,y,color,id), radius(_radius), seed(_seed) {}
     virtual ~Explosion();
 
     virtual quint32 getRadius() const {return radius;}
-    virtual qint32 getRandomSeed() const {return srand;}
+    virtual qint32 getRandomSeed() const {return seed;}
 
 protected:
     quint32 radius;
-    qint32 srand;
+    qint32 seed;
 
 private:
     Explosion(const Explosion& orig) : RoundObj(orig) {} // disabled
