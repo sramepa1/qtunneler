@@ -23,7 +23,7 @@ public:
 
     // TODO iterator method? (return Qt const_iterator?)
 
-    // TODO abstract drawYourself method (or something similar)
+    // TODO abstract drawYourself method (or something similar) ???
     
 protected:
     QVector<QPair<quint32, quint32> > * vec;
