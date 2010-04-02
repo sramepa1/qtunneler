@@ -9,10 +9,11 @@
 #define	_BASEWALL_H
 
 #include "VectorObj.h"
+#include "DefaultValues.h"
 
 class BaseWall : public VectorObj {
 public:
-    BaseWall(quint8 c):color(c) {}
+    BaseWall(quint8 _color) : color(_color) {}
     virtual ~BaseWall();
 
     virtual quint32 getColor() const {return color;}

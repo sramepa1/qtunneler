@@ -7,22 +7,16 @@
       <logicalFolder name="f3" displayName="GUI" projectFiles="true">
         <itemPath>GameWindow.h</itemPath>
         <itemPath>InitDialog.h</itemPath>
-        <itemPath>SettingsController.h</itemPath>
-        <itemPath>SettingsDialog.h</itemPath>
-        <itemPath>SettingsModel.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="Logic" projectFiles="true">
         <itemPath>Clicker.h</itemPath>
         <itemPath>Controller.h</itemPath>
         <itemPath>Dispatcher.h</itemPath>
         <itemPath>Evaluator.h</itemPath>
-        <itemPath>InitVector.h</itemPath>
-        <itemPath>Initializer.h</itemPath>
         <itemPath>NetReceiver.h</itemPath>
         <itemPath>NetSender.h</itemPath>
         <itemPath>Packet.h</itemPath>
         <itemPath>PacketQueue.h</itemPath>
-        <itemPath>Player.h</itemPath>
         <itemPath>QueueReceiver.h</itemPath>
         <itemPath>QueueSender.h</itemPath>
         <itemPath>Receiver.h</itemPath>
@@ -32,6 +26,7 @@
         <itemPath>Base.h</itemPath>
         <itemPath>BaseWall.h</itemPath>
         <itemPath>Border.h</itemPath>
+        <itemPath>DefaultValues.h</itemPath>
         <itemPath>Explosion.h</itemPath>
         <itemPath>Matrix.h</itemPath>
         <itemPath>Model.h</itemPath>
@@ -51,10 +46,9 @@
                    projectFiles="true">
       <logicalFolder name="f2" displayName="GUI" projectFiles="true">
         <itemPath>GameWindow.cpp</itemPath>
+        <itemPath>GameWindow.ui</itemPath>
         <itemPath>InitDialog.cpp</itemPath>
-        <itemPath>SettingsController.cpp</itemPath>
-        <itemPath>SettingsDialog.cpp</itemPath>
-        <itemPath>SettingsModel.cpp</itemPath>
+        <itemPath>InitDialog.ui</itemPath>
         <itemPath>main.cpp</itemPath>
       </logicalFolder>
       <logicalFolder name="f3" displayName="Logic" projectFiles="true">
@@ -62,7 +56,6 @@
         <itemPath>Controller.cpp</itemPath>
         <itemPath>Dispatcher.cpp</itemPath>
         <itemPath>Evaluator.cpp</itemPath>
-        <itemPath>Initializer.cpp</itemPath>
         <itemPath>NetReceiver.cpp</itemPath>
         <itemPath>NetSender.cpp</itemPath>
         <itemPath>Packet.cpp</itemPath>

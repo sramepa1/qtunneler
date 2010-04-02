@@ -8,7 +8,7 @@
 #ifndef _MATRIX_H
 #define	_MATRIX_H
 
-#define DIMENSION (10*1024)
+#include "DefaultValues.h"
 
 class Matrix {
 public:

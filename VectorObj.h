@@ -9,6 +9,7 @@
 #define	_VECTOROBJ_H
 
 #include <QtCore>
+#include "DefaultValues.h"
 
 class VectorObj {
 public:

@@ -10,17 +10,17 @@
 #include "Matrix.h"
 
 Matrix::Matrix() {
-    arr = new quint8* [DIMENSION/8];
-    for(quint32 i = 0; i < DIMENSION/8; i++) {
-        arr[i] = new quint8[DIMENSION];
-        for (quint32 j = 0; j < DIMENSION; j++) {
+    arr = new quint8* [MATRIX_DIMENSION/8];
+    for(quint32 i = 0; i < MATRIX_DIMENSION/8; i++) {
+        arr[i] = new quint8[MATRIX_DIMENSION];
+        for (quint32 j = 0; j < MATRIX_DIMENSION; j++) {
             setByte(i,j,0xFF);
         }
     }
 }
 
 Matrix::~Matrix() {
-    for(quint32 i = 0; i < DIMENSION/8; i++) {
+    for(quint32 i = 0; i < MATRIX_DIMENSION/8; i++) {
         delete arr[i];
     }
     delete arr;
@@ -35,8 +35,8 @@ bool Matrix::getXY(quint32 x, quint32 y) const {
 }
 
 void Matrix::reset() {
-    for(quint32 x = 0; x < DIMENSION/8; x++) {
-        for(quint32 y = 0; y < DIMENSION; y++) {
+    for(quint32 x = 0; x < MATRIX_DIMENSION/8; x++) {
+        for(quint32 y = 0; y < MATRIX_DIMENSION; y++) {
             arr[x][y] = (quint8) 0;
         }
     }

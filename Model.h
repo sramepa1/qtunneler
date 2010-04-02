@@ -9,6 +9,7 @@
 #define	_MODEL_H
 
 #include <QtCore>
+#include "DefaultValues.h"
 
 #include "Base.h"
 #include "Border.h"
@@ -26,13 +27,13 @@ public:
     // making these private or protected would result in a tremendous method count
     // better leave them public and open to Controller's logic
 
-    Matrix matrix;
+    Matrix* matrix;
     Border* border;
     
-    QVector<Base*> bases;
-    QVector<VectorObj*> vecObjects;
+    QVector<Base*> * bases;
+    QVector<VectorObj*> * vecObjects;
 
-    QHash<quint32,RoundObj*> roundObjects;
+    QHash<quint32,RoundObj*> * roundObjects;
 
 private:
     Model(const Model& orig) {} // disabled
