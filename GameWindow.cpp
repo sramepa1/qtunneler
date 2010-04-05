@@ -17,7 +17,7 @@ GameWindow::GameWindow() {
     actionCreateJoin = new QAction(tr("&Create/Join"),menuGame);
     actionExit = new QAction(tr("E&xit"),menuGame);
     
-    drawArea = new QWidget(this);
+    drawArea = new View(this);
     
     statusBar = new QStatusBar(this);
 

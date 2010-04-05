@@ -14,6 +14,9 @@
 class BitmapObj {
 public:
     BitmapObj();
+    BitmapObj(quint32 _x, quint32 _y,quint32 _width, quint32 _heigth);
+
+
     virtual ~BitmapObj();
 
     quint32 getWrapperX1() const {return x;}

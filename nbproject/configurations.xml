@@ -7,6 +7,12 @@
       <logicalFolder name="f3" displayName="GUI" projectFiles="true">
         <itemPath>GameWindow.h</itemPath>
         <itemPath>InitDialog.h</itemPath>
+        <itemPath>InitVector.h</itemPath>
+        <itemPath>Initializer.h</itemPath>
+        <itemPath>SettingsController.h</itemPath>
+        <itemPath>SettingsDialog.h</itemPath>
+        <itemPath>SettingsModel.h</itemPath>
+        <itemPath>View.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="Logic" projectFiles="true">
         <itemPath>Clicker.h</itemPath>
@@ -36,7 +42,6 @@
         <itemPath>RoundObj.h</itemPath>
         <itemPath>Stone.h</itemPath>
         <itemPath>Tank.h</itemPath>
-        <itemPath>VectorObj.h</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -48,9 +53,12 @@
                    projectFiles="true">
       <logicalFolder name="f2" displayName="GUI" projectFiles="true">
         <itemPath>GameWindow.cpp</itemPath>
-        <itemPath>GameWindow.ui</itemPath>
         <itemPath>InitDialog.cpp</itemPath>
-        <itemPath>InitDialog.ui</itemPath>
+        <itemPath>Initializer.cpp</itemPath>
+        <itemPath>SettingsController.cpp</itemPath>
+        <itemPath>SettingsDialog.cpp</itemPath>
+        <itemPath>SettingsModel.cpp</itemPath>
+        <itemPath>View.cpp</itemPath>
         <itemPath>main.cpp</itemPath>
       </logicalFolder>
       <logicalFolder name="f3" displayName="Logic" projectFiles="true">
@@ -78,7 +86,6 @@
         <itemPath>RoundObj.cpp</itemPath>
         <itemPath>Stone.cpp</itemPath>
         <itemPath>Tank.cpp</itemPath>
-        <itemPath>VectorObj.cpp</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"

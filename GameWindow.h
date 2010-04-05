@@ -11,6 +11,8 @@
 #include <QtGui>
 #include <QObject>
 
+#include "View.h"
+
 class GameWindow : public QMainWindow {
 
     Q_OBJECT
@@ -27,7 +29,7 @@ signals:
     void switchToDialog();
 
 protected:
-    QWidget* drawArea;
+    View* drawArea;
 
     QMenuBar* menuBar;
     QMenu* menuGame;
