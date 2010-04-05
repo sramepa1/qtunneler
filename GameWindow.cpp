@@ -7,7 +7,7 @@
 
 #include "GameWindow.h"
 
-GameWindow::GameWindow() {
+GameWindow::GameWindow(Model* model) {
 
     setWindowTitle("QTunneler"); // TODO macro
 
@@ -17,7 +17,7 @@ GameWindow::GameWindow() {
     actionCreateJoin = new QAction(tr("&Create/Join"),menuGame);
     actionExit = new QAction(tr("E&xit"),menuGame);
     
-    drawArea = new View(this);
+    view = new View(this, model);
     
     statusBar = new QStatusBar(this);
 
@@ -26,7 +26,7 @@ GameWindow::GameWindow() {
     menuBar->addMenu(menuGame);
 
     setMenuBar(menuBar);
-    setCentralWidget(drawArea);
+    setCentralWidget(view);
     setStatusBar(statusBar);
 
     statusBar->showMessage(tr("Initializing game. Please wait..."));

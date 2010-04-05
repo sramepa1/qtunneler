@@ -13,12 +13,12 @@
 
 void Initializer::initGUI() {
 
-    SettingsModel* model = new SettingsModel();
-    settingsDialog = new SettingsDialog(model);
-    settingsController = new SettingsController(model,settingsDialog);
+    SettingsModel* settingsModel = new SettingsModel();
+    settingsDialog = new SettingsDialog(settingsModel);
+    settingsController = new SettingsController(settingsModel,settingsDialog);
 
     initDialog = new InitDialog();
-    gameWindow = new GameWindow();
+    gameWindow = new GameWindow(model);
 
     initDialog->show();
 

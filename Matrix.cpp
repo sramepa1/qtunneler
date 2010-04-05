@@ -17,6 +17,20 @@ Matrix::Matrix() {
             setByte(i,j,0xFF);
         }
     }
+
+
+    // for testing purposes <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    for(quint32 i = 0; i < MATRIX_DIMENSION/8; i++) {
+        for (quint32 j = 128; j < 256; j++) {
+            setByte(i,j,0);
+        }
+    }
+    for(quint32 i = 16; i < 32; i++) {
+        for (quint32 j = 0; j < MATRIX_DIMENSION; j++) {
+            setByte(i,j,0);
+        }
+    }
 }
 
 Matrix::~Matrix() {

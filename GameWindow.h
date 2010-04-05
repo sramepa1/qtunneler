@@ -12,13 +12,14 @@
 #include <QObject>
 
 #include "View.h"
+#include "Model.h"
 
 class GameWindow : public QMainWindow {
 
     Q_OBJECT
 
 public:
-    GameWindow();
+    GameWindow(Model* model);
     virtual ~GameWindow() {}
 
 public slots:
@@ -29,7 +30,7 @@ signals:
     void switchToDialog();
 
 protected:
-    View* drawArea;
+    View* view;
 
     QMenuBar* menuBar;
     QMenu* menuGame;
