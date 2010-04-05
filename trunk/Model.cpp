@@ -46,3 +46,22 @@ void Model::reset() {
     //TODO call destructor and constructor
 }
 
+const uchar* Model::getBitmapData(quint32 x, quint32 y, quint32 width, quint32 height) {
+
+
+    /*
+    uchar* buf = new uchar [(width*height)/8 + 1];
+
+    // TODO write more effectively, take advantage of getByte() where aligned?
+    uchar bit = 1;
+    for(int i = x; i < x + width; i++) {
+        for(int j = y; j < y + height; j++) {
+
+        }
+    }
+
+    return buf;
+    */
+
+}
+
