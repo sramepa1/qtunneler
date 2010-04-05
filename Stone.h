@@ -8,16 +8,16 @@
 #ifndef _STONE_H
 #define	_STONE_H
 
-#include "VectorObj.h"
+#include "BitmapObj.h"
 #include "DefaultValues.h"
 
-class Stone : public VectorObj {
+class Stone : public BitmapObj {
 public:
     Stone();
     virtual ~Stone();
 
-private:
-    Stone(const Stone& orig) {} // disabled
+protected:
+    Stone(const Stone& orig) : BitmapObj(orig) {} // disabled
 };
 
 #endif	/* _STONE_H */

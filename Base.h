@@ -24,6 +24,16 @@ protected:
     quint32 x2;
     quint32 y2;
 
+    /*                  x2
+     *        +---------+y2
+     *        |         |
+     *        |         |
+     *        |         |
+     *        |         |
+     *      y1+---------+
+     *        x1
+     */
+
     quint8 color;
 
 private:

@@ -31,7 +31,7 @@ public:
     Border* border;
     
     QVector<Base*> * bases;
-    QVector<VectorObj*> * vecObjects;
+    QVector<BitmapObj*> * vecObjects;
 
     QHash<quint32,RoundObj*> * roundObjects;
 

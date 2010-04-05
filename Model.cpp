@@ -12,7 +12,7 @@ Model::Model() {
     border = new Border();
 
     bases = new QVector<Base*>();
-    vecObjects = new QVector<VectorObj*>();
+    vecObjects = new QVector<BitmapObj*>();
 
     roundObjects = new QHash<quint32,RoundObj*>();
 

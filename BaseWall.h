@@ -8,10 +8,10 @@
 #ifndef _BASEWALL_H
 #define	_BASEWALL_H
 
-#include "VectorObj.h"
+#include "BitmapObj.h"
 #include "DefaultValues.h"
 
-class BaseWall : public VectorObj {
+class BaseWall : public BitmapObj {
 public:
     BaseWall(quint8 _color) : color(_color) {}
     virtual ~BaseWall();

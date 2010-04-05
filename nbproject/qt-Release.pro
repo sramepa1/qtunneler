@@ -1,13 +1,13 @@
 TEMPLATE = app
 DESTDIR = dist/Release/GNU-Linux-x86
-TARGET = QTunneler
+TARGET = qtunneler
 VERSION = 1.0.0
 CONFIG -= debug_and_release app_bundle lib_bundle
 CONFIG += release 
 QT = core gui
-SOURCES += Evaluator.cpp Border.cpp Tank.cpp BaseWall.cpp Clicker.cpp Packet.cpp NetReceiver.cpp PacketQueue.cpp VectorObj.cpp Validator.cpp Explosion.cpp Controller.cpp RoundObj.cpp GameWindow.cpp main.cpp Dispatcher.cpp Model.cpp Stone.cpp InitDialog.cpp QueueSender.cpp Matrix.cpp Projectile.cpp NetSender.cpp QueueReceiver.cpp Base.cpp
-HEADERS += Model.h BaseWall.h QueueReceiver.h Base.h Controller.h Evaluator.h Projectile.h Receiver.h Matrix.h InitVector.h VectorObj.h Dispatcher.h Sender.h PacketQueue.h NetSender.h Tank.h Explosion.h Validator.h InitDialog.h Border.h Clicker.h Stone.h QueueSender.h GameWindow.h NetReceiver.h Packet.h RoundObj.h
-FORMS += GameWindow.ui
+SOURCES += Evaluator.cpp Border.cpp Tank.cpp BaseWall.cpp Clicker.cpp Packet.cpp NetReceiver.cpp PacketQueue.cpp Explosion.cpp Controller.cpp RoundObj.cpp GameWindow.cpp main.cpp Dispatcher.cpp Stone.cpp Model.cpp InitDialog.cpp OrientedRoundObj.cpp QueueSender.cpp Matrix.cpp Projectile.cpp NetSender.cpp BitmapObj.cpp QueueReceiver.cpp Base.cpp
+HEADERS += Model.h BaseWall.h QueueReceiver.h Base.h Controller.h Evaluator.h Projectile.h Receiver.h Matrix.h Dispatcher.h Sender.h PacketQueue.h NetSender.h BitmapObj.h Tank.h Explosion.h InitDialog.h Border.h Clicker.h Stone.h OrientedRoundObj.h QueueSender.h GameWindow.h NetReceiver.h DefaultValues.h Packet.h RoundObj.h
+FORMS +=
 RESOURCES +=
 TRANSLATIONS +=
 OBJECTS_DIR = build/Release/GNU-Linux-x86
