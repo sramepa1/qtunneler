@@ -8,10 +8,10 @@
 #ifndef _BORDER_H
 #define	_BORDER_H
 
-#include "VectorObj.h"
+#include "BitmapObj.h"
 #include "DefaultValues.h"
 
-class Border : public VectorObj{
+class Border : public BitmapObj{
 public:
     Border();
     virtual ~Border();
