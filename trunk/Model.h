@@ -15,7 +15,7 @@
 #include "Border.h"
 #include "Matrix.h"
 #include "RoundObj.h"
-#include "VectorObj.h"
+#include "BitmapObj.h"
 
 class Model {
 public:
