@@ -108,6 +108,7 @@
       </toolsSet>
       <qt>
         <modules>core gui network</modules>
+        <mocDir>build/</mocDir>
       </qt>
       <compileType>
         <linkerTool>
@@ -143,6 +144,7 @@
       <qt>
         <buildMode>1</buildMode>
         <modules>core gui</modules>
+        <mocDir>build/</mocDir>
       </qt>
       <compileType>
         <cTool>
