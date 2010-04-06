@@ -14,6 +14,7 @@
 #include <QBitmap>
 
 #include "Model.h"
+#include "BitmapObj.h"
 
 class View : public QWidget {
 
@@ -23,11 +24,18 @@ public:
     View(QWidget* parent = NULL, Model* _model = NULL);
     virtual ~View();
 
+    virtual void setViewpoint(quint32 x, quint32 y);
+    virtual QPoint getViewpoint();
+
 protected:
     void paintEvent(QPaintEvent* evt);
 
-    QBrush background;
-    QBrush texture;
+    void paintBitmap(QPainter& painter, BitmapObj* obj);
+
+    quint32 x;
+    quint32 y;
+
+    QBrush tunnel;
 
     QBitmap* bitmap;
 

@@ -45,7 +45,7 @@ void Initializer::validate(InitVector vec) {
     if(!ok || port > 65535) {
         emit validated(vec.port + " is not a valid port number");
     } else {
-        emit validated(settingsController->initNetwork(vec.create,port,vec.host));
+        emit validated(settingsController->initNetwork(vec.create,(quint16)port,vec.host));
     }
 }
 

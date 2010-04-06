@@ -48,7 +48,7 @@ void Model::reset() {
     //TODO call destructor and constructor
 }
 
-const uchar* Model::getBitmapData(quint32 x, quint32 y, quint32 width, quint32 height) {
+const uchar* Model::getTunnelBitmapData(quint32 x, quint32 y, quint32 width, quint32 height) {
     
     uchar* buffer = new uchar [(width*height)/8 + height + 1];
     uchar* ptr = buffer;

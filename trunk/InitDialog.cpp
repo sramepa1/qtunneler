@@ -7,9 +7,11 @@
 
 #include "InitDialog.h"
 
+#include "DefaultValues.h"
+
 InitDialog::InitDialog() {
 
-    setWindowTitle("QTunneler"); // TODO macro
+    setWindowTitle(APP_NAME_STRING);
 
     createRadio = new QRadioButton(tr("&Create game"),this);
     joinRadio = new QRadioButton(tr("&Join game"),this);
@@ -47,7 +49,7 @@ InitDialog::InitDialog() {
     hostField->setMaxLength(512);
     hostField->setMinimumWidth(256);
     hostField->setEnabled(false);
-    hostField->setText("127.0.0.1"); // TODO find out actual IP
+    hostField->setText(getIP());
 
     createRadio->show();
     joinRadio->show();
@@ -89,7 +91,7 @@ void InitDialog::validated(QString message) {
 }
 
 void InitDialog::createSelected() {
-    hostField->setText("127.0.0.1"); // TODO find out actual IP
+    hostField->setText(getIP());
     hostField->setEnabled(false);
 }
 
@@ -100,4 +102,8 @@ void InitDialog::joinSelected() {
 
 void InitDialog::showDialog() {
     show();
+}
+
+QString InitDialog::getIP() {
+    return "127.0.0.1";
 }

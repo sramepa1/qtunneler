@@ -5,7 +5,8 @@
  * Created on 31. březen 2010, 22:28
  */
 
-#include <QWidget>
+
+#include <qt4/QtNetwork/qtcpserver.h>
 
 #include "SettingsController.h"
 
@@ -17,9 +18,18 @@ SettingsController::SettingsController(SettingsModel* _model, SettingsDialog* _d
 SettingsController::~SettingsController() {
 }
 
-QString SettingsController::initNetwork(bool create, quint32 port, QString host) {
+QString SettingsController::initNetwork(bool create, quint16 port, QString host) {
 
     // TODO initialize networking to allow settings, return error string (if any)
+
+    if(create) {
+        //QTcpServer server = new QTcpServer();
+        //TODO thread!!
+    }else {
+
+    }
+
+    
 
     // TODO - or REinitialize, networking might already be present from last game.
 

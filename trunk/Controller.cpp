@@ -7,6 +7,12 @@
 
 #include "Controller.h"
 
+Controller::Controller(Receiver* _receiver, Model* _model, View* _view) {
+    receiver = _receiver;
+    model = _model;
+    view = _view;
+}
+
 Controller::~Controller() {
 }
 

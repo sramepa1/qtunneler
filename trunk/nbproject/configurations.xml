@@ -9,6 +9,7 @@
         <itemPath>InitDialog.h</itemPath>
         <itemPath>InitVector.h</itemPath>
         <itemPath>Initializer.h</itemPath>
+        <itemPath>Player.h</itemPath>
         <itemPath>SettingsController.h</itemPath>
         <itemPath>SettingsDialog.h</itemPath>
         <itemPath>SettingsModel.h</itemPath>

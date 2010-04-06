@@ -11,10 +11,11 @@
 #include <QtCore>
 #include "Receiver.h"
 #include "Model.h"
+#include "View.h"
 
 class Controller {
 public:
-    Controller(Receiver* rec);
+    Controller(Receiver* _receiver, Model* _model, View* _view);
     virtual ~Controller();
 
     // TODO methods
@@ -23,7 +24,8 @@ protected:
 
     Receiver* receiver;
 
-    Model model;
+    Model* model;
+    View* view;
 
 private:    
     Controller(const Controller& orig) {} // disabled

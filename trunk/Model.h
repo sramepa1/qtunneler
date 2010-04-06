@@ -25,7 +25,7 @@ public:
     virtual void reset();
 
 
-    virtual const uchar* getBitmapData(quint32 x, quint32 y, quint32 width, quint32 height);
+    virtual const uchar* getTunnelBitmapData(quint32 x, quint32 y, quint32 width, quint32 height);
     virtual QVector<BitmapObj*> getBitmapsInRect(quint32 x, quint32 y, quint32 width, quint32 height);
 
     // making these private or protected would result in a tremendous method count

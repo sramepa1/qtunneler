@@ -2,9 +2,5 @@
 <RCC version="1.0">
     <qresource>
         <file>dirt_small.png</file>
-<!--
-        List files that you want to include into resources like this:
-        <file>images/copy.png</file>
--->
     </qresource>
 </RCC>
