@@ -9,10 +9,9 @@
 
 #include <QPalette>
 
+#include <iostream>
 
-View::View(QWidget* parent, Model* _model) : QWidget(parent) {
-
-    model = _model;
+View::View(QWidget* parent, Model* _model) : QWidget(parent), model(_model) {
 
     setAutoFillBackground(true);
 
@@ -23,18 +22,32 @@ View::View(QWidget* parent, Model* _model) : QWidget(parent) {
     p.setColor(QPalette::Window,Qt::black);
     setPalette(p);
 
-    //texture.setTexture()
+    texture.setColor(Qt::red);
 }
 
 View::~View() {
 }
 
 void View::paintEvent(QPaintEvent* /*evt*/) {
+
     QPainter painter(this);
     painter.setBackgroundMode(Qt::OpaqueMode);
     painter.setBackground(background);    
     painter.setPen(Qt::NoPen);
-    painter.setBrush(Qt::NoBrush);
+
+    const uchar* data = model->getBitmapData(0,0,width(),height());
+
+    for (int i = 0; i < width()/8; i++) {
+        std::cout << (int)data[i] << ' ';
+    }
+
+
+    texture.setTexture(QBitmap::fromData(QSize(width(),height()),data,QImage::Format_Mono));
+
+    painter.setBrush(texture);
     painter.drawRect(0,0,width()-1,height()-1);
+
+    delete data;
+
 }
 

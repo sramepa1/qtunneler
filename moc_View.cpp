@@ -1,15 +1,15 @@
 /****************************************************************************
-** Meta object code from reading C++ file 'SettingsModel.h'
+** Meta object code from reading C++ file 'View.h'
 **
-** Created: Mon Apr 5 22:27:32 2010
+** Created: Tue Apr 6 09:06:20 2010
 **      by: The Qt Meta Object Compiler version 61 (Qt 4.5.2)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "SettingsModel.h"
+#include "View.h"
 #if !defined(Q_MOC_OUTPUT_REVISION)
-#error "The header file 'SettingsModel.h' doesn't include <QObject>."
+#error "The header file 'View.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 61
 #error "This file was generated using the moc from 4.5.2. It"
 #error "cannot be used with the include files from this version of Qt."
@@ -17,7 +17,7 @@
 #endif
 
 QT_BEGIN_MOC_NAMESPACE
-static const uint qt_meta_data_SettingsModel[] = {
+static const uint qt_meta_data_View[] = {
 
  // content:
        2,       // revision
@@ -31,31 +31,31 @@ static const uint qt_meta_data_SettingsModel[] = {
        0        // eod
 };
 
-static const char qt_meta_stringdata_SettingsModel[] = {
-    "SettingsModel\0"
+static const char qt_meta_stringdata_View[] = {
+    "View\0"
 };
 
-const QMetaObject SettingsModel::staticMetaObject = {
-    { &QObject::staticMetaObject, qt_meta_stringdata_SettingsModel,
-      qt_meta_data_SettingsModel, 0 }
+const QMetaObject View::staticMetaObject = {
+    { &QWidget::staticMetaObject, qt_meta_stringdata_View,
+      qt_meta_data_View, 0 }
 };
 
-const QMetaObject *SettingsModel::metaObject() const
+const QMetaObject *View::metaObject() const
 {
     return &staticMetaObject;
 }
 
-void *SettingsModel::qt_metacast(const char *_clname)
+void *View::qt_metacast(const char *_clname)
 {
     if (!_clname) return 0;
-    if (!strcmp(_clname, qt_meta_stringdata_SettingsModel))
-        return static_cast<void*>(const_cast< SettingsModel*>(this));
-    return QObject::qt_metacast(_clname);
+    if (!strcmp(_clname, qt_meta_stringdata_View))
+        return static_cast<void*>(const_cast< View*>(this));
+    return QWidget::qt_metacast(_clname);
 }
 
-int SettingsModel::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int View::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
-    _id = QObject::qt_metacall(_c, _id, _a);
+    _id = QWidget::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
     return _id;

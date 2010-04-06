@@ -9,6 +9,9 @@
 
 #include "Matrix.h"
 
+
+#include <iostream>
+
 Matrix::Matrix() {
     arr = new quint8* [MATRIX_DIMENSION/8];
     for(quint32 i = 0; i < MATRIX_DIMENSION/8; i++) {
@@ -31,6 +34,10 @@ Matrix::Matrix() {
             setByte(i,j,0);
         }
     }
+    for(quint32 i = 0; i < MATRIX_DIMENSION; i++) {        
+        setXY(i,i,false);
+    }
+
 }
 
 Matrix::~Matrix() {
@@ -45,7 +52,7 @@ quint8 Matrix::getByte(quint32 xDiv8, quint32 y) const {
 }
 
 bool Matrix::getXY(quint32 x, quint32 y) const {
-    return ((arr[x/8][y]) & (1 << x%8) != 0);
+    return (arr[x/8][y]) & (1 << (x%8));
 }
 
 void Matrix::reset() {
@@ -61,5 +68,5 @@ void Matrix::setByte(quint32 xDiv8, quint32 y, quint8 val) {
 }
 
 void Matrix::setXY(quint32 x, quint32 y, bool val) {
-    arr[x/8][y] = val ? (arr[x/8][y] | (1 << x%8)) : (arr[x/8][y] & (1 << x%8));
+    arr[x/8][y] = val ? (arr[x/8][y] | (1 << (x%8))) : (arr[x/8][y] & (1 << (x%8)));
 }

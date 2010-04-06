@@ -11,6 +11,7 @@
 #include <QPainter>
 #include <QWidget>
 #include <QEvent>
+#include <QBitmap>
 
 #include "Model.h"
 
@@ -27,6 +28,8 @@ protected:
 
     QBrush background;
     QBrush texture;
+
+    QBitmap* bitmap;
 
     Model* model;
 };

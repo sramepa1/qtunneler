@@ -17,6 +17,8 @@ void Initializer::initGUI() {
     settingsDialog = new SettingsDialog(settingsModel);
     settingsController = new SettingsController(settingsModel,settingsDialog);
 
+    model = new Model();
+
     initDialog = new InitDialog();
     gameWindow = new GameWindow(model);
 
