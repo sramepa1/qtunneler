@@ -50,7 +50,7 @@ void Model::reset() {
 
 const uchar* Model::getTunnelBitmapData(quint32 x, quint32 y, quint32 width, quint32 height) {
     
-    uchar* buffer = new uchar [(width*height)/8 + height + 1];
+    uchar* buffer = new uchar [(width*height)/8 + height];
     uchar* ptr = buffer;
 
     uchar bit = 0;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RCC version="1.0">
     <qresource>
-        <file>dirt_small.png</file>
+        <file>tile.png</file>
     </qresource>
 </RCC>

@@ -9,6 +9,9 @@
 
 #include "DefaultValues.h"
 
+#include <QtNetwork>
+#include <iostream>
+
 InitDialog::InitDialog() {
 
     setWindowTitle(APP_NAME_STRING);
@@ -105,5 +108,6 @@ void InitDialog::showDialog() {
 }
 
 QString InitDialog::getIP() {
+    // We have not found a way to obtain the IP address of the default/primary network device
     return "127.0.0.1";
 }
