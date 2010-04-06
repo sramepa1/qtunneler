@@ -16,9 +16,6 @@ public:
     BaseWall(quint8 _color) : color(_color) {}
     virtual ~BaseWall();
 
-    virtual quint32 getColor() const {return color;}
-
-protected:
     quint32 color;
 
 private:
