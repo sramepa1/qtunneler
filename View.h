@@ -31,6 +31,8 @@ protected:
 
     QBitmap* bitmap;
 
+    QPixmap tile;
+
     Model* model;
 };
 

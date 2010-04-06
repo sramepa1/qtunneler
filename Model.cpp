@@ -53,11 +53,10 @@ const uchar* Model::getBitmapData(quint32 x, quint32 y, quint32 width, quint32 h
     uchar* buffer = new uchar [(width*height)/8 + height + 1];
     uchar* ptr = buffer;
 
-    // TODO write more efficiently, take advantage of getByte() where aligned ?? Or reimplement matrix
     uchar bit = 0;
     for(int j = y; j < y + height; j++) {
         for(int i = x; i < x + width; i++){
-            *ptr = matrix->getXY(i,j) ? ( *ptr | (1 << bit) ) : (*ptr & (0xFE << bit));
+            *ptr = matrix->getXY(i,j) ? (*ptr & ~(1 << bit)) : ( *ptr | (1 << bit) );
             if(++bit > 7) {
                 bit = 0;
                 ptr++;

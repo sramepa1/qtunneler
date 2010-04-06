@@ -37,7 +37,9 @@ Matrix::Matrix() {
     for(quint32 i = 0; i < MATRIX_DIMENSION; i++) {        
         setXY(i,i,false);
     }
-
+    setXY(42,21,false);
+    setXY(167,167,true);
+    setXY(169,169,true);
 }
 
 Matrix::~Matrix() {
@@ -65,8 +67,4 @@ void Matrix::reset() {
 
 void Matrix::setByte(quint32 xDiv8, quint32 y, quint8 val) {
     arr[xDiv8][y] = val;
-}
-
-void Matrix::setXY(quint32 x, quint32 y, bool val) {
-    arr[x/8][y] = val ? (arr[x/8][y] | (1 << (x%8))) : (arr[x/8][y] & (1 << (x%8)));
 }
