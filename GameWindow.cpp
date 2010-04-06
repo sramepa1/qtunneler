@@ -6,10 +6,11 @@
  */
 
 #include "GameWindow.h"
+#include "DefaultValues.h"
 
 GameWindow::GameWindow(Model* model) {
 
-    setWindowTitle("QTunneler"); // TODO macro
+    setWindowTitle(APP_NAME_STRING);
 
     menuBar = new QMenuBar(this);
     menuGame = new QMenu(tr("&Game"),menuBar);

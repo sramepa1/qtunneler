@@ -53,10 +53,6 @@ quint8 Matrix::getByte(quint32 xDiv8, quint32 y) const {
     return arr[xDiv8][y];
 }
 
-bool Matrix::getXY(quint32 x, quint32 y) const {
-    return (arr[x/8][y]) & (1 << (x%8));
-}
-
 void Matrix::reset() {
     for(quint32 x = 0; x < MATRIX_DIMENSION/8; x++) {
         for(quint32 y = 0; y < MATRIX_DIMENSION; y++) {

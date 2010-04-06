@@ -12,19 +12,9 @@
 #include <iostream>
 
 View::View(QWidget* parent, Model* _model) : QWidget(parent), model(_model) {
-
-    setAutoFillBackground(true);
-
-    background.setColor(Qt::black);
-    background.setStyle(Qt::SolidPattern);
-
-    QPalette p (palette());
-    p.setColor(QPalette::Window,Qt::black);
-    setPalette(p);
-
-    texture.setColor(Qt::black);
-
+    tunnel.setColor(Qt::black);
     tile = QPixmap::fromImage(QImage("dirt_small.png"));
+    x = y = 0;
 }
 
 View::~View() {
@@ -33,20 +23,39 @@ View::~View() {
 void View::paintEvent(QPaintEvent* /*evt*/) {
 
     QPainter painter(this);
-    //painter.setBackgroundMode(Qt::OpaqueMode);
-    //painter.setBackground(background);
     painter.setPen(Qt::NoPen);
 
-    painter.drawTiledPixmap(0,0,width(),height(),tile,width()%318,height()%288);
+    painter.drawTiledPixmap(0,0,width(),height(),tile, x % tile.width(), y % tile.height());
 
-    const uchar* data = model->getBitmapData(0,0,width(),height());
-    texture.setTexture(QBitmap::fromData(QSize(width(),height()),data,QImage::Format_MonoLSB));    
-
-    painter.setBrush(texture);
-    painter.drawRect(0,0,width()-1,height()-1);
-
-    
+    const uchar* data = model->getTunnelBitmapData(0,0,width(),height());
+    tunnel.setTexture(QBitmap::fromData(QSize(width(),height()),data,QImage::Format_MonoLSB));
     delete data;
 
+    painter.setBrush(tunnel);
+    painter.drawRect(0,0,width()-1,height()-1);
+
+    //TODO draw BitmapObjects
+    QVector<BitmapObj*> bitmaps = model->getBitmapsInRect(x,y,width(),height());
+    for (int i = 0; i < bitmaps.size(); i++) {
+        paintBitmap(painter, bitmaps[i]);
+    }
+
+
+    //TODO draw RoundObjects
 }
 
+QPoint View::getViewpoint() {
+    return QPoint(x,y);
+}
+
+
+void View::setViewpoint(quint32 _x, quint32 _y) {
+    x = _x;
+    y = _y;
+}
+
+void View::paintBitmap(QPainter& painter, BitmapObj* obj) {
+
+    //TODO
+
+}

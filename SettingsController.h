@@ -22,7 +22,7 @@ public:
     SettingsController(SettingsModel* _model, SettingsDialog* _dialog);
     virtual ~SettingsController();
 
-    virtual QString initNetwork(bool create, quint32 port, QString host);
+    virtual QString initNetwork(bool create, quint16 port, QString host);
 
 public slots:
     void disconnect();

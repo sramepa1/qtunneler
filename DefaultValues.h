@@ -10,6 +10,9 @@
 #ifndef _DEFAULTVALUES_H
 #define	_DEFAULTVALUES_H
 
+//GUI
+#define APP_NAME_STRING "QTunneler"
+
 //Projectile
 #define PROJECTILE_RADIUS 0 //TODO set PROJECTILE_RADIUS
 

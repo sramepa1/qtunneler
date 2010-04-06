@@ -15,7 +15,7 @@ public:
     Matrix();
     virtual ~Matrix();
 
-    virtual bool getXY(quint32 x, quint32 y) const;
+    virtual bool getXY(quint32 x, quint32 y) const { return (arr[x/8][y]) & (1 << (x%8)); }
     virtual quint8 getByte(quint32 xDiv8, quint32 y) const;
 
     virtual void setXY(quint32 x, quint32 y, bool val) { arr[x/8][y] = val ? (arr[x/8][y] | (1 << (x%8))) : (arr[x/8][y] & ~(1 << (x%8))); }

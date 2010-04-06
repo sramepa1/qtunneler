@@ -9,6 +9,7 @@
 #define	_INITDIALOG_H
 
 #include <QObject>
+#include <QString>
 #include <QtGui>
 
 #include "GameWindow.h"
@@ -36,6 +37,8 @@ signals:
     void switchToSettings();
 
 protected:
+
+    virtual QString getIP();
 
     QRadioButton* createRadio;
     QRadioButton* joinRadio;
