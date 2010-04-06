@@ -7,6 +7,8 @@
 
 #include "Model.h"
 
+#include <iostream>
+
 Model::Model() {
     matrix = new Matrix();
     border = new Border();
@@ -47,21 +49,32 @@ void Model::reset() {
 }
 
 const uchar* Model::getBitmapData(quint32 x, quint32 y, quint32 width, quint32 height) {
+    
+    uchar* buffer = new uchar [(width*height)/8 + height + 1];
+    uchar* ptr = buffer;
 
-
-    /*
-    uchar* buf = new uchar [(width*height)/8 + 1];
-
-    // TODO write more effectively, take advantage of getByte() where aligned?
-    uchar bit = 1;
-    for(int i = x; i < x + width; i++) {
-        for(int j = y; j < y + height; j++) {
-
+    // TODO write more efficiently, take advantage of getByte() where aligned ?? Or reimplement matrix
+    uchar bit = 0;
+    for(int j = y; j < y + height; j++) {
+        for(int i = x; i < x + width; i++){
+            *ptr = matrix->getXY(i,j) ? ( *ptr | (1 << bit) ) : (*ptr & (0xFE << bit));
+            if(++bit > 7) {
+                bit = 0;
+                ptr++;
+            }
+        }
+        if(bit != 0) { // last byte row padding
+            bit = 0;
+            ptr++;
         }
     }
 
-    return buf;
-    */
-
+    return buffer;    
 }
 
+QVector<BitmapObj*> Model::getBitmapsInRect(quint32 x, quint32 y, quint32 width, quint32 height) {
+
+    // TODO
+
+    return QVector<BitmapObj*>();
+}
