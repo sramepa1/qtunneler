@@ -18,7 +18,6 @@ public:
     virtual qreal getCircleOverlap(quint32 _x, quint32 _y, quint32 _radius) const; //TODO move to logic
     virtual quint8 getColor() const {return color;}
 
-protected:
     quint32 x1;
     quint32 y1;
     quint32 x2;

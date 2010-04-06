@@ -19,12 +19,6 @@ public:
     RoundObj(quint32 _x, quint32 _y, quint8 _color, quint32 _id) : x(_x), y(_y), color(_color), id(_id) {}
     virtual ~RoundObj();
 
-    virtual quint8 getColor() const {return color;}
-    virtual quint32 getID() const {return id;}
-
-    // TODO abstract drawYourself method (or something similar) ???
-
-protected:
     quint8 color;
     quint32 id;
 
