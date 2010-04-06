@@ -47,6 +47,10 @@
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
                    projectFiles="true">
+      <itemPath>dirt.png</itemPath>
+      <itemPath>dirt_small.png</itemPath>
+      <itemPath>highdirt.png</itemPath>
+      <itemPath>tile.qrc</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
