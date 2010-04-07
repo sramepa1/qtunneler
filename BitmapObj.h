@@ -13,10 +13,9 @@
 #include <QColor>
 #include "DefaultValues.h"
 
-class BitmapObj {
+class BitmapObj{
 public:
     BitmapObj(quint32 _x = 0, quint32 _y = 0,quint32 _width = 0, quint32 _heigth = 0);
-
 
     virtual ~BitmapObj();
 
@@ -27,7 +26,7 @@ public:
     virtual quint32 getWrapperWidth() const {return width;}
     virtual quint32 getWrapperHeight() const {return height;}
 
-    virtual const QBitmap* getQBitmap() const {return &qbitmap;}
+    virtual const QBitmap* getQBitmap();
     virtual const QColor getColor() const {return color;}
     
     virtual bool getXY(quint32 x, quint32 y) const;
@@ -35,7 +34,6 @@ public:
 
     virtual void setXY(quint32 x, quint32 y, bool val);
     virtual void setByte(quint32 xDiv8, quint32 y, quint8 val);
-
 
     
 protected:
@@ -56,11 +54,9 @@ protected:
 
      quint8** bitmap;
      
-     QBitmap qbitmap;
+     QBitmap* qbitmap;
      QColor color;      // TODO initialize!
 
-
-    BitmapObj(const BitmapObj& orig) {} // disabled
 };
 
 #endif	/* _VECTOROBJ_H */

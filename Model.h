@@ -28,8 +28,13 @@ public:
     virtual void reset();
 
 
+    /**
+     * Data for transforming Matrix to QBitmap
+     */
     virtual const uchar* getTunnelBitmapData(quint32 x, quint32 y, quint32 width, quint32 height);
-    virtual QVector<BitmapObj*> getBitmapsInRect(quint32 x, quint32 y, quint32 width, quint32 height);
+
+
+    virtual QVector<BitmapObj*> getSolidObjInRect(quint32 x, quint32 y, quint32 width, quint32 height);
 
     // making these private or protected would result in a tremendous method count
     // better leave them public and open to Controller's logic
@@ -38,9 +43,12 @@ public:
     Border* border;
     
     QVector<Base*> * bases;
-    QVector<BitmapObj*> * bitmapObjects;
+    QVector<BitmapObj*> * solidObjects;
 
-    QHash<quint32,RoundObj*> * roundObjects;
+    QHash<quint32,RoundObj*> * tanks;
+    QHash<quint32,RoundObj*> * projectiles;
+
+    //TODO explosions - will be stored? I suggest not.
 
 private:
     Model(const Model& orig) {} // disabled

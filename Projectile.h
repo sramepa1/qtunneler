@@ -13,7 +13,7 @@
 
 class Projectile : public OrientedRoundObj{
 public:
-    Projectile(quint32 x, quint32 y, quint8 color, quint32 id, direction rotation) : OrientedRoundObj(x, y, color, id, rotation) {}
+    Projectile(quint32 x, quint32 y, quint8 color, quint32 id, direction rotation) : OrientedRoundObj(x, y, PROJECTILE_RADIUS, color, id, rotation) {}
     virtual ~Projectile();
 
 private:

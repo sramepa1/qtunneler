@@ -39,7 +39,7 @@ void View::paintEvent(QPaintEvent* /*evt*/) {
 
     // draw bitmap objects
     painter.setBrush(stone);
-    QVector<BitmapObj*> bitmaps = model->getBitmapsInRect(x,y,wid,hei);
+    QVector<BitmapObj*> bitmaps = model->getSolidObjInRect(x,y,wid,hei);
     foreach(BitmapObj* bmp, bitmaps) {
         stone.setColor(bmp->getColor());
         stone.setTexture(*(bmp->getQBitmap()));

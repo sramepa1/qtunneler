@@ -14,9 +14,10 @@ Model::Model(QObject* parent) : QObject(parent) {
     border = new Border();
 
     bases = new QVector<Base*>();
-    bitmapObjects = new QVector<BitmapObj*>();
+    solidObjects = new QVector<BitmapObj*>();
 
-    roundObjects = new QHash<quint32,RoundObj*>();
+    tanks = new QHash<quint32,RoundObj*>();
+    projectiles = new QHash<quint32,RoundObj*>();
 
     //TODO fill the containers ???
 }
@@ -32,16 +33,22 @@ Model::~Model() {
     delete bases;
 
     //Delete vecObjects
-    for (int i = 0; i < bitmapObjects->size(); i++) {
-        delete (*bitmapObjects)[i];
+    for (int i = 0; i < solidObjects->size(); i++) {
+        delete (*solidObjects)[i];
     }
-    delete bitmapObjects;
+    delete solidObjects;
 
-    //Delete roundObjects
-    for (int i = 0; i < roundObjects->size(); i++) {
-        delete (*roundObjects)[i];
+    //Delete tanks
+    for (int i = 0; i < projectiles->size(); i++) {
+        delete (*projectiles)[i];
     }
-    delete roundObjects;
+    delete projectiles;
+
+    //Delete projectiles
+    for (int i = 0; i < tanks->size(); i++) {
+        delete (*tanks)[i];
+    }
+    delete tanks;
 }
 
 void Model::reset() {
@@ -73,14 +80,14 @@ const uchar* Model::getTunnelBitmapData(quint32 x, quint32 y, quint32 width, qui
 
 bool checkRectOverlap(quint32 x11, quint32 y11, quint32 x12, quint32 y12, quint32 x21, quint32 y21, quint32 x22, quint32 y22);
 
-QVector<BitmapObj*> Model::getBitmapsInRect(quint32 x, quint32 y, quint32 width, quint32 height) {
+QVector<BitmapObj*> Model::getSolidObjInRect(quint32 x, quint32 y, quint32 width, quint32 height) {
 
-    int size = bitmapObjects->size();
+    int size = solidObjects->size();
     QVector<const BitmapObj*> vector;
     const BitmapObj * obj;
 
     for (int i = 0; i < size; i++) {
-        obj = bitmapObjects->at(i);
+        obj = solidObjects->at(i);
 
         if(checkRectOverlap(x, y, x + width, y + height, obj->getWrapperX1(), obj->getWrapperY1(), obj->getWrapperX2(), obj->getWrapperY2())){
             vector.append(obj);
