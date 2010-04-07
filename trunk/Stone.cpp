@@ -7,6 +7,8 @@
 
 #include "Stone.h"
 
+// TODO inherit multi-parameter constructor from BitmapObj, set color to Qt::gray
+
 Stone::Stone() {
 }
 

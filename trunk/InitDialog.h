@@ -20,7 +20,7 @@ class InitDialog : public QWidget {
     Q_OBJECT
 
 public:
-    InitDialog();
+    InitDialog(QObject* parent = NULL);
     virtual ~InitDialog();
 
 public slots:

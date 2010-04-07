@@ -10,16 +10,18 @@
 
 #include <QObject>
 #include <QString>
+#include <QtNetwork>
 
 #include "SettingsDialog.h"
 #include "SettingsModel.h"
+#include "Communicator.h"
 
 class SettingsController : public QObject {
 
     Q_OBJECT
 
 public:
-    SettingsController(SettingsModel* _model, SettingsDialog* _dialog);
+    SettingsController(QObject* parent = NULL, SettingsModel* _model, SettingsDialog* _dialog, Communicator* _comm);
     virtual ~SettingsController();
 
     virtual QString initNetwork(bool create, quint16 port, QString host);
@@ -36,6 +38,8 @@ signals:
 protected:
     SettingsModel* model;
     SettingsDialog* dialog;
+
+    Communicator* comm;
 };
 
 #endif	/* _SETTINGSCONTROLLER_H */

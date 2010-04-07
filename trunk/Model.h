@@ -17,9 +17,12 @@
 #include "RoundObj.h"
 #include "BitmapObj.h"
 
-class Model {
+class Model : public QObject {
+
+    Q_OBJECT
+
 public:
-    Model();    
+    Model(QObject* parent = NULL);
     virtual ~Model();
 
     virtual void reset();

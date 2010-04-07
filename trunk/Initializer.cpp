@@ -5,22 +5,20 @@
  * Created on 30. březen 2010, 11:18
  */
 
-#include "InitDialog.h"
-#include "GameWindow.h"
 #include "Initializer.h"
-#include "SettingsDialog.h"
-#include "SettingsController.h"
 
 void Initializer::initGUI() {
 
-    SettingsModel* settingsModel = new SettingsModel();
-    settingsDialog = new SettingsDialog(settingsModel);
-    settingsController = new SettingsController(settingsModel,settingsDialog);
+    comm = new Communicator(this);
 
-    model = new Model();
+    SettingsModel* settingsModel = new SettingsModel(this);
+    settingsDialog = new SettingsDialog(this,settingsModel);
+    settingsController = new SettingsController(this,settingsModel,settingsDialog,comm);
 
-    initDialog = new InitDialog();
-    gameWindow = new GameWindow(model);
+    model = new Model(this);
+
+    initDialog = new InitDialog(this);
+    gameWindow = new GameWindow(this,model);
 
     initDialog->show();
 
