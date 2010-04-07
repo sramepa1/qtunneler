@@ -10,7 +10,7 @@
 OrientedRoundObj::~OrientedRoundObj() {
 }
 
-QPair<quint32, quint32> OrientedRoundObj::getMoveCoorinates(quint32 steps){
+QPair<quint32, quint32> OrientedRoundObj::getMoveCoorinates(qint32 steps){
     quint32 x = this->x;
     quint32 y = this->y;
 
@@ -49,7 +49,7 @@ QPair<quint32, quint32> OrientedRoundObj::getMoveCoorinates(quint32 steps){
     return QPair<quint32, quint32>(x, y);
 }
 
-void OrientedRoundObj::move(quint32 steps){
+void OrientedRoundObj::move(qint32 steps){
     QPair<quint32, quint32> pair = getMoveCoorinates(steps);
     x = pair.first;
     y = pair.second;

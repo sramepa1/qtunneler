@@ -9,16 +9,19 @@
 #define	_EXPLOSION_H
 
 #include "RoundObj.h"
+#include "BitmapObj.h"
 #include "DefaultValues.h"
 
 class Explosion : public RoundObj{
 public:
-    Explosion(quint32 x, quint32 y, quint8 color, quint32 id, quint32 _radius, qint32 _seed) : RoundObj(x,y,color,id), radius(_radius), seed(_seed) {}
-    virtual ~Explosion();
+    Explosion(quint32 x, quint32 y, quint8 color, quint32 id, qint32 _seed, quint32 radius = EXPLOSION_RADIUS) : RoundObj(x,y,radius,color,id), seed(_seed) {}
+    virtual ~Explosion() {}
 
-    virtual qint32 getRandomSeed() const {return seed;}
+    /**
+     * Get bitmap mask exposion to burn clay in matrix. 1 = unchanged, 0 = tunnel
+     */
+    virtual BitmapObj getExplosionMask();
 
-    quint32 radius;
     qint32 seed;
 
 private:

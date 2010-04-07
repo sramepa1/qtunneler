@@ -17,6 +17,9 @@
 //Projectile
 #define PROJECTILE_RADIUS 0 //TODO set PROJECTILE_RADIUS
 
+//Expolsion
+#define EXPLOSION_RADIUS 0 //TODO set PROJECTILE_RADIUS
+
 //Tank
 #define TANK_RADIUS 0 //TODO set TANK_RADIUS
 

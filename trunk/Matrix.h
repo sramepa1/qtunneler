@@ -9,6 +9,7 @@
 #define	_MATRIX_H
 
 #include "DefaultValues.h"
+#include "BitmapObj.h"
 
 class Matrix {
 public:
@@ -22,6 +23,11 @@ public:
     virtual void setByte(quint32 xDiv8, quint32 y, quint8 val);
 
     virtual void reset();
+
+    /**
+     * Print given mask to matrix.
+     */
+    virtual void maskMatrix(BitmapObj mask);
 
 protected:
     quint8** arr;

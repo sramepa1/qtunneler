@@ -26,11 +26,11 @@ enum direction {
 
 class OrientedRoundObj : RoundObj {
 public:
-    OrientedRoundObj(quint32 x, quint32 y, quint8 color, quint32 id, direction _rotation) : RoundObj(x, y, color, id), rotation(_rotation) {}
+    OrientedRoundObj(quint32 x, quint32 y, quint32 radius, quint8 color, quint32 id, direction _rotation) : RoundObj(x, y, radius, color, id), rotation(_rotation) {}
     virtual ~OrientedRoundObj();
 
-    virtual QPair<quint32, quint32> getMoveCoorinates(quint32 steps = 1);
-    virtual void move(quint32 steps = 1);
+    virtual QPair<quint32, quint32> getMoveCoorinates(qint32 steps = 1);
+    virtual void move(qint32 steps = 1);
 
     direction rotation;
     
