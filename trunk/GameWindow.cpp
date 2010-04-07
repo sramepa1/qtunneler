@@ -8,7 +8,7 @@
 #include "GameWindow.h"
 #include "DefaultValues.h"
 
-GameWindow::GameWindow(QObject* parent , Model* model) : QObject(parent) {
+GameWindow::GameWindow(Model* model) {
 
     setWindowTitle(APP_NAME_STRING);
 

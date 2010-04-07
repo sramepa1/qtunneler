@@ -19,7 +19,7 @@ class GameWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-    GameWindow(QObject* parent, Model* model);
+    GameWindow(Model* model);
     virtual ~GameWindow() {}
 
 public slots:

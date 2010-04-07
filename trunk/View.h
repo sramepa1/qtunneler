@@ -21,7 +21,7 @@ class View : public QWidget {
     Q_OBJECT
 
 public:
-    View(QObject* parent = NULL, Model* _model = NULL);
+    View(QWidget* parent = NULL, Model* _model = NULL);
     virtual ~View();
 
     virtual void setViewpoint(quint32 x, quint32 y);

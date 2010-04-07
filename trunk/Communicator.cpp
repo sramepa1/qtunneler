@@ -7,7 +7,7 @@
 
 #include "Communicator.h"
 
-Communicator::Communicator(QObject* parent = NULL) : QObject(parent) {
+Communicator::Communicator(QObject* parent) : QObject(parent) {
     socket = new QTcpSocket(this);
     server = new QTcpServer(this);
 }

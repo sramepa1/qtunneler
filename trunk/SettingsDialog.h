@@ -18,7 +18,7 @@ class SettingsDialog : public QWidget {
     Q_OBJECT
 
 public:
-    SettingsDialog(QObject* parent = NULL, SettingsModel* _model);
+    SettingsDialog(SettingsModel* _model);
     virtual ~SettingsDialog();
 
 public slots:

@@ -6,7 +6,7 @@
  */
 
 #include "SettingsController.h"
-
+#include "DefaultValues.h"
 
 SettingsController::SettingsController(QObject* parent, SettingsModel* _model, SettingsDialog* _dialog, Communicator* _comm) : QObject(parent) {
     model = _model;
@@ -20,19 +20,20 @@ SettingsController::~SettingsController() {
 QString SettingsController::initNetwork(bool create, quint16 port, QString host) {
 
     // TODO initialize networking to allow settings, return error string (if any)
-
+    //      - or REinitialize, networking might already be present from last game.
     if(create) {        
-        //comm->server->close();
+        comm->server->close();
+        if(!comm->server->listen(QHostAddress::Any,port)) return comm->server->errorString();
+        // server started
+        // TODO connect signals
 
     }else {        
-        //comm->socket->abort();
-        //comm->socket->connectToHost(host, port);
+        comm->socket->abort();
+        comm->socket->connectToHost(host, port);
+        if(!comm->socket->waitForConnected(CONNECTION_TIMEOUT)) return comm->socket->errorString();
 
     }
-
     
-
-    // TODO - or REinitialize, networking might already be present from last game.
 
     //success
     model->setCreating(create);

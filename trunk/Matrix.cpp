@@ -44,9 +44,9 @@ Matrix::Matrix() {
 
 Matrix::~Matrix() {
     for(quint32 i = 0; i < MATRIX_DIMENSION/8; i++) {
-        delete arr[i];
+        delete[] arr[i];
     }
-    delete arr;
+    delete[] arr;
 }
 
 quint8 Matrix::getByte(quint32 xDiv8, quint32 y) const {

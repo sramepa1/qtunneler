@@ -12,7 +12,7 @@
 #include <QtNetwork>
 #include <iostream>
 
-InitDialog::InitDialog(QObject* parent) : QObject(parent) {
+InitDialog::InitDialog() {
 
     setWindowTitle(APP_NAME_STRING);
 

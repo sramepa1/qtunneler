@@ -12,6 +12,7 @@
 
 //GUI
 #define APP_NAME_STRING "QTunneler"
+#define CONNECTION_TIMEOUT 5000
 
 //Projectile
 #define PROJECTILE_RADIUS 0 //TODO set PROJECTILE_RADIUS

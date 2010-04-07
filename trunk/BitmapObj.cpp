@@ -38,16 +38,15 @@ BitmapObj::BitmapObj(quint32 _x, quint32 _y,quint32 _width, quint32 _heigth) {
             ptr++;
         }
     }
-    qbitmap = &(QBitmap::fromData(QSize(width,height),qbitmapdata,QImage::Format_MonoLSB));
+    qbitmap = QBitmap::fromData(QSize(width,height),qbitmapdata,QImage::Format_MonoLSB);
     delete qbitmapdata; // TODO is this safe?
 }
 
 BitmapObj::~BitmapObj() {
     for(quint32 i = 0; i < width / 8; i++) {
-        delete bitmap[i];
+        delete[] bitmap[i];
     }
-    delete bitmap;
-    delete qbitmap;
+    delete[] bitmap;
 }
 
 quint8 BitmapObj::getByte(quint32 xDiv8, quint32 y) const {
