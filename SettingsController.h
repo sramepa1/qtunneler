@@ -21,7 +21,7 @@ class SettingsController : public QObject {
     Q_OBJECT
 
 public:
-    SettingsController(QObject* parent = NULL, SettingsModel* _model, SettingsDialog* _dialog, Communicator* _comm);
+    SettingsController(QObject* parent = NULL, SettingsModel* _model = NULL, SettingsDialog* _dialog = NULL, Communicator* _comm = NULL);
     virtual ~SettingsController();
 
     virtual QString initNetwork(bool create, quint16 port, QString host);

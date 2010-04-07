@@ -12,13 +12,13 @@ void Initializer::initGUI() {
     comm = new Communicator(this);
 
     SettingsModel* settingsModel = new SettingsModel(this);
-    settingsDialog = new SettingsDialog(this,settingsModel);
+    settingsDialog = new SettingsDialog(settingsModel);
     settingsController = new SettingsController(this,settingsModel,settingsDialog,comm);
 
     model = new Model(this);
 
-    initDialog = new InitDialog(this);
-    gameWindow = new GameWindow(this,model);
+    initDialog = new InitDialog();
+    gameWindow = new GameWindow(model);
 
     initDialog->show();
 
@@ -40,7 +40,7 @@ void Initializer::initGUI() {
 void Initializer::validate(InitVector vec) {
     bool ok = false;
     quint32 port = vec.port.toUInt(&ok,10);
-    if(!ok || port > 65535) {
+    if(!ok || port > 65535 || port == 0) {
         emit validated(vec.port + " is not a valid port number");
     } else {
         emit validated(settingsController->initNetwork(vec.create,(quint16)port,vec.host));

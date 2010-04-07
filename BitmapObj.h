@@ -15,8 +15,7 @@
 
 class BitmapObj {
 public:
-    BitmapObj() {} // TODO disable meaningless constructor?
-    BitmapObj(quint32 _x, quint32 _y,quint32 _width, quint32 _heigth);
+    BitmapObj(quint32 _x = 0, quint32 _y = 0,quint32 _width = 0, quint32 _heigth = 0);
 
 
     virtual ~BitmapObj();
@@ -28,7 +27,7 @@ public:
     virtual quint32 getWrapperWidth() const {return width;}
     virtual quint32 getWrapperHeight() const {return height;}
 
-    virtual const QBitmap* getQBitmap() const {return qbitmap;}
+    virtual const QBitmap* getQBitmap() const {return &qbitmap;}
     virtual const QColor getColor() const {return color;}
     
     virtual bool getXY(quint32 x, quint32 y) const;
@@ -57,7 +56,7 @@ protected:
 
      quint8** bitmap;
      
-     QBitmap* qbitmap;
+     QBitmap qbitmap;
      QColor color;      // TODO initialize!
 
 

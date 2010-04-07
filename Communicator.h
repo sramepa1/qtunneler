@@ -9,6 +9,8 @@
 #define	_COMMUNICATOR_H
 
 #include <QObject>
+#include <QTcpServer>
+#include <QTcpSocket>
 
 class Communicator : public QObject {
 

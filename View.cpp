@@ -9,7 +9,7 @@
 
 #include <QPalette>
 
-View::View(QObject* parent, Model* _model) : QWidget(parent), model(_model) {
+View::View(QWidget* parent, Model* _model) : QWidget(parent), model(_model) {
     tunnel.setColor(Qt::black);
     stone.setColor(Qt::gray);
     tile = QPixmap::fromImage(QImage("tile.png"));
@@ -42,7 +42,7 @@ void View::paintEvent(QPaintEvent* /*evt*/) {
     QVector<BitmapObj*> bitmaps = model->getBitmapsInRect(x,y,wid,hei);
     foreach(BitmapObj* bmp, bitmaps) {
         stone.setColor(bmp->getColor());
-        stone.setTexture(bmp->getQBitmap());
+        stone.setTexture(*(bmp->getQBitmap()));
         painter.drawRect(bmp->getWrapperX1() - x, bmp->getWrapperY1() - y, bmp->getWrapperWidth(), bmp->getWrapperHeight());
     }
 

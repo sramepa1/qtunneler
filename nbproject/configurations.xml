@@ -17,6 +17,7 @@
       </logicalFolder>
       <logicalFolder name="f2" displayName="Logic" projectFiles="true">
         <itemPath>Clicker.h</itemPath>
+        <itemPath>Communicator.h</itemPath>
         <itemPath>Controller.h</itemPath>
         <itemPath>Dispatcher.h</itemPath>
         <itemPath>Evaluator.h</itemPath>
@@ -69,6 +70,7 @@
       </logicalFolder>
       <logicalFolder name="f3" displayName="Logic" projectFiles="true">
         <itemPath>Clicker.cpp</itemPath>
+        <itemPath>Communicator.cpp</itemPath>
         <itemPath>Controller.cpp</itemPath>
         <itemPath>Dispatcher.cpp</itemPath>
         <itemPath>Evaluator.cpp</itemPath>
