@@ -10,6 +10,7 @@
 
 #include <QtCore>
 #include <QBitmap>
+#include <QColor>
 #include "DefaultValues.h"
 
 class BitmapObj {
@@ -28,6 +29,7 @@ public:
     virtual quint32 getWrapperHeight() const {return height;}
 
     virtual const QBitmap* getQBitmap() const {return qbitmap;}
+    virtual const QColor getColor() const {return color;}
     
     virtual bool getXY(quint32 x, quint32 y) const;
     virtual quint8 getByte(quint32 xDiv8, quint32 y) const;
@@ -54,7 +56,9 @@ protected:
      */
 
      quint8** bitmap;
+     
      QBitmap* qbitmap;
+     QColor color;      // TODO initialize!
 
 
     BitmapObj(const BitmapObj& orig) {} // disabled

@@ -18,6 +18,8 @@
 #include "SettingsController.h"
 #include "SettingsDialog.h"
 #include "Model.h"
+#include "Communicator.h"
+
 
 class Initializer : public QObject {
 
@@ -41,6 +43,8 @@ protected:
     SettingsController* settingsController;
     SettingsDialog* settingsDialog;
     InitDialog* initDialog;
+
+    Communicator* comm;
 
     Model* model;
 

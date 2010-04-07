@@ -9,7 +9,7 @@
 
 #include <iostream>
 
-Model::Model() {
+Model::Model(QObject* parent) : QObject(parent) {
     matrix = new Matrix();
     border = new Border();
 

@@ -21,7 +21,7 @@ class View : public QWidget {
     Q_OBJECT
 
 public:
-    View(QWidget* parent = NULL, Model* _model = NULL);
+    View(QObject* parent = NULL, Model* _model = NULL);
     virtual ~View();
 
     virtual void setViewpoint(quint32 x, quint32 y);
@@ -36,6 +36,7 @@ protected:
     quint32 y;
 
     QBrush tunnel;
+    QBrush stone;
 
     QBitmap* bitmap;
 

@@ -7,7 +7,7 @@
 
 #include "SettingsModel.h"
 
-SettingsModel::SettingsModel() {
+SettingsModel::SettingsModel(QObject* parent) : QObject(parent) {
 }
 
 SettingsModel::~SettingsModel() {

@@ -21,7 +21,7 @@ class SettingsModel : public QObject {
     // TODO declare Qt properties?
 
 public:
-    SettingsModel();
+    SettingsModel(QObject* parent = NULL);
     virtual ~SettingsModel();
 
     virtual bool isCreating();

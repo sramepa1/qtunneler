@@ -7,7 +7,7 @@
 
 #include "SettingsDialog.h"
 
-SettingsDialog::SettingsDialog(SettingsModel* _model) {
+SettingsDialog::SettingsDialog(QObject* parent = NULL, SettingsModel* _model) : QObject(parent) {
 
     model = _model;
 

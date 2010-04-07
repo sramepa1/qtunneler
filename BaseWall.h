@@ -13,10 +13,10 @@
 
 class BaseWall : public BitmapObj {
 public:
-    BaseWall(quint8 _color) : color(_color) {}
+    BaseWall(quint8 _id) : playerID(_id) {}
     virtual ~BaseWall();
 
-    quint32 color;
+    quint8 playerID;
 
 private:
     BaseWall(const BaseWall& orig) {} // disabled
