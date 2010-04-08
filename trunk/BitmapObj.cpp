@@ -45,6 +45,9 @@ bool BitmapObj::getXY(quint32 x, quint32 y) const {
     return (bitmap[x / 8][y]) & (1 << x % 8);
 }
 
+bool BitmapObj::getXYGlobalCoordiantes(quint32 _x, quint32 _y) const{
+    return getXY(_x - x, _y - y);
+}
 
 void BitmapObj::setByte(quint32 xDiv8, quint32 y, quint8 val) {
     bitmap[xDiv8][y] = val;
@@ -53,6 +56,10 @@ void BitmapObj::setByte(quint32 xDiv8, quint32 y, quint8 val) {
 void BitmapObj::setXY(quint32 x, quint32 y, bool val) {
     bitmap[x / 8][y] = val ? (bitmap[x / 8][y] | (1 << x % 8)) : (bitmap[x / 8][y] & ~(1 << x % 8));
 }
+
+ void BitmapObj::setXYGlobalCoordiantes(quint32 _x, quint32 _y, bool val){
+     setXY(_x - x, _y - y, val);
+ }
 
 const QBitmap* BitmapObj::getQBitmap(){
     if(qbitmap == NULL){
