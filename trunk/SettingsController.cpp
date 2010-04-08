@@ -27,7 +27,9 @@ QString SettingsController::initNetwork(bool create, quint16 port, QString host)
         // server started
         // TODO connect signals
 
-    }else {        
+
+    }else {
+        // TODO disconnect previous signals
         comm->socket->abort();
         comm->socket->connectToHost(host, port);
         if(!comm->socket->waitForConnected(CONNECTION_TIMEOUT)) return comm->socket->errorString();

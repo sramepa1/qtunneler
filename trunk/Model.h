@@ -9,6 +9,8 @@
 #define	_MODEL_H
 
 #include <QtCore>
+#include <QPoint>
+
 #include "DefaultValues.h"
 
 #include "Base.h"
@@ -31,10 +33,12 @@ public:
     /**
      * Data for transforming Matrix to QBitmap
      */
-    virtual const uchar* getTunnelBitmapData(quint32 x, quint32 y, quint32 width, quint32 height);
+    virtual const uchar* getTunnelBitmapData(quint32 x, quint32 y, quint32 width, quint32 height) const;
 
 
-    virtual QVector<BitmapObj*> getSolidObjInRect(quint32 x, quint32 y, quint32 width, quint32 height);
+    virtual QVector<BitmapObj*> getSolidObjInRect(quint32 x, quint32 y, quint32 width, quint32 height) const;
+
+    virtual QVector<QPoint> getShotsInRect(quint32 x, quint32 y, quint32 width, quint32 height) const;
 
     // making these private or protected would result in a tremendous method count
     // better leave them public and open to Controller's logic

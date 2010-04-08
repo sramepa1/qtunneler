@@ -8,6 +8,7 @@
 #include "Model.h"
 
 #include <iostream>
+#include <qt4/QtGui/qsystemtrayicon.h>
 
 Model::Model(QObject* parent) : QObject(parent) {
     matrix = new Matrix();
@@ -94,7 +95,16 @@ QVector<BitmapObj*> Model::getSolidObjInRect(quint32 x, quint32 y, quint32 width
         }
     }
 
-    return QVector<BitmapObj*>();
+    return QVector<BitmapObj*>(); //TODO return non-empty
+}
+
+QVector<QPoint> Model::getShotsInRect(quint32 x, quint32 y, quint32 width, quint32 height) {
+
+    // TODO implement. Pozor, chci i strely, ktere maji stred mimo viewport, ale zasahuji do nej!
+
+    // chci vektor stredu
+
+    return QVector<QPoint>();
 }
 
 bool checkRectOverlap(quint32 x11, quint32 y11, quint32 x12, quint32 y12, quint32 x21, quint32 y21, quint32 x22, quint32 y22) {

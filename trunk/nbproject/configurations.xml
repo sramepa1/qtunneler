@@ -109,8 +109,10 @@
         <platform>2</platform>
       </toolsSet>
       <qt>
+        <destdir>/home/pavel/NetBeansProjects/QTunneler/dist</destdir>
         <modules>core gui network</modules>
-        <mocDir>build/</mocDir>
+        <mocDir>build</mocDir>
+        <rccDir>build</rccDir>
       </qt>
       <compileType>
         <linkerTool>

@@ -12,7 +12,8 @@
 View::View(QWidget* parent, Model* _model) : QWidget(parent), model(_model) {
     tunnel.setColor(Qt::black);
     stone.setColor(Qt::gray);
-    tile = QPixmap::fromImage(QImage("tile.png"));
+    shot.setColor(Qt::red);
+    tile = QPixmap::fromImage(QImage(":/tile.png"));
     x = y = 0;
 }
 
@@ -46,8 +47,16 @@ void View::paintEvent(QPaintEvent* /*evt*/) {
         painter.drawRect(bmp->getWrapperX1() - x, bmp->getWrapperY1() - y, bmp->getWrapperWidth(), bmp->getWrapperHeight());
     }
 
+    // draw shots
+    QPoint view(x,y);
+    painter.setBrush(shot);
+    QVector<QPoint> shots = model->getShotsInRect(x,y,wid,hei);
+    foreach(QPoint center, shots) {
+        painter.drawEllipse(center - view,PROJECTILE_RADIUS,PROJECTILE_RADIUS);
+    }
+    
 
-    //TODO draw RoundObjects
+    //TODO draw tanks
 }
 
 QPoint View::getViewpoint() {
