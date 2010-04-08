@@ -17,8 +17,9 @@ Model::Model(QObject* parent) : QObject(parent) {
     bases = new QVector<Base*>();
     solidObjects = new QVector<BitmapObj*>();
 
-    tanks = new QHash<quint32,RoundObj*>();
-    projectiles = new QHash<quint32,RoundObj*>();
+    tanks = new QHash<quint32,Tank*>();
+    projectiles = new QHash<quint32,Projectile*>();
+    explosions = new QHash<quint32,Explosion*>();
 
     //TODO fill the containers ???
 }
@@ -50,13 +51,19 @@ Model::~Model() {
         delete (*tanks)[i];
     }
     delete tanks;
+
+    //Delete explosions
+    for (int i = 0; i < tanks->size(); i++) {
+        delete (*explosions)[i];
+    }
+    delete explosions;
 }
 
 void Model::reset() {
     //TODO call destructor and constructor
 }
 
-const uchar* Model::getTunnelBitmapData(quint32 x, quint32 y, quint32 width, quint32 height) {
+const uchar* Model::getTunnelBitmapData(quint32 x, quint32 y, quint32 width, quint32 height) const {
     
     uchar* buffer = new uchar [(width*height)/8 + height];
     uchar* ptr = buffer;
@@ -81,7 +88,7 @@ const uchar* Model::getTunnelBitmapData(quint32 x, quint32 y, quint32 width, qui
 
 bool checkRectOverlap(quint32 x11, quint32 y11, quint32 x12, quint32 y12, quint32 x21, quint32 y21, quint32 x22, quint32 y22);
 
-QVector<BitmapObj*> Model::getSolidObjInRect(quint32 x, quint32 y, quint32 width, quint32 height) {
+QVector<BitmapObj*> Model::getSolidObjInRect(quint32 x, quint32 y, quint32 width, quint32 height) const {
 
     int size = solidObjects->size();
     QVector<const BitmapObj*> vector;
@@ -98,13 +105,23 @@ QVector<BitmapObj*> Model::getSolidObjInRect(quint32 x, quint32 y, quint32 width
     return QVector<BitmapObj*>(); //TODO return non-empty
 }
 
-QVector<QPoint> Model::getShotsInRect(quint32 x, quint32 y, quint32 width, quint32 height) {
+QVector<QPoint> Model::getShotsInRect(quint32 x, quint32 y, quint32 width, quint32 height) const{
 
-    // TODO implement. Pozor, chci i strely, ktere maji stred mimo viewport, ale zasahuji do nej!
+    //chci znaménkové
+    qint32 x1 = (qint32)(x) - PROJECTILE_RADIUS;
+    qint32 y1 = (qint32)(y) - PROJECTILE_RADIUS;
+    qint32 x2 = x + width + PROJECTILE_RADIUS;
+    qint32 y2 = y + height + PROJECTILE_RADIUS;
 
-    // chci vektor stredu
+    QVector<QPoint> shots;
 
-    return QVector<QPoint>();
+    foreach(Projectile * shot, *projectiles){
+        if(shot->x > x1 && shot->x < x2 && shot->y > y1 && shot->y < y2){
+            shots.append(QPoint(shot->x,shot->y));
+        }
+    }
+
+    return shots;
 }
 
 bool checkRectOverlap(quint32 x11, quint32 y11, quint32 x12, quint32 y12, quint32 x21, quint32 y21, quint32 x22, quint32 y22) {

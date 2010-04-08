@@ -11,7 +11,7 @@ CND_CONF=Debug
 CND_DISTDIR=dist
 TMPDIR=build/${CND_CONF}/${CND_PLATFORM}/tmp-packaging
 TMPDIRNAME=tmp-packaging
-OUTPUT_PATH=${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/QTunneler
+OUTPUT_PATH=/home/rh/NetBeansProjects/qtunneler/dist/QTunneler
 OUTPUT_BASENAME=QTunneler
 PACKAGE_TOP_DIR=/usr/
 
@@ -82,9 +82,9 @@ dpkg-deb  --build ${TMPDIRNAME}
 checkReturnCode
 cd "${TOP}"
 mkdir -p  ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/package
-mv ${TMPDIR}.deb ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/package/QTunneler.deb
+mv ${TMPDIR}.deb ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/package/qtunneler.deb
 checkReturnCode
-echo Debian: ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/package/QTunneler.deb
+echo Debian: ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/package/qtunneler.deb
 
 # Cleanup
 cd "${TOP}"

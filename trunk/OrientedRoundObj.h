@@ -24,7 +24,7 @@ enum direction {
     NORTH, NORTH_EAST, EAST, SOUTH_EAST, SOUTH, SOUTH_WEST, WEST, NORTH_WEST
 };
 
-class OrientedRoundObj : RoundObj {
+class OrientedRoundObj : public RoundObj {
 public:
     OrientedRoundObj(quint32 x, quint32 y, quint32 radius, quint8 color, quint32 id, direction _rotation) : RoundObj(x, y, radius, color, id), rotation(_rotation) {}
     virtual ~OrientedRoundObj();

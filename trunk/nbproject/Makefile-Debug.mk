@@ -56,7 +56,7 @@ FORCE:
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS} nbproject/qt-${CONF}.mk
-	${MAKE} -f nbproject/qt-${CONF}.mk dist/Debug/GNU-Linux-x86/QTunneler
+	${MAKE} -f nbproject/qt-${CONF}.mk /home/rh/NetBeansProjects/qtunneler/dist/QTunneler
 
 # Subprojects
 .build-subprojects:

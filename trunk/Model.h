@@ -18,6 +18,9 @@
 #include "Matrix.h"
 #include "RoundObj.h"
 #include "BitmapObj.h"
+#include "Explosion.h"
+#include "Tank.h"
+#include "Projectile.h"
 
 class Model : public QObject {
 
@@ -40,6 +43,16 @@ public:
 
     virtual QVector<QPoint> getShotsInRect(quint32 x, quint32 y, quint32 width, quint32 height) const;
 
+    static bool isMatrixCollision (const RoundObj obj);
+
+    /**
+     * Collision with stone, basewall or border.
+     */
+    static bool isSolidCollision (const RoundObj obj);
+
+    static bool isTankCollision (const RoundObj obj);
+    static bool isAnyCollision (const RoundObj obj);
+
     // making these private or protected would result in a tremendous method count
     // better leave them public and open to Controller's logic
 
@@ -47,12 +60,11 @@ public:
     Border* border;
     
     QVector<Base*> * bases;
-    QVector<BitmapObj*> * solidObjects;
+    QVector<BitmapObj*> * solidObjects; //stones and basewalls
 
-    QHash<quint32,RoundObj*> * tanks;
-    QHash<quint32,RoundObj*> * projectiles;
-
-    //TODO explosions - will be stored? I suggest not.
+    QHash<quint32,Tank*> * tanks;
+    QHash<quint32,Projectile*> * projectiles;
+    QHash<quint32,Explosion*> * explosions;
 
 private:
     Model(const Model& orig) {} // disabled
