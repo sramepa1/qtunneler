@@ -15,6 +15,7 @@
 
 #include "Model.h"
 #include "BitmapObj.h"
+#include "DefaultValues.h"
 
 class View : public QWidget {
 
@@ -37,6 +38,7 @@ protected:
 
     QBrush tunnel;
     QBrush stone;
+    QBrush shot;
 
     QBitmap* bitmap;
 
