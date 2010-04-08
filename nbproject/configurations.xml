@@ -17,6 +17,8 @@
       </logicalFolder>
       <logicalFolder name="f2" displayName="Logic" projectFiles="true">
         <itemPath>Clicker.h</itemPath>
+        <itemPath>CollisionHelper.cpp</itemPath>
+        <itemPath>CollisionHelper.h</itemPath>
         <itemPath>Communicator.h</itemPath>
         <itemPath>Controller.h</itemPath>
         <itemPath>Dispatcher.h</itemPath>
@@ -109,10 +111,12 @@
         <platform>2</platform>
       </toolsSet>
       <qt>
-        <destdir>/home/pavel/NetBeansProjects/QTunneler/dist</destdir>
+        <destdir>/home/rh/NetBeansProjects/qtunneler/dist</destdir>
+        <target>QTunneler</target>
         <modules>core gui network</modules>
         <mocDir>build</mocDir>
         <rccDir>build</rccDir>
+        <rccDir>build/</rccDir>
       </qt>
       <compileType>
         <linkerTool>
