@@ -31,7 +31,7 @@ void Initializer::initGUI() {
     connect(settingsDialog,SIGNAL(startGame()),this,SLOT(initCore()));
     connect(settingsController,SIGNAL(startGame()),this,SLOT(initCore()));
 
-    connect(settingsDialog,SIGNAL(disconnect()),settingsController,SLOT(disconnect()));
+    connect(settingsDialog,SIGNAL(disconnect()),settingsController,SLOT(closeConnection()));
     connect(settingsController,SIGNAL(disconnected()),initDialog,SLOT(showDialog()));
     
 }

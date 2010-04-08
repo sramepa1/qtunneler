@@ -8,13 +8,16 @@
 #include "SettingsModel.h"
 
 SettingsModel::SettingsModel(QObject* parent) : QObject(parent) {
+    ready = false;
+    create = false;
+    port = 4242; //will be overwritten anyway...
 }
 
 SettingsModel::~SettingsModel() {
 }
 
 
-bool SettingsModel::isCreating() {
+bool SettingsModel::isCreating() const {
     return create;
 }
 
@@ -22,7 +25,35 @@ void SettingsModel::setCreating(bool _create) {
     create = _create;
 }
 
+bool SettingsModel::isReady() const {
 
+    return true;
+
+    //return ready; TODO uncomment
+}
+
+void SettingsModel::setReady(bool _ready) {
+    ready = _ready;
+}
+
+QString SettingsModel::getStatus() const {
+    return status;
+}
+
+void SettingsModel::setStatus(const QString _status) {
+    status = _status;
+}
+
+quint16 SettingsModel::getPort() const {
+    return port;
+}
+
+void SettingsModel::setPort(quint16 _port) {
+    port = _port;
+}
+
+/*  QTunneler 2.0
+ *
 quint8 SettingsModel::getGameMode() {
     return gameMode;
 }
@@ -78,4 +109,4 @@ Player SettingsModel::getPlayerAt(quint8 index) {
 
     return players[index];
 }
-
+*/
