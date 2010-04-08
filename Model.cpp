@@ -97,7 +97,7 @@ QVector<BitmapObj*> Model::getSolidObjInRect(quint32 x, quint32 y, quint32 width
     for (int i = 0; i < size; i++) {
         obj = solidObjects->at(i);
 
-        if(checkRectOverlap(x, y, x + width, y + height, obj->getWrapperX1(), obj->getWrapperY1(), obj->getWrapperX2(), obj->getWrapperY2())){
+        if(checkRectOverlap(x, y, x + width, y + height, obj->getX1(), obj->getY1(), obj->getX2(), obj->getY2())){
             vector.append(obj);
         }
     }
@@ -116,15 +116,105 @@ QVector<QPoint> Model::getShotsInRect(quint32 x, quint32 y, quint32 width, quint
     QVector<QPoint> shots;
 
     foreach(Projectile * shot, *projectiles){
-        if(shot->x > x1 && shot->x < x2 && shot->y > y1 && shot->y < y2){
-            shots.append(QPoint(shot->x,shot->y));
+        if(shot->getX() > x1 && shot->getX() < x2 && shot->getY() > y1 && shot->getY() < y2){
+            shots.append(QPoint(shot->getX(),shot->getY()));
         }
     }
 
     return shots;
 }
 
-bool checkRectOverlap(quint32 x11, quint32 y11, quint32 x12, quint32 y12, quint32 x21, quint32 y21, quint32 x22, quint32 y22) {
+bool Model::isMatrixCollision (const RoundObj * obj){
+
+    for (int i = obj->getX1(); i < obj->getX2(); i++) {
+        for (int j = obj->getY1(); j < obj->getY2(); j++) {
+            //colides
+            if(matrix->getXY(i, j) && obj->isWithinCircle(i, j)){
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+bool Model::isSolidCollision (const RoundObj * obj){
+
+    BitmapObj * solid;
+
+    for (int h = 0; h < solidObjects->size(); h++) {
+        solid = (*solidObjects)[h];
+        
+        if(checkRectOverlap(obj->getX1() ,obj->getY1(), obj->getX2(), obj->getY2(), solid->getX1(), solid->getY1(), solid->getX2(), solid->getY2())){
+
+            for (int i = obj->getX1(); i < obj->getX2(); i++) {
+                for (int j = obj->getY1(); j < obj->getY2(); j++) {
+                    //colides
+                    if(obj->isWithinCircle(i, j) && solid->getXYGlobalCoordiantes(i, j)){
+                        return true;
+                    }
+                }
+            }
+            
+        }
+    }
+
+    return false;
+}
+
+bool Model::isTankCollision (const RoundObj * obj){
+
+    Tank * tank;
+
+    for (int h = 0; h < tanks->size(); h++) {
+        tank = (*tanks)[h];
+
+        if(checkRectOverlap(obj->getX1() ,obj->getY1(), obj->getX2(), obj->getY2(), tank->getX1(), tank->getY1(), tank->getX2(), tank->getY2())){
+
+            for (int i = obj->getX1(); i < obj->getX2(); i++) {
+                for (int j = obj->getY1(); j < obj->getY2(); j++) {
+                    //colides
+                    if(obj->isWithinCircle(i, j) && tank->isWithinCircle(i, j)){
+                        return true;
+                    }
+                }
+            }
+
+        }
+    }
+
+    return false;
+}
+
+bool Model::isProjectileCollision (const RoundObj * obj){
+
+    Projectile * projectile;
+
+    for (int h = 0; h < projectiles->size(); h++) {
+        projectile = (*projectiles)[h];
+
+        if(checkRectOverlap(obj->getX1() ,obj->getY1(), obj->getX2(), obj->getY2(), projectile->getX1(), projectile->getY1(), projectile->getX2(), projectile->getY2())){
+
+            for (int i = obj->getX1(); i < obj->getX2(); i++) {
+                for (int j = obj->getY1(); j < obj->getY2(); j++) {
+                    //colides
+                    if(obj->isWithinCircle(i, j) && projectile->isWithinCircle(i, j)){
+                        return true;
+                    }
+                }
+            }
+
+        }
+    }
+
+    return false;
+}
+
+bool Model::isAnyCollision (const RoundObj * obj){
+    return isMatrixCollision(obj) || isSolidCollision(obj) || isTankCollision(obj) || isProjectileCollision(obj);
+}
+
+bool Model::checkRectOverlap(quint32 x11, quint32 y11, quint32 x12, quint32 y12, quint32 x21, quint32 y21, quint32 x22, quint32 y22) {
 
     if(x11 >= x21 && x12 > x22 && x11 < x22) { // a prekryva levou cast r
         if(y11 < y22 && y12 > y22 && y11 >= y21){ // levy dolni roh
@@ -139,8 +229,6 @@ bool checkRectOverlap(quint32 x11, quint32 y11, quint32 x12, quint32 y12, quint3
 
     }else if(x11 < x21 && x12 <= x22 && x12 > x21) { // prava cast
         if(y11 < y22 && y12 > y22 && y11 >= y21){ // pravy dolni
-
-
             return true;
         }else if(y11 < y21 && y12 <= y22 && y12 > y21){ //pravy horni
             return true;
@@ -176,3 +264,5 @@ bool checkRectOverlap(quint32 x11, quint32 y11, quint32 x12, quint32 y12, quint3
     return false;
 
 }
+
+

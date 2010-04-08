@@ -43,15 +43,17 @@ public:
 
     virtual QVector<QPoint> getShotsInRect(quint32 x, quint32 y, quint32 width, quint32 height) const;
 
-    static bool isMatrixCollision (const RoundObj obj);
+    bool isMatrixCollision (const RoundObj * obj);
 
     /**
      * Collision with stone, basewall or border.
      */
-    static bool isSolidCollision (const RoundObj obj);
+    bool isSolidCollision (const RoundObj * obj);
+    bool isTankCollision (const RoundObj * obj);
+    bool isProjectileCollision (const RoundObj * obj);
+    bool isAnyCollision (const RoundObj * obj);
 
-    static bool isTankCollision (const RoundObj obj);
-    static bool isAnyCollision (const RoundObj obj);
+    static bool checkRectOverlap(quint32 x11, quint32 y11, quint32 x12, quint32 y12, quint32 x21, quint32 y21, quint32 x22, quint32 y22);
 
     // making these private or protected would result in a tremendous method count
     // better leave them public and open to Controller's logic

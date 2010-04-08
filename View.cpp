@@ -44,7 +44,7 @@ void View::paintEvent(QPaintEvent* /*evt*/) {
     foreach(BitmapObj* bmp, bitmaps) {
         stone.setColor(bmp->getColor());
         stone.setTexture(*(bmp->getQBitmap()));
-        painter.drawRect(bmp->getWrapperX1() - x, bmp->getWrapperY1() - y, bmp->getWrapperWidth(), bmp->getWrapperHeight());
+        painter.drawRect(bmp->getX1() - x, bmp->getY1() - y, bmp->getWidth(), bmp->getHeight());
     }
 
     // draw shots

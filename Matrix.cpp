@@ -65,9 +65,9 @@ void Matrix::setByte(quint32 xDiv8, quint32 y, quint8 val) {
     arr[xDiv8][y] = val;
 }
 
-void Matrix::maskMatrix(BitmapObj mask){
-    for (int i = mask.getWrapperX1(); i < mask.getWrapperWidth() / 8 && i < MATRIX_DIMENSION / 8; i++) {
-        for (int j = mask.getWrapperY1(); j < mask.getWrapperHeight() && j < MATRIX_DIMENSION; j++) {
+void Matrix::maskMatrix(BitmapObj mask){ //TODO check - probably bad implementation
+    for (int i = mask.getX1(); i < mask.getWidth() / 8 && i < MATRIX_DIMENSION / 8; i++) {
+        for (int j = mask.getY1(); j < mask.getHeight() && j < MATRIX_DIMENSION; j++) {
             arr[i][j] &= mask.getByte(i, j);
         }
     }
