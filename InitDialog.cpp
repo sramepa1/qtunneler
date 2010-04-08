@@ -101,6 +101,7 @@ void InitDialog::createSelected() {
 void InitDialog::joinSelected() {
     hostField->clear();
     hostField->setEnabled(true);
+    hostField->setFocus();
 }
 
 void InitDialog::showDialog() {

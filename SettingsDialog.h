@@ -34,14 +34,18 @@ signals:
     void disconnect();
     void startGame();
 
+    /* QTunneler 2.0
+     *
     void nameChanged(QString newName);
     void colorChanged(quint8 newColor);
     void teamChanged(quint8 newTeam);
+     *
+    */
 
 protected:
     SettingsModel* model;
 
-    QLabel* tempLabel;
+    QLabel* statusLabel;
 
     QDialogButtonBox* buttonBox;
     QPushButton* startButton;

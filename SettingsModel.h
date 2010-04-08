@@ -24,8 +24,20 @@ public:
     SettingsModel(QObject* parent = NULL);
     virtual ~SettingsModel();
 
-    virtual bool isCreating();
+    virtual bool isCreating() const;
     virtual void setCreating(bool _create);
+
+    virtual bool isReady() const;
+    virtual void setReady(bool _ready);
+
+    virtual QString getStatus() const;
+    virtual void setStatus(const QString _status);
+
+    virtual quint16 getPort() const;
+    virtual void setPort(quint16 _port);
+
+    /*
+     * QTunneler 2.0
 
     virtual quint8 getGameMode();
     virtual void setGameMode(quint8 _gameMode);
@@ -42,7 +54,9 @@ public:
 
     virtual quint8 getPlayerCount();
     virtual Player getPlayerAt(quint8 index);
-
+    
+     
+     */
 
 public slots:
 
@@ -53,14 +67,22 @@ signals:
 protected:
 
     bool create;
+    bool ready;
 
+    quint16 port;
+
+    QString status;
+
+    /*  QTunneler 2.0
+     *
     quint8 gameMode;
     quint8 numRounds;
 
     quint32 maxRoundTime;
 
     QVector<Player> players;
-
+    
+     */
 };
 
 #endif	/* _SETTINGSMODEL_H */

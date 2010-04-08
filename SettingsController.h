@@ -24,10 +24,16 @@ public:
     SettingsController(QObject* parent = NULL, SettingsModel* _model = NULL, SettingsDialog* _dialog = NULL, Communicator* _comm = NULL);
     virtual ~SettingsController();
 
+
+    // initializes networking to allow settings, return error string (if any)
+    //      - or REinitializes, networking might already be present from last game.
     virtual QString initNetwork(bool create, quint16 port, QString host);
 
 public slots:
-    void disconnect();
+    virtual void closeConnection();
+
+    virtual void handleIncomingConnection();
+    virtual void handleDisconnected();
 
 
 signals:
@@ -36,6 +42,9 @@ signals:
     void disconnected();
 
 protected:
+
+    virtual bool initServer();
+
     SettingsModel* model;
     SettingsDialog* dialog;
 

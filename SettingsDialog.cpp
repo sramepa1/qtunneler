@@ -13,19 +13,19 @@ SettingsDialog::SettingsDialog(SettingsModel* _model) {
 
     // TODO final GUI
 
-    tempLabel = new QLabel("Player overview GUI here",this);
+    statusLabel = new QLabel(tr("Initializing..."),this);
     buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel, Qt::Horizontal, this);
     startButton = new QPushButton(tr("Start game"),this);
 
     QGridLayout* layout = new QGridLayout();
 
-    layout->addWidget(tempLabel,0,0,1,3,Qt::AlignLeft);
+    layout->addWidget(statusLabel,0,0,1,3,Qt::AlignLeft);
     layout->addWidget(buttonBox,1,0,1,2,Qt::AlignRight);
     layout->addWidget(startButton,1,2,1,1,Qt::AlignLeft);
 
     setLayout(layout);
 
-    tempLabel->show();
+    statusLabel->show();
     buttonBox->show();
     startButton->show();
 
@@ -44,14 +44,12 @@ void SettingsDialog::showSettings() {
 
 void SettingsDialog::hideSettingsAndSwitch() {
     hide();
-    // TODO
 }
 
 
 void SettingsDialog::reload() {
-
-    // TODO
-    startButton->setEnabled(model->isCreating());
+    startButton->setEnabled(model->isCreating() && model->isReady());
+    statusLabel->setText(model->getStatus());
 }
 
 void SettingsDialog::cancelClicked() {
