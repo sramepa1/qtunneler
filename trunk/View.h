@@ -37,7 +37,7 @@ protected:
     quint32 y;
 
     QBrush tunnel;
-    QBrush stone;
+    QBrush solid;
     QBrush shot;
 
     QBitmap* bitmap;

@@ -30,15 +30,15 @@ public:
     virtual const QBitmap* getQBitmap();
     virtual const QColor getColor() const {return color;}
     
-    virtual bool getXY(quint32 x, quint32 y) const;
-    virtual bool getXYGlobalCoordiantes(quint32 _x, quint32 _y) const;
+    virtual inline bool getXY(quint32 x, quint32 y) const;
+    virtual inline bool getXYGlobalCoordiantes(quint32 _x, quint32 _y) const;
 
-    virtual quint8 getByte(quint32 xDiv8, quint32 y) const;
+    virtual inline quint8 getByte(quint32 xDiv8, quint32 y) const;
 
-    virtual void setXY(quint32 x, quint32 y, bool val);
-    virtual void setXYGlobalCoordiantes(quint32 _x, quint32 _y, bool val);
+    virtual inline void setXY(quint32 x, quint32 y, bool val);
+    virtual inline void setXYGlobalCoordiantes(quint32 _x, quint32 _y, bool val);
 
-    virtual void setByte(quint32 xDiv8, quint32 y, quint8 val);
+    virtual inline void setByte(quint32 xDiv8, quint32 y, quint8 val);
     
 protected:
     quint32 x;

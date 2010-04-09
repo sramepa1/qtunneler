@@ -12,7 +12,7 @@
 #include <QObject>
 #include <QtCore>
 
-#include "Player.h"
+//#include "Player.h"
 
 class SettingsModel : public QObject {
 

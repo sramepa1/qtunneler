@@ -9,9 +9,11 @@
 
 #include <QPalette>
 
+#include <iostream>
+
 View::View(QWidget* parent, Model* _model) : QWidget(parent), model(_model) {
     tunnel.setColor(Qt::black);
-    stone.setColor(Qt::gray);
+    solid.setColor(Qt::gray);
     shot.setColor(Qt::red);
     tile = QPixmap::fromImage(QImage(":/tile.png"));
     x = y = 0;
@@ -36,14 +38,14 @@ void View::paintEvent(QPaintEvent* /*evt*/) {
     tunnel.setTexture(QBitmap::fromData(QSize(wid,hei),data,QImage::Format_MonoLSB));
     delete data;
     painter.setBrush(tunnel);
-    painter.drawRect(0,0,wid-1,hei-1);
+    painter.drawRect(0,0,wid,hei);
 
     // draw bitmap objects
-    painter.setBrush(stone);
     QVector<BitmapObj*> bitmaps = model->getSolidObjInRect(x,y,wid,hei);
     foreach(BitmapObj* bmp, bitmaps) {
-        stone.setColor(bmp->getColor());
-        stone.setTexture(*(bmp->getQBitmap()));
+        solid.setColor(bmp->getColor());        
+        solid.setTexture(*(bmp->getQBitmap()));
+        painter.setBrush(solid);
         painter.drawRect(bmp->getX1() - x, bmp->getY1() - y, bmp->getWidth(), bmp->getHeight());
     }
 

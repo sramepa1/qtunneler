@@ -9,7 +9,6 @@
 #include "BaseWall.h"
 
 #include <iostream>
-#include <qt4/QtGui/qsystemtrayicon.h>
 
 Model::Model(QObject* parent) : QObject(parent) {
     matrix = new Matrix();
@@ -113,8 +112,8 @@ bool checkRectOverlap(quint32 x11, quint32 y11, quint32 x12, quint32 y12, quint3
 QVector<BitmapObj*> Model::getSolidObjInRect(quint32 x, quint32 y, quint32 width, quint32 height) const {
 
     int size = solidObjects->size();
-    QVector<const BitmapObj*> vector;
-    const BitmapObj * obj;
+    QVector<BitmapObj*> vector;
+    BitmapObj * obj;
 
     for (int i = 0; i < size; i++) {
         obj = solidObjects->at(i);
@@ -124,7 +123,7 @@ QVector<BitmapObj*> Model::getSolidObjInRect(quint32 x, quint32 y, quint32 width
         }
     }
 
-    return QVector<BitmapObj*>(); //TODO return non-empty
+    return vector;
 }
 
 QVector<QPoint> Model::getShotsInRect(quint32 x, quint32 y, quint32 width, quint32 height) const{
