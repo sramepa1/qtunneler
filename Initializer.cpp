@@ -20,6 +20,8 @@ void Initializer::initGUI() {
     settingsController = new SettingsController(this,settingsModel,settingsDialog,comm);
 
     model = new Model(this);
+    controller = new Controller(this,model);
+    clicker = new Clicker(this);
 
     initDialog = new InitDialog();
     gameWindow = new GameWindow(model);
@@ -37,7 +39,11 @@ void Initializer::initGUI() {
 
     connect(settingsDialog,SIGNAL(disconnect()),settingsController,SLOT(closeConnection()));
     connect(settingsController,SIGNAL(disconnected()),initDialog,SLOT(showDialog()));
-    
+
+
+    connect(controller,SIGNAL(endGame(QString,bool)),this,SLOT(endGame(QString,bool)));
+    connect(controller,SIGNAL(status(QString)),gameWindow,SLOT(setStatus(QString)));
+    connect(controller,SIGNAL(redraw(quint32,quint32)),gameWindow,SLOT(redrawView(quint32,quint32)));
 }
 
 
@@ -63,9 +69,33 @@ void Initializer::initCore() {
             evaluator->start();
         }
     }
-    
-    settingsDialog->hide();
-    gameWindow->show();
+    controller->resetStateAndStop();
 
-    //TODO reconnect signals for disconnected sockets
+    // TODO init senders and receivers!
+
+    controller->start();
+    if(settingsModel->isCreating()) evaluator->generateWorldAndStartRound();
+
+    disconnect(comm->socket,SIGNAL(disconnected()),0,0);
+    connect(comm->socket,SIGNAL(disconnected()),this,SLOT(handleDisconnectInGame()));
+
+    settingsDialog->hide();
+    gameWindow->show();    
+}
+
+void Initializer::endGame(QString message, bool ok) {
+    QMessageBox msgBox;
+    msgBox.setText(ok ? tr("Finished") : tr("Error"));
+    msgBox.setInformativeText(message);
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.setIcon(ok ? QMessageBox::Information : QMessageBox::Critical);
+    msgBox.exec();
+    controller->quit();
+    if(evaluator) evaluator->quit();
+    gameWindow->hide();
+    initDialog->show();
+}
+
+void Initializer::handleDisconnectInGame() {
+    endGame(tr("Connection has been lost."),false);
 }

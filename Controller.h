@@ -11,26 +11,36 @@
 #include <QtCore>
 #include "Receiver.h"
 #include "Model.h"
-#include "View.h"
 
 class Controller : public QThread {
 
     Q_OBJECT
 
 public:
-    Controller(Receiver* _receiver, Model* _model, View* _view);
+    Controller(QObject* parent = NULL, Model* _model = NULL);
     virtual ~Controller();
+
+    virtual void run();
+
+    virtual void resetStateAndStop();
+
+    virtual void setReceiver(Receiver* r);
 
 public slots:
 
 signals:
+
+    void redraw(quint32 x, quint32 y);
+
+    void status(QString status);
+
+    void endGame(QString message, bool ok);
 
 protected:
 
     Receiver* receiver;
 
     Model* model;
-    View* view;
 
 private:    
     Controller(const Controller& orig) {} // disabled

@@ -26,12 +26,9 @@ public:
     virtual ~View();
 
     virtual void setViewpoint(quint32 x, quint32 y);
-    virtual QPoint getViewpoint();
 
 protected:
     void paintEvent(QPaintEvent* evt);
-
-    void paintBitmap(QPainter& painter, BitmapObj* obj);
 
     quint32 x;
     quint32 y;

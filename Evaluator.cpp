@@ -12,11 +12,10 @@ Evaluator::Evaluator(QObject* parent, Model* _model) : QThread(parent) {
 }
 
 Evaluator::~Evaluator() {
+    dumpSendersAndReceivers();
 }
 
 void Evaluator::run() {
-
-
     //enter event loop
     exec();
 }
@@ -30,6 +29,26 @@ void Evaluator::addSender(Sender* s) {
     senders.push_back(s);
 }
 
-void Evaluator::generateWorld() {
+void Evaluator::addReceiver(Receiver* r) {
+    receivers.push_back(r);
+}
+
+void Evaluator::clearStateAndStop() {
+    dumpSendersAndReceivers();
+    quit();
+}
+
+void Evaluator::dumpSendersAndReceivers() {
+    foreach(Sender* s,senders) {
+        delete s;
+    }
+    senders.clear();
+    foreach(Receiver* r,receivers) {
+        delete r;
+    }
+    receivers.clear();
+}
+
+void Evaluator::generateWorldAndStartRound() {
     //TODO
 }

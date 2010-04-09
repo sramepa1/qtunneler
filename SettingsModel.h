@@ -12,13 +12,9 @@
 #include <QObject>
 #include <QtCore>
 
-//#include "Player.h"
-
 class SettingsModel : public QObject {
 
     Q_OBJECT
-
-    // TODO declare Qt properties?
 
 public:
     SettingsModel(QObject* parent = NULL);
