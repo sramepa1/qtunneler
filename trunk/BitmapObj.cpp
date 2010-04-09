@@ -90,7 +90,7 @@ const QBitmap* BitmapObj::getQBitmap() {
         uchar bit = 0;
         for(int j = 0; j < height; j++) {
             for(int i = 0; i < width; i++){
-                *ptr = getXY(i,j) ? (*ptr & ~(1 << bit)) : ( *ptr | (1 << bit) );
+                *ptr = getXY(i,j) ? ( *ptr | (1 << bit) ) : (*ptr & ~(1 << bit));
                 if(++bit > 7) {
                     bit = 0;
                     ptr++;

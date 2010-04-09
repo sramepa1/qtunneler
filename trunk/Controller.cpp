@@ -7,12 +7,24 @@
 
 #include "Controller.h"
 
-Controller::Controller(Receiver* _receiver, Model* _model, View* _view) {
-    receiver = _receiver;
+Controller::Controller(QObject* parent, Model* _model) : QThread(parent) {
+    receiver = NULL;
     model = _model;
-    view = _view;
 }
 
 Controller::~Controller() {
+}
+
+void Controller::run() {
+    exec();
+}
+
+void Controller::resetStateAndStop() {
+    model->reset();
+    quit();
+}
+
+void Controller::setReceiver(Receiver* r) {
+    
 }
 

@@ -8,12 +8,19 @@
 #ifndef _CLICKER_H
 #define	_CLICKER_H
 
+#include <QObject>
+
 #include "Sender.h"
 
-class Clicker {
+class Clicker : public QObject {
+
+    Q_OBJECT
+
 public:
-    Clicker(Sender* s);
+    Clicker(QObject* parent = NULL);
     virtual ~Clicker();
+
+    virtual void resetSender(Sender* s);
 
 protected:
 

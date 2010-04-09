@@ -20,6 +20,7 @@
 #include "SettingsDialog.h"
 
 #include "Communicator.h"
+#include "Clicker.h"
 #include "Controller.h"
 #include "Evaluator.h"
 #include "Model.h"
@@ -43,6 +44,11 @@ public slots:
     // Starts game core. Or REinitializes, core might already be present from last game.
     virtual void initCore();
 
+    // Displays a message box and then hides GameWindow and shows InitDialog. Final stats or error.
+    virtual void endGame(QString message, bool ok);
+
+    virtual void handleDisconnectInGame();
+
 signals:
     void validated(QString message);
 
@@ -59,6 +65,7 @@ protected:
     Model* model;
     Controller* controller;
     Evaluator* evaluator;
+    Clicker* clicker;
 
 };
 

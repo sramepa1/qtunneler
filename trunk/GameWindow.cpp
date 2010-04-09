@@ -48,5 +48,13 @@ void GameWindow::hideWindowAndSwitch() {
 
 void GameWindow::exit() {
     close();
-    // TODO ?
+}
+
+void GameWindow::setStatus(QString status) {
+    statusBar->showMessage(status,INT_MAX);
+}
+
+void GameWindow::redrawView(quint32 x, quint32 y) {
+    view->setViewpoint(x,y);
+    view->update();
 }

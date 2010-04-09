@@ -7,6 +7,15 @@
 
 #include "Clicker.h"
 
-Clicker::~Clicker() {
+Clicker::Clicker(QObject* parent) : QObject(parent) {
+    sender = NULL;
 }
 
+Clicker::~Clicker() {
+    if(sender != NULL) delete sender;
+}
+
+void Clicker::resetSender(Sender* s) {
+    if(sender != NULL) delete sender;
+    sender = s;
+}

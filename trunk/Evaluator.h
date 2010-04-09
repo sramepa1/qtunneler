@@ -27,20 +27,25 @@ public:
     virtual void run();
 
     virtual void addSender(Sender* s);
-
-public slots:
+    virtual void addReceiver(Receiver* r);
 
     // clear model, generate all world data AND send to all clients via packet dispatch
-    virtual void generateWorld();
+    // when world confirmed by all clients, dispatches start packets and enters evaluation/dispatch state machine
+    virtual void generateWorldAndStartRound();
+    
+public slots:
+
+    // Stop thread, dump queue contents, timer, senders and receivers
+    virtual void clearStateAndStop();
 
 signals:
-    // emitted when world is ready and confirmed by clients
-    void worldReady();
 
 
 protected:
 
     virtual void dispatchAndDeletePacket(Packet* packet);
+
+    virtual void dumpSendersAndReceivers();
 
     // state machine: evaluation & dispatch vs. receive & wait
     bool evaluating;
