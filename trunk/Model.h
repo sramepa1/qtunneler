@@ -30,8 +30,8 @@ public:
     Model(QObject* parent = NULL);
     virtual ~Model();
 
+    virtual void init();
     virtual void reset();
-
 
     /**
      * Data for transforming Matrix to QBitmap
@@ -43,15 +43,33 @@ public:
 
     virtual QVector<QPoint> getShotsInRect(quint32 x, quint32 y, quint32 width, quint32 height) const;
 
-    bool isMatrixCollision (const RoundObj * obj);
+    /**
+     * Collision detection;
+     */
+
+    bool isMatrixCollision (const RoundObj * obj) const;
+
+    //Collision with stone, basewall or border.
+    bool isSolidCollision (const RoundObj * obj) const;
+    bool isTankCollision (const RoundObj * obj) const;
+    bool isProjectileCollision (const RoundObj * obj) const;
+    bool isAnyCollision (const RoundObj * obj) const;
 
     /**
-     * Collision with stone, basewall or border.
+     * Explosion methods
      */
-    bool isSolidCollision (const RoundObj * obj);
-    bool isTankCollision (const RoundObj * obj);
-    bool isProjectileCollision (const RoundObj * obj);
-    bool isAnyCollision (const RoundObj * obj);
+    
+    void projectileExplosion(quint32 shotID);
+
+    /**
+     * Tank control methods
+     */
+    
+    void tankFire(quint32 tankID);
+
+    /**
+     * Static methods
+     */
 
     static bool checkRectOverlap(quint32 x11, quint32 y11, quint32 x12, quint32 y12, quint32 x21, quint32 y21, quint32 x22, quint32 y22);
 

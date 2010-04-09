@@ -13,13 +13,9 @@
 
 class BaseWall : public BitmapObj {
 public:
-    BaseWall(quint8 _id) : playerID(_id) {}
-    virtual ~BaseWall();
-
-    quint8 playerID;
-
-private:
-    BaseWall(const BaseWall& orig) {} // disabled
+    BaseWall(quint32 _x, quint32 _y,quint32 _width, quint32 _heigth);
+    BaseWall(const BaseWall& orig) : BitmapObj(orig) {}
+    virtual ~BaseWall() {}
 };
 
 #endif	/* _BASEWALL_H */

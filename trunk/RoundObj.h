@@ -14,6 +14,9 @@
 class RoundObj {
 public:
     RoundObj(quint32 _x, quint32 _y, quint32 _radius,quint8 _color, quint32 _id) : x(_x), y(_y), radius(_radius), color(_color), id(_id) {}
+   
+    //RoundObj(const RoundObj& orig) {} // implicit
+
     virtual ~RoundObj() {}
 
     /**
@@ -52,8 +55,6 @@ protected:
     quint32 y;
     quint32 radius;
     
-
-    RoundObj(const RoundObj& orig) {} // disabled
 };
 
 #endif	/* _ROUNDOBJ_H */

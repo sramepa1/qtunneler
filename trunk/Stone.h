@@ -13,11 +13,13 @@
 
 class Stone : public BitmapObj {
 public:
+    //NOT supported yet
+
     Stone();
+    Stone(const Stone& orig) : BitmapObj(orig) {}
+
     virtual ~Stone();
 
-protected:
-    Stone(const Stone& orig) : BitmapObj(orig) {} // disabled
 };
 
 #endif	/* _STONE_H */

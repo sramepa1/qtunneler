@@ -16,16 +16,29 @@ BitmapObj::BitmapObj(quint32 _x, quint32 _y,quint32 _width, quint32 _heigth) {
     height = _heigth;
 
     qbitmap = NULL;
-
-
-    //TODO separate fill
+    
     bitmap = new quint8* [width / 8];
     for(quint32 i = 0; i < width / 8; i++) {
         bitmap[i] = new quint8[height];
-
-        //TODO fill with data. From image? Or from vectors?
     }
 
+}
+
+BitmapObj::BitmapObj(const BitmapObj & orig){
+    x = orig.x;
+    y = orig.y;
+    width = orig.width;
+    height = orig.height;
+    color = orig.color;
+
+    qbitmap = NULL;
+    
+    for(int i = 0; i < width / 8; i++) {
+        for (int j = 0; j < height; j++) {
+            bitmap[i][j] = orig.bitmap[i][j];
+        }
+    }
+    
 }
 
 BitmapObj::~BitmapObj() {

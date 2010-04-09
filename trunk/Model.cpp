@@ -6,13 +6,14 @@
  */
 
 #include "Model.h"
+#include "BaseWall.h"
 
 #include <iostream>
 #include <qt4/QtGui/qsystemtrayicon.h>
 
 Model::Model(QObject* parent) : QObject(parent) {
     matrix = new Matrix();
-    border = new Border();
+    //border = new Border();
 
     bases = new QVector<Base*>();
     solidObjects = new QVector<BitmapObj*>();
@@ -21,12 +22,12 @@ Model::Model(QObject* parent) : QObject(parent) {
     projectiles = new QHash<quint32,Projectile*>();
     explosions = new QHash<quint32,Explosion*>();
 
-    //TODO fill the containers ???
+    init();
 }
 
 Model::~Model() {
     delete matrix;
-    delete border;
+    //delete border;
 
     //Delete bases
     for (int i = 0; i < bases->size(); i++) {
@@ -59,8 +60,29 @@ Model::~Model() {
     delete explosions;
 }
 
+void Model::init() {
+    //TODO iniclialize game
+
+    //Testing purposes
+
+    //create bases and basewalls
+
+    bases->append(new Base(400, 400, 240, 240, 1));
+
+    BaseWall * baseWall = new BaseWall(400, 400, 240, 240);
+
+    solidObjects->append(baseWall);
+    matrix->invertMaskMatrix(baseWall);
+
+    // ...
+    
+    tanks->insert(1, new Tank(500,500,1,1));
+
+
+}
+
 void Model::reset() {
-    //TODO call destructor and constructor
+    //TODO reset game - clean everything
 }
 
 const uchar* Model::getTunnelBitmapData(quint32 x, quint32 y, quint32 width, quint32 height) const {
@@ -124,7 +146,7 @@ QVector<QPoint> Model::getShotsInRect(quint32 x, quint32 y, quint32 width, quint
     return shots;
 }
 
-bool Model::isMatrixCollision (const RoundObj * obj){
+bool Model::isMatrixCollision (const RoundObj * obj) const{
 
     for (int i = obj->getX1(); i < obj->getX2(); i++) {
         for (int j = obj->getY1(); j < obj->getY2(); j++) {
@@ -138,7 +160,14 @@ bool Model::isMatrixCollision (const RoundObj * obj){
     return false;
 }
 
-bool Model::isSolidCollision (const RoundObj * obj){
+bool Model::isSolidCollision (const RoundObj * obj) const{
+
+    //Border collision
+    if(border->isBorderCollision(obj)){
+        return true;
+    }
+
+    //Solid objects collision
 
     BitmapObj * solid;
 
@@ -162,7 +191,7 @@ bool Model::isSolidCollision (const RoundObj * obj){
     return false;
 }
 
-bool Model::isTankCollision (const RoundObj * obj){
+bool Model::isTankCollision (const RoundObj * obj) const{
 
     Tank * tank;
 
@@ -186,7 +215,7 @@ bool Model::isTankCollision (const RoundObj * obj){
     return false;
 }
 
-bool Model::isProjectileCollision (const RoundObj * obj){
+bool Model::isProjectileCollision (const RoundObj * obj) const{
 
     Projectile * projectile;
 
@@ -210,8 +239,43 @@ bool Model::isProjectileCollision (const RoundObj * obj){
     return false;
 }
 
-bool Model::isAnyCollision (const RoundObj * obj){
+bool Model::isAnyCollision (const RoundObj * obj) const{
     return isMatrixCollision(obj) || isSolidCollision(obj) || isTankCollision(obj) || isProjectileCollision(obj);
+}
+
+void Model::projectileExplosion(quint32 shotID){
+    Projectile * shot = projectiles->take(shotID);
+    projectiles->remove(shotID);
+
+    //make new explosion
+    quint32 id = 1;//TODO gein somehow
+    quint32 seed = 1;//TODO gein somehow
+    
+    Explosion * explosion = new Explosion(shot->getX(), shot->getY(), shot->color, id, seed);
+    explosions->insert(id, explosion);
+
+    //Burn clue
+    matrix->maskMatrix(& explosion->getExplosionMask());
+
+    //damage tanks within raius
+    foreach(Tank * tank, *tanks){
+        if(isTankCollision(explosion)){
+            tank->hp -= explosion->countDamageToObj(tank);
+
+            if(tank->hp < 0){
+                tank->hp = 0;
+                ; //TODO react - tank destroyed
+            }
+        }
+    }
+}
+
+void Model::tankFire(quint32 tankID){
+    Tank * tank = tanks->take(tankID);
+
+    Projectile * projectile = new Projectile(tank->fire());
+
+    projectiles->insert(projectile->id, projectile);
 }
 
 bool Model::checkRectOverlap(quint32 x11, quint32 y11, quint32 x12, quint32 y12, quint32 x21, quint32 y21, quint32 x22, quint32 y22) {
@@ -264,5 +328,3 @@ bool Model::checkRectOverlap(quint32 x11, quint32 y11, quint32 x12, quint32 y12,
     return false;
 
 }
-
-
