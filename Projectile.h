@@ -14,10 +14,11 @@
 class Projectile : public OrientedRoundObj{
 public:
     Projectile(quint32 x, quint32 y, quint8 color, quint32 id, direction rotation) : OrientedRoundObj(x, y, PROJECTILE_RADIUS, color, id, rotation) {}
+    //Projectile(const Projectile& orig) : OrientedRoundObj(orig) {} // implicit
+
     virtual ~Projectile();
 
-private:
-    Projectile(const Projectile& orig) : OrientedRoundObj(orig) {} // disabled
+    
 };
 
 #endif	/* _PROJECTILE_H */

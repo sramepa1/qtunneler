@@ -11,6 +11,7 @@
 
 #include "DefaultValues.h"
 #include "OrientedRoundObj.h"
+#include "Projectile.h"
 
 class Tank : public OrientedRoundObj {
 public:
@@ -18,11 +19,14 @@ public:
         hp = DEFAULT_TANK_HP;
         energy = DEFAULT_TANK_ENERGY;
     }
-    
-    virtual ~Tank();
+    virtual ~Tank(){}
 
-    quint32 hp;
-    quint32 energy;
+    virtual Projectile fire();
+    virtual void move(qint32 steps = 1);
+    virtual void moveInClue(qint32 steps = 1);
+
+    qint32 hp;
+    qint32 energy;
 
 private:
     Tank(const Tank& orig) : OrientedRoundObj(orig) {} // disabled

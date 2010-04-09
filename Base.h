@@ -12,12 +12,11 @@
 
 class Base {
 public:
-    Base(quint8 _color,quint32 x,quint32 y,quint32 width, quint32 height) : color(_color), x1(x), y1(y), x2(x + width), y2(y + height) {}
+    Base(quint32 _x, quint32 _y, quint32 _width, quint32 _height, quint8 _color) : color(_color), x1(_x), y1(_y), x2(_x + _width), y2(_y + _height) {}
     virtual ~Base() {}
-    
-    virtual qreal getCircleOverlap(quint32 _x, quint32 _y, quint32 _radius) const; //TODO move to logic
-    virtual quint8 getColor() const {return color;}
 
+    virtual bool isWithinBase(quint32 _x, quint32 _y) const;
+    
     quint32 x1;
     quint32 y1;
     quint32 x2;

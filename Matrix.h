@@ -24,10 +24,10 @@ public:
 
     virtual void reset();
 
-    /**
-     * Print given mask to matrix.
-     */
-    virtual void maskMatrix(BitmapObj mask);
+    //Print given mask to matrix. (and)
+    virtual void maskMatrix(const BitmapObj * mask);
+    //Print given mask to matrix. (and not)
+    virtual void invertMaskMatrix(const BitmapObj * mask);
 
 protected:
     quint8** arr;
