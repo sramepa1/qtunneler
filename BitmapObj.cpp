@@ -24,15 +24,24 @@ BitmapObj::BitmapObj(quint32 _x, quint32 _y,quint32 _width, quint32 _heigth) {
 
 }
 
-BitmapObj::BitmapObj(const BitmapObj & orig){
+BitmapObj::BitmapObj(const BitmapObj & orig) {
     x = orig.x;
     y = orig.y;
     width = orig.width;
     height = orig.height;
     color = orig.color;
 
-    qbitmap = NULL;
-    
+    if(orig.qbitmap == NULL) {
+        qbitmap = NULL;
+    } else {
+        qbitmap = new QBitmap(*orig.qbitmap);
+    }
+
+    bitmap = new quint8* [width / 8];
+    for(quint32 i = 0; i < width / 8; i++) {
+        bitmap[i] = new quint8[height];
+    }
+
     for(int i = 0; i < width / 8; i++) {
         for (int j = 0; j < height; j++) {
             bitmap[i][j] = orig.bitmap[i][j];
@@ -74,7 +83,7 @@ void BitmapObj::setXY(quint32 x, quint32 y, bool val) {
      setXY(_x - x, _y - y, val);
  }
 
-const QBitmap* BitmapObj::getQBitmap(){
+const QBitmap* BitmapObj::getQBitmap() {
     if(qbitmap == NULL){
         uchar* qbitmapdata = new uchar[(width*height)/8 + height];
         uchar* ptr = qbitmapdata;
@@ -93,7 +102,6 @@ const QBitmap* BitmapObj::getQBitmap(){
             }
         }
         qbitmap = new QBitmap(QBitmap::fromData(QSize(width,height),qbitmapdata,QImage::Format_MonoLSB));
-        delete qbitmapdata; // TODO is this safe?
     }
 
     return qbitmap;

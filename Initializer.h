@@ -14,11 +14,16 @@
 #include "GameWindow.h"
 #include "InitDialog.h"
 #include "InitVector.h"
+
 #include "SettingsModel.h"
 #include "SettingsController.h"
 #include "SettingsDialog.h"
-#include "Model.h"
+
 #include "Communicator.h"
+#include "Controller.h"
+#include "Evaluator.h"
+#include "Model.h"
+
 
 
 class Initializer : public QObject {
@@ -26,13 +31,16 @@ class Initializer : public QObject {
     Q_OBJECT
 
 public:
-    Initializer() {}
+    Initializer();
     virtual ~Initializer() {}
 
+    // initializes GUI-related members and shows form, wires signals between them
     virtual void initGUI();
 
 public slots:
     virtual void validate(InitVector vec);
+
+    // Starts game core. Or REinitializes, core might already be present from last game.
     virtual void initCore();
 
 signals:
@@ -40,13 +48,17 @@ signals:
 
 protected:
     GameWindow* gameWindow;
+    InitDialog* initDialog;
+
     SettingsController* settingsController;
     SettingsDialog* settingsDialog;
-    InitDialog* initDialog;
+    SettingsModel* settingsModel;
 
     Communicator* comm;
 
     Model* model;
+    Controller* controller;
+    Evaluator* evaluator;
 
 };
 

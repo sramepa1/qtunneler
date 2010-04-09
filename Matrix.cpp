@@ -23,7 +23,7 @@ Matrix::Matrix() {
 
 
     // for testing purposes <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    /*
+    
     for(quint32 i = 0; i < MATRIX_DIMENSION/8; i++) {
         for (quint32 j = 128; j < 256; j++) {
             setByte(i,j,0);
@@ -41,7 +41,7 @@ Matrix::Matrix() {
     setXY(167,167,true);
     setXY(169,169,true);
 
-    */
+    
 }
 
 Matrix::~Matrix() {
@@ -67,18 +67,24 @@ void Matrix::setByte(quint32 xDiv8, quint32 y, quint8 val) {
     arr[xDiv8][y] = val;
 }
 
+// TODO more efficiently when byte-aligned !!!!!
+
 void Matrix::maskMatrix(const BitmapObj * mask){
-    for (int i = mask->getX1(); i < mask->getWidth() / 8 && i < MATRIX_DIMENSION / 8; i++) {
-        for (int j = mask->getY1(); j < mask->getHeight() && j < MATRIX_DIMENSION; j++) {
-            arr[i][j] &= mask->getByte(i, j);
+    int x = mask->getX1();
+    int y = mask->getY1();
+    for (int i = 0; i < mask->getWidth() && (i+x < MATRIX_DIMENSION); i++) {
+        for (int j = 0; j < mask->getHeight() && (j+y < MATRIX_DIMENSION); j++) {
+            if(getXY(x+i,y+j)) setXY(x+i,y+j,mask->getXY(i,j));
         }
     }
 }
 
 void Matrix::invertMaskMatrix(const BitmapObj * mask){
-    for (int i = mask->getX1(); i < mask->getWidth() / 8 && i < MATRIX_DIMENSION / 8; i++) {
-        for (int j = mask->getY1(); j < mask->getHeight() && j < MATRIX_DIMENSION; j++) {
-            arr[i][j] &= ~(mask->getByte(i, j));
+    int x = mask->getX1();
+    int y = mask->getY1();
+    for (int i = 0; i < mask->getWidth() && (i+x < MATRIX_DIMENSION); i++) {
+        for (int j = 0; j < mask->getHeight() && (j+y < MATRIX_DIMENSION); j++) {
+            if(getXY(x+i,y+j)) setXY(x+i,y+j,(!mask->getXY(i,j)));
         }
     }
 }

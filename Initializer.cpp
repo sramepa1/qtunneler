@@ -7,11 +7,15 @@
 
 #include "Initializer.h"
 
+Initializer::Initializer() {
+    evaluator = NULL;
+}
+
 void Initializer::initGUI() {
 
     comm = new Communicator(this);
 
-    SettingsModel* settingsModel = new SettingsModel(this);
+    settingsModel = new SettingsModel(this);
     settingsDialog = new SettingsDialog(settingsModel);
     settingsController = new SettingsController(this,settingsModel,settingsDialog,comm);
 
@@ -49,10 +53,19 @@ void Initializer::validate(InitVector vec) {
 
 void Initializer::initCore() {
 
-    // TODO - start game core. Or REinitialize, core might already be present from last game.
-    
-    // data to do this - in settingsModel
+    settingsModel->setStatus(tr("Starting game..."));
+    settingsModel->setReady(false);
+    settingsDialog->reload();
 
+    if(settingsModel->isCreating()) {
+        if(!evaluator) {
+            evaluator = new Evaluator(this);
+            evaluator->start();
+        }
+    }
+    
     settingsDialog->hide();
     gameWindow->show();
+
+    //TODO reconnect signals for disconnected sockets
 }

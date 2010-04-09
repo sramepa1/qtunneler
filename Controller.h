@@ -13,12 +13,17 @@
 #include "Model.h"
 #include "View.h"
 
-class Controller {
+class Controller : public QThread {
+
+    Q_OBJECT
+
 public:
     Controller(Receiver* _receiver, Model* _model, View* _view);
     virtual ~Controller();
 
-    // TODO methods
+public slots:
+
+signals:
 
 protected:
 

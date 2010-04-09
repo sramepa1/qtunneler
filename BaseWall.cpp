@@ -10,6 +10,8 @@
 
 BaseWall::BaseWall(quint32 _x, quint32 _y,quint32 _width, quint32 _heigth) : BitmapObj(_x, _y, _width, _heigth) {
 
+    color = QColor("red"); // TODO change!!
+
     quint32 wDIV8 = width / 8;
 
     //Write border to bitmap

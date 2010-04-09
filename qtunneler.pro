@@ -20,7 +20,6 @@ HEADERS += Base.h \
            Communicator.h \
            Controller.h \
            DefaultValues.h \
-           Dispatcher.h \
            Evaluator.h \
            Explosion.h \
            GameWindow.h \
@@ -34,7 +33,6 @@ HEADERS += Base.h \
            OrientedRoundObj.h \
            Packet.h \
            PacketQueue.h \
-           Player.h \
            Projectile.h \
            QueueReceiver.h \
            QueueSender.h \
@@ -54,7 +52,6 @@ SOURCES += Base.cpp \
            Clicker.cpp \
            Communicator.cpp \
            Controller.cpp \
-           Dispatcher.cpp \
            Evaluator.cpp \
            Explosion.cpp \
            GameWindow.cpp \
