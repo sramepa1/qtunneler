@@ -32,14 +32,14 @@ void NetReceiverThread::readBytes() {
         qDebug("NetThread: Appending byte %d, value was %X",writeIndex,(uint)*((uchar*)(buffer + writeIndex)));
         writeIndex++;
         if(writeIndex >= PACKET_BYTES) {
-            qDebug("NetThread: pushing packet, opcode %d",qFromBigEndian(*((quint32*)(buffer))));
+            qDebug("NetThread: pushing packet, opcode %d",qFromBigEndian(*((qint32*)(buffer))));
             writeIndex = 0;
             queue->push(Packet(
-                qFromBigEndian(*((quint32*)buffer)),
-                qFromBigEndian(*((quint32*)(buffer + 4))),
-                qFromBigEndian(*((quint32*)(buffer + 8))),
-                qFromBigEndian(*((quint32*)(buffer + 12))),
-                qFromBigEndian(*((quint32*)(buffer + 16)))
+                qFromBigEndian(*((qint32*)buffer)),
+                qFromBigEndian(*((qint32*)(buffer + 4))),
+                qFromBigEndian(*((qint32*)(buffer + 8))),
+                qFromBigEndian(*((qint32*)(buffer + 12))),
+                qFromBigEndian(*((qint32*)(buffer + 16)))
             ));
         }
     }

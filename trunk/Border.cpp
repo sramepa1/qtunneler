@@ -14,7 +14,7 @@ Border::Border() {
     y2 = MATRIX_DIMENSION - BORDER_SIZE;
 }
 
-bool Border::isBorderCollision(quint32 _x, quint32 _y) const{
+bool Border::isBorderCollision(qint32 _x, qint32 _y) const{
     if((x1 <= _x && x2 >= _x) && (y1 <= _y && y2 >= _y)){
         return false;
     }
@@ -23,7 +23,7 @@ bool Border::isBorderCollision(quint32 _x, quint32 _y) const{
 }
 
 bool Border::isBorderCollision(const RoundObj * obj) const{
-    quint32 r = obj->getRadius();
+    qint32 r = obj->getRadius();
 
     if(((x1 + r) <= obj->getX() && (x2 - r) >= obj->getX()) && ((y1 + r) <= obj->getY() && (y2 - r) >= obj->getY())){
         return false;

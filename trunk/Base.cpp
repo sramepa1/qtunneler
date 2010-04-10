@@ -9,7 +9,7 @@
 
 #include "Base.h"
 
-bool Base::isWithinBase(quint32 _x, quint32 _y) const{
+bool Base::isWithinBase(qint32 _x, qint32 _y) const{
     if((x1 <= _x && x2 >= _x) && (y1 <= _y && y2 >= _y)){
         return true;
     }

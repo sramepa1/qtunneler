@@ -17,8 +17,8 @@ Model::Model(QObject* parent) : QObject(parent) {
     bases = new QVector<Base*>();
     solidObjects = new QVector<BitmapObj*>();
 
-    tanks = new QHash<quint32,Tank*>();
-    projectiles = new QHash<quint32,Projectile*>();
+    tanks = new QHash<qint32,Tank*>();
+    projectiles = new QHash<qint32,Projectile*>();
     explosions = new QVector<Explosion*>();
 
     init();
@@ -84,7 +84,7 @@ void Model::reset() {
     //TODO reset game - clean everything
 }
 
-const uchar* Model::getTunnelBitmapData(quint32 x, quint32 y, quint32 width, quint32 height) const {
+const uchar* Model::getTunnelBitmapData(qint32 x, qint32 y, qint32 width, qint32 height) const {
     
     uchar* buffer = new uchar [(width*height)/8 + height];
     uchar* ptr = buffer;
@@ -107,9 +107,9 @@ const uchar* Model::getTunnelBitmapData(quint32 x, quint32 y, quint32 width, qui
     return buffer;    
 }
 
-bool checkRectOverlap(quint32 x11, quint32 y11, quint32 x12, quint32 y12, quint32 x21, quint32 y21, quint32 x22, quint32 y22);
+bool checkRectOverlap(qint32 x11, qint32 y11, qint32 x12, qint32 y12, qint32 x21, qint32 y21, qint32 x22, qint32 y22);
 
-QVector<BitmapObj*> Model::getSolidObjInRect(quint32 x, quint32 y, quint32 width, quint32 height) const {
+QVector<BitmapObj*> Model::getSolidObjInRect(qint32 x, qint32 y, qint32 width, qint32 height) const {
 
     int size = solidObjects->size();
     QVector<BitmapObj*> vector;
@@ -126,7 +126,7 @@ QVector<BitmapObj*> Model::getSolidObjInRect(quint32 x, quint32 y, quint32 width
     return vector;
 }
 
-QVector<QPoint> Model::getShotsInRect(quint32 x, quint32 y, quint32 width, quint32 height) const{
+QVector<QPoint> Model::getShotsInRect(qint32 x, qint32 y, qint32 width, qint32 height) const{
 
     //chci znaménkové
     qint32 x1 = (qint32)(x) - PROJECTILE_RADIUS;
@@ -242,12 +242,12 @@ bool Model::isAnyCollision (const RoundObj * obj) const{
     return isMatrixCollision(obj) || isSolidCollision(obj) || isTankCollision(obj) || isProjectileCollision(obj);
 }
 
-void Model::projectileExplosion(quint32 shotID){
+void Model::projectileExplosion(qint32 shotID){
     Projectile * shot = projectiles->take(shotID);
     projectiles->remove(shotID);
 
     //make new explosion
-    quint32 seed = 1;//TODO gain somehow
+    qint32 seed = 1;//TODO gain somehow
     
     Explosion * explosion = new Explosion(shot->getX(), shot->getY(), shot->color, seed);
     explosions->append(explosion);
@@ -276,7 +276,7 @@ void Model::projectileExplosion(quint32 shotID){
     }
 }
 
-void Model::tankFire(quint32 tankID){
+void Model::tankFire(qint32 tankID){
     Tank * tank = tanks->take(tankID);
 
     Projectile * projectile = new Projectile(tank->fire());
@@ -284,7 +284,7 @@ void Model::tankFire(quint32 tankID){
     projectiles->insert(projectile->id, projectile);
 }
 
-bool Model::checkRectOverlap(quint32 x11, quint32 y11, quint32 x12, quint32 y12, quint32 x21, quint32 y21, quint32 x22, quint32 y22) {
+bool Model::checkRectOverlap(qint32 x11, qint32 y11, qint32 x12, qint32 y12, qint32 x21, qint32 y21, qint32 x22, qint32 y22) {
 
     if(x11 >= x21 && x12 > x22 && x11 < x22) { // a prekryva levou cast r
         if(y11 < y22 && y12 > y22 && y11 >= y21){ // levy dolni roh

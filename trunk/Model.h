@@ -36,12 +36,12 @@ public:
     /**
      * Data for transforming Matrix to QBitmap
      */
-    virtual const uchar* getTunnelBitmapData(quint32 x, quint32 y, quint32 width, quint32 height) const;
+    virtual const uchar* getTunnelBitmapData(qint32 x, qint32 y, qint32 width, qint32 height) const;
 
 
-    virtual QVector<BitmapObj*> getSolidObjInRect(quint32 x, quint32 y, quint32 width, quint32 height) const;
+    virtual QVector<BitmapObj*> getSolidObjInRect(qint32 x, qint32 y, qint32 width, qint32 height) const;
 
-    virtual QVector<QPoint> getShotsInRect(quint32 x, quint32 y, quint32 width, quint32 height) const;
+    virtual QVector<QPoint> getShotsInRect(qint32 x, qint32 y, qint32 width, qint32 height) const;
 
     /**
      * Collision detection;
@@ -60,19 +60,19 @@ public:
      */
 
     //Create exlosion, burn clue in matrix, damage tanks and destroye all projectiles within explosion radius
-    void projectileExplosion(quint32 shotID);
+    void projectileExplosion(qint32 shotID);
 
     /**
      * Tank control methods
      */
     
-    void tankFire(quint32 tankID);
+    void tankFire(qint32 tankID);
 
     /**
      * Static methods
      */
 
-    static bool checkRectOverlap(quint32 x11, quint32 y11, quint32 x12, quint32 y12, quint32 x21, quint32 y21, quint32 x22, quint32 y22);
+    static bool checkRectOverlap(qint32 x11, qint32 y11, qint32 x12, qint32 y12, qint32 x21, qint32 y21, qint32 x22, qint32 y22);
 
     // making these private or protected would result in a tremendous method count
     // better leave them public and open to Controller's logic
@@ -84,8 +84,8 @@ public:
     QVector<BitmapObj*> * solidObjects; //stones and basewalls
     QVector<Explosion*> * explosions; //TODO sebrat id
 
-    QHash<quint32,Tank*> * tanks;
-    QHash<quint32,Projectile*> * projectiles;
+    QHash<qint32,Tank*> * tanks;
+    QHash<qint32,Projectile*> * projectiles;
 private:
     Model(const Model& orig) {} // disabled
 };

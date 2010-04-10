@@ -8,7 +8,7 @@
 #include "Tank.h"
 
 Projectile Tank::fire(){
-    QPair<quint32, quint32> pair = getMoveCoorinates(radius + PROJECTILE_RADIUS);
+    QPair<qint32, qint32> pair = getMoveCoorinates(radius + PROJECTILE_RADIUS);
 
     energy -= TANK_ENERGY_COST_OF_FIRE;
 

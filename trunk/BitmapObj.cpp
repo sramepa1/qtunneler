@@ -9,7 +9,7 @@
 #include "BitmapObj.h"
 
 
-BitmapObj::BitmapObj(quint32 _x, quint32 _y,quint32 _width, quint32 _heigth) {
+BitmapObj::BitmapObj(qint32 _x, qint32 _y,qint32 _width, qint32 _heigth) {
     x = _x;
     y = _y;
     width = _width;
@@ -18,7 +18,7 @@ BitmapObj::BitmapObj(quint32 _x, quint32 _y,quint32 _width, quint32 _heigth) {
     qbitmap = NULL;
     
     bitmap = new quint8* [width / 8];
-    for(quint32 i = 0; i < width / 8; i++) {
+    for(qint32 i = 0; i < width / 8; i++) {
         bitmap[i] = new quint8[height];
     }
 
@@ -38,7 +38,7 @@ BitmapObj::BitmapObj(const BitmapObj & orig) {
     }
 
     bitmap = new quint8* [width / 8];
-    for(quint32 i = 0; i < width / 8; i++) {
+    for(qint32 i = 0; i < width / 8; i++) {
         bitmap[i] = new quint8[height];
     }
 
@@ -51,7 +51,7 @@ BitmapObj::BitmapObj(const BitmapObj & orig) {
 }
 
 BitmapObj::~BitmapObj() {
-    for(quint32 i = 0; i < width / 8; i++) {
+    for(qint32 i = 0; i < width / 8; i++) {
         delete[] bitmap[i];
     }
     delete[] bitmap;
@@ -59,27 +59,27 @@ BitmapObj::~BitmapObj() {
     delete qbitmap;
 }
 
-quint8 BitmapObj::getByte(quint32 xDiv8, quint32 y) const {
+quint8 BitmapObj::getByte(qint32 xDiv8, qint32 y) const {
     return bitmap[xDiv8][y];
 }
 
-bool BitmapObj::getXY(quint32 x, quint32 y) const {
+bool BitmapObj::getXY(qint32 x, qint32 y) const {
     return (bitmap[x / 8][y]) & (1 << x % 8);
 }
 
-bool BitmapObj::getXYGlobalCoordiantes(quint32 _x, quint32 _y) const{
+bool BitmapObj::getXYGlobalCoordiantes(qint32 _x, qint32 _y) const{
     return getXY(_x - x, _y - y);
 }
 
-void BitmapObj::setByte(quint32 xDiv8, quint32 y, quint8 val) {
+void BitmapObj::setByte(qint32 xDiv8, qint32 y, quint8 val) {
     bitmap[xDiv8][y] = val;
 }
 
-void BitmapObj::setXY(quint32 x, quint32 y, bool val) {
+void BitmapObj::setXY(qint32 x, qint32 y, bool val) {
     bitmap[x / 8][y] = val ? (bitmap[x / 8][y] | (1 << x % 8)) : (bitmap[x / 8][y] & ~(1 << x % 8));
 }
 
- void BitmapObj::setXYGlobalCoordiantes(quint32 _x, quint32 _y, bool val){
+ void BitmapObj::setXYGlobalCoordiantes(qint32 _x, qint32 _y, bool val){
      setXY(_x - x, _y - y, val);
  }
 

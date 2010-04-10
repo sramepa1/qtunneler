@@ -41,8 +41,8 @@ public:
     virtual quint8 getNumRounds();
     virtual void setNumRounds(quint8 _numRounds);
 
-    virtual quint32 getMaxRoundTime();
-    virtual void setMaxRoundTime(quint32 _maxRoundTime);
+    virtual qint32 getMaxRoundTime();
+    virtual void setMaxRoundTime(qint32 _maxRoundTime);
 
     virtual void addPlayer(Player player);
     virtual void updatePlayer(Player player);
@@ -74,7 +74,7 @@ protected:
     quint8 gameMode;
     quint8 numRounds;
 
-    quint32 maxRoundTime;
+    qint32 maxRoundTime;
 
     QVector<Player> players;
     

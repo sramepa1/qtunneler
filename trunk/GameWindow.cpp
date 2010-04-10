@@ -56,7 +56,7 @@ void GameWindow::setStatus(QString status) {
     statusBar->showMessage(status,INT_MAX);
 }
 
-void GameWindow::redrawViewToCenter(quint32 x, quint32 y) {
+void GameWindow::redrawViewToCenter(qint32 x, qint32 y) {
 
     int _x = view->width()/2;
     int _y = view->height()/2;

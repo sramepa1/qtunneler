@@ -25,13 +25,13 @@ public:
     View(QWidget* parent = NULL, Model* _model = NULL);
     virtual ~View();
 
-    virtual void setViewpoint(quint32 x, quint32 y);
+    virtual void setViewpoint(qint32 x, qint32 y);
 
 protected:
     void paintEvent(QPaintEvent* evt);
 
-    quint32 x;
-    quint32 y;
+    qint32 x;
+    qint32 y;
 
     QBrush tunnel;
     QBrush solid;
