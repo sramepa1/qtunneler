@@ -19,7 +19,7 @@ class PacketQueue : public QObject {
 
 public:
     PacketQueue(QObject* parent = NULL) : QObject(parent) {}
-    virtual ~PacketQueue() {}
+    virtual ~PacketQueue() { mutex.unlock(); }
 
     virtual void push(Packet p);
     virtual Packet pop();
