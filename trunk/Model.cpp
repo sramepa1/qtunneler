@@ -19,7 +19,7 @@ Model::Model(QObject* parent) : QObject(parent) {
 
     tanks = new QHash<quint32,Tank*>();
     projectiles = new QHash<quint32,Projectile*>();
-    explosions = new QHash<quint32,Explosion*>();
+    explosions = new QVector<Explosion*>();
 
     init();
 }
@@ -71,7 +71,7 @@ void Model::init() {
     BaseWall * baseWall = new BaseWall(400, 400, 240, 240);
 
     solidObjects->append(baseWall);
-    matrix->invertMaskMatrix(baseWall);
+    matrix->maskMatrix(baseWall);
 
     // ...
     
@@ -247,11 +247,10 @@ void Model::projectileExplosion(quint32 shotID){
     projectiles->remove(shotID);
 
     //make new explosion
-    quint32 id = 1;//TODO gein somehow
-    quint32 seed = 1;//TODO gein somehow
+    quint32 seed = 1;//TODO gain somehow
     
-    Explosion * explosion = new Explosion(shot->getX(), shot->getY(), shot->color, id, seed);
-    explosions->insert(id, explosion);
+    Explosion * explosion = new Explosion(shot->getX(), shot->getY(), shot->color, seed);
+    explosions->append(explosion);
 
     //Burn clue
     matrix->maskMatrix(& explosion->getExplosionMask());
@@ -260,11 +259,19 @@ void Model::projectileExplosion(quint32 shotID){
     foreach(Tank * tank, *tanks){
         if(isTankCollision(explosion)){
             tank->hp -= explosion->countDamageToObj(tank);
-
+            
             if(tank->hp < 0){
                 tank->hp = 0;
                 ; //TODO react - tank destroyed
             }
+        }
+    }
+
+    //destroy projectiles within radius
+    foreach(Projectile * projectile, *projectiles){
+        if(isProjectileCollision(explosion)){
+            projectiles->remove(projectile->id);
+            delete projectile;
         }
     }
 }
