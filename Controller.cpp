@@ -13,6 +13,8 @@ Controller::Controller(QObject* parent, Model* _model) : QThread(parent) {
 }
 
 Controller::~Controller() {
+    quit();
+    while(isRunning()) {}
 }
 
 void Controller::run() {

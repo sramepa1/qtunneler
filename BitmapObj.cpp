@@ -102,6 +102,7 @@ const QBitmap* BitmapObj::getQBitmap() {
             }
         }
         qbitmap = new QBitmap(QBitmap::fromData(QSize(width,height),qbitmapdata,QImage::Format_MonoLSB));
+        delete[] qbitmapdata;
     }
 
     return qbitmap;

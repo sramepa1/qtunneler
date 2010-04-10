@@ -36,7 +36,7 @@ void View::paintEvent(QPaintEvent* /*evt*/) {
     // draw tunnel network
     const uchar* data = model->getTunnelBitmapData(0,0,wid,hei);
     tunnel.setTexture(QBitmap::fromData(QSize(wid,hei),data,QImage::Format_MonoLSB));
-    delete data;
+    delete[] data;
     painter.setBrush(tunnel);
     painter.drawRect(0,0,wid,hei);
 

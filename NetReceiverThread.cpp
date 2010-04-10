@@ -18,6 +18,7 @@ NetReceiverThread::NetReceiverThread(QObject* parent, QTcpSocket* socket, Packet
 NetReceiverThread::~NetReceiverThread() {
     delete[] buffer;
     quit();
+    while(isRunning()) {}
 }
 
 void NetReceiverThread::run() {

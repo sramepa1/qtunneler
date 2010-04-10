@@ -15,6 +15,8 @@ Evaluator::Evaluator(QObject* parent) : QThread(parent) {
 
 Evaluator::~Evaluator() {
     dumpSendersAndReceivers();
+    quit();
+    while(isRunning()) {}
 }
 
 void Evaluator::run() {
