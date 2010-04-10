@@ -7,8 +7,8 @@
 
 #include "Evaluator.h"
 
-Evaluator::Evaluator(QObject* parent, Model* _model) : QThread(parent) {
-    model = _model;
+Evaluator::Evaluator(QObject* parent) : QThread(parent) {
+    model = new Model(this);
 }
 
 Evaluator::~Evaluator() {
@@ -50,5 +50,19 @@ void Evaluator::dumpSendersAndReceivers() {
 }
 
 void Evaluator::generateWorldAndStartRound() {
-    //TODO
+
+    // TODO generate everything here
+
+    dispatchAndDeletePacket(new Packet(OP_INIT_START));
+
+    // TODO send everything here
+
+    // TODO Tanks - bypass regular dispatcher - first tank sent = player tank
+    // then just send all tanks everywhere, duplication does not matter
+
+    dispatchAndDeletePacket(new Packet(OP_INIT_END));
+
+    //TODO wait for confirmations
+
+    dispatchAndDeletePacket(new Packet(OP_START_GAME));
 }

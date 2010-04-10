@@ -12,6 +12,9 @@
 #include <QTcpServer>
 #include <QTcpSocket>
 
+
+// this is more or less just a convenience struct...
+
 class Communicator : public QObject {
 
     Q_OBJECT

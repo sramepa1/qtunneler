@@ -30,6 +30,9 @@ public slots:
 
 signals:
 
+    void initInProgress();
+    void gameStarts();
+
     void redraw(quint32 x, quint32 y);
 
     void status(QString status);

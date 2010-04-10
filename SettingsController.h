@@ -37,7 +37,8 @@ public slots:
 
 
 signals:
-    void startGame();
+
+    void connectionEstablished();
 
     void disconnected();
 

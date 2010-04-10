@@ -63,7 +63,6 @@ SOURCES += Base.cpp \
            NetReceiver.cpp \
            NetSender.cpp \
            OrientedRoundObj.cpp \
-           Packet.cpp \
            PacketQueue.cpp \
            Projectile.cpp \
            QueueReceiver.cpp \

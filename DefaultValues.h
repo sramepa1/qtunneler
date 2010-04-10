@@ -13,7 +13,7 @@
 //GUI
 #define APP_NAME_STRING "QTunneler"
 
-//NET
+//Network
 #define CONNECTION_TIMEOUT 3000
 #define SERVER_HELLO "Shields up!\n"
 #define SERVER_HELLO_BUFF_SIZE 16
@@ -44,6 +44,16 @@
 //Map
 #define BORDER_SIZE 20
 
+
+//Packets
+//
+//  TODO use enum instead? <<<<<<<
+//
+#define OP_INIT_START 1
+#define OP_INIT_END 2
+#define OP_INIT_CONFIRM 3
+
+#define OP_START_GAME 4
 
 #endif	/* _DEFAULTVALUES_H */
 

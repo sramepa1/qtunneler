@@ -21,19 +21,19 @@ class Evaluator : public QThread {
     Q_OBJECT
 
 public:
-    Evaluator(QObject* parent = NULL, Model* _model = NULL);
+    Evaluator(QObject* parent = NULL);
     virtual ~Evaluator();
 
     virtual void run();
 
     virtual void addSender(Sender* s);
-    virtual void addReceiver(Receiver* r);
+    virtual void addReceiver(Receiver* r);    
+    
+public slots:
 
     // clear model, generate all world data AND send to all clients via packet dispatch
     // when world confirmed by all clients, dispatches start packets and enters evaluation/dispatch state machine
     virtual void generateWorldAndStartRound();
-    
-public slots:
 
     // Stop thread, dump queue contents, timer, senders and receivers
     virtual void clearStateAndStop();
@@ -50,7 +50,7 @@ protected:
     // state machine: evaluation & dispatch vs. receive & wait
     bool evaluating;
 
-    // not owner!
+    // owner! this is a separate model because of sync problems (one frame ahead) and thread safety
     Model* model;
 
     PacketQueue queue;

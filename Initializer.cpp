@@ -6,6 +6,10 @@
  */
 
 #include "Initializer.h"
+#include "QueueSender.h"
+#include "QueueReceiver.h"
+#include "NetReceiver.h"
+#include "NetSender.h"
 
 Initializer::Initializer() {
     evaluator = NULL;
@@ -34,16 +38,28 @@ void Initializer::initGUI() {
     connect(initDialog, SIGNAL(validateDialog(InitVector)), this, SLOT(validate(InitVector)));
     connect(this, SIGNAL(validated(QString)), initDialog, SLOT(validated(QString)));
 
-    connect(settingsDialog,SIGNAL(startGame()),this,SLOT(initCore()));
-    connect(settingsController,SIGNAL(startGame()),this,SLOT(initCore()));
+    connect(controller,SIGNAL(initInProgress()),this,SLOT(displayInitInProgress()));
+
+
+    // ---------------------------------------------------------------
+    // TODO this is for testing only! startGame() will normally be invoked by controller receiving a start packet!
+
+    connect(settingsDialog,SIGNAL(startGame()),this,SLOT(startGame()));
+
+    // ---------------------------------------------------------------
+
+
 
     connect(settingsDialog,SIGNAL(disconnect()),settingsController,SLOT(closeConnection()));
     connect(settingsController,SIGNAL(disconnected()),initDialog,SLOT(showDialog()));
-
-
+    connect(settingsController,SIGNAL(connectionEstablished()),this,SLOT(initCore()));
+   
     connect(controller,SIGNAL(endGame(QString,bool)),this,SLOT(endGame(QString,bool)));
     connect(controller,SIGNAL(status(QString)),gameWindow,SLOT(setStatus(QString)));
     connect(controller,SIGNAL(redraw(quint32,quint32)),gameWindow,SLOT(redrawView(quint32,quint32)));
+
+    connect(controller,SIGNAL(gameStarts()),this,SLOT(startGame()));
+    connect(controller,SIGNAL(gameStarts()),clicker,SLOT(startClock()));
 }
 
 
@@ -59,28 +75,48 @@ void Initializer::validate(InitVector vec) {
 
 void Initializer::initCore() {
 
-    settingsModel->setStatus(tr("Starting game..."));
-    settingsModel->setReady(false);
-    settingsDialog->reload();
+    controller->resetStateAndStop();
 
     if(settingsModel->isCreating()) {
         if(!evaluator) {
             evaluator = new Evaluator(this);
-            evaluator->start();
+            connect(settingsDialog,SIGNAL(startGame()),evaluator,SLOT(generateWorldAndStartRound()));
+        }else {
+            evaluator->clearStateAndStop();
         }
+
+        evaluator->addSender(new NetSender(evaluator,comm->socket));
+        evaluator->addReceiver(new NetReceiver(evaluator,comm->socket));
+
+        PacketQueue* q = new PacketQueue();
+        evaluator->addSender(new QueueSender(evaluator,q));
+        controller->setReceiver(new QueueReceiver(controller,q));
+
+        q = new PacketQueue();
+        clicker->resetSender(new QueueSender(clicker,q));
+        evaluator->addReceiver(new QueueReceiver(evaluator,q));
+
+        evaluator->start();
+    }else {
+        controller->setReceiver(new NetReceiver(controller,comm->socket));
+        clicker->resetSender(new NetSender(clicker,comm->socket));
     }
-    controller->resetStateAndStop();
 
-    // TODO init senders and receivers!
+    controller->start();   
+}
 
-    controller->start();
-    if(settingsModel->isCreating()) evaluator->generateWorldAndStartRound();
+void Initializer::displayInitInProgress() {
+    settingsModel->setStatus(tr("Starting game..."));
+    settingsModel->setReady(false);
+    settingsDialog->reload();
+}
 
+void Initializer::startGame() {
     disconnect(comm->socket,SIGNAL(disconnected()),0,0);
     connect(comm->socket,SIGNAL(disconnected()),this,SLOT(handleDisconnectInGame()));
 
     settingsDialog->hide();
-    gameWindow->show();    
+    gameWindow->show();
 }
 
 void Initializer::endGame(QString message, bool ok) {

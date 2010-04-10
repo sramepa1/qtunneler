@@ -44,6 +44,7 @@ QString SettingsController::initNetwork(bool create, quint16 port, QString host)
         model->setStatus(tr("Waiting for host to start game..."));
         // client successfuly connected
         connect(comm->socket,SIGNAL(disconnected()),this,SLOT(handleDisconnected()));
+        emit connectionEstablished();
     }
     
     //success
@@ -85,6 +86,7 @@ void SettingsController::handleIncomingConnection() {
         return;
     }
     connect(comm->socket,SIGNAL(disconnected()),this,SLOT(handleDisconnected()));
+    emit connectionEstablished();
 
     //client OK
     model->setStatus(tr("Ready to start game."));
