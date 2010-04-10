@@ -47,7 +47,7 @@ void Initializer::initGUI() {
    
     connect(controller,SIGNAL(endGame(QString,bool)),this,SLOT(endGame(QString,bool)));
     connect(controller,SIGNAL(status(QString)),gameWindow,SLOT(setStatus(QString)));
-    connect(controller,SIGNAL(redrawToCenter(quint32,quint32)),gameWindow,SLOT(redrawViewToCenter(quint32,quint32)));
+    connect(controller,SIGNAL(redrawToCenter(qint32,qint32)),gameWindow,SLOT(redrawViewToCenter(qint32,qint32)));
 
     connect(controller,SIGNAL(gameStarts()),this,SLOT(startGame()));
     connect(controller,SIGNAL(gameStarts()),clicker,SLOT(startClock()));
@@ -58,7 +58,7 @@ void Initializer::initGUI() {
 
 void Initializer::validate(InitVector vec) {
     bool ok = false;
-    quint32 port = vec.port.toUInt(&ok,10);
+    qint32 port = vec.port.toUInt(&ok,10);
     if(!ok || port > 65535 || port == 0) {
         emit validated(vec.port + " is not a valid port number");
     } else {

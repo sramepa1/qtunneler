@@ -15,36 +15,36 @@
 
 class BitmapObj{ //TODO copy constructor
 public:
-    BitmapObj(quint32 _x = 0, quint32 _y = 0,quint32 _width = 0, quint32 _heigth = 0);
+    BitmapObj(qint32 _x = 0, qint32 _y = 0,qint32 _width = 0, qint32 _heigth = 0);
     BitmapObj(const BitmapObj & orig);
 
     virtual ~BitmapObj();
 
-    virtual quint32 getX1() const {return x;}
-    virtual quint32 getY1() const {return y;}
-    virtual quint32 getX2() const {return x + width;}
-    virtual quint32 getY2() const {return y + height;}
-    virtual quint32 getWidth() const {return width;}
-    virtual quint32 getHeight() const {return height;}
+    virtual qint32 getX1() const {return x;}
+    virtual qint32 getY1() const {return y;}
+    virtual qint32 getX2() const {return x + width;}
+    virtual qint32 getY2() const {return y + height;}
+    virtual qint32 getWidth() const {return width;}
+    virtual qint32 getHeight() const {return height;}
 
     virtual const QBitmap* getQBitmap();
     virtual const QColor getColor() const {return color;}
     
-    virtual bool getXY(quint32 x, quint32 y) const;
-    virtual bool getXYGlobalCoordiantes(quint32 _x, quint32 _y) const;
+    virtual bool getXY(qint32 x, qint32 y) const;
+    virtual bool getXYGlobalCoordiantes(qint32 _x, qint32 _y) const;
 
-    virtual quint8 getByte(quint32 xDiv8, quint32 y) const;
+    virtual quint8 getByte(qint32 xDiv8, qint32 y) const;
 
-    virtual void setXY(quint32 x, quint32 y, bool val);
-    virtual void setXYGlobalCoordiantes(quint32 _x, quint32 _y, bool val);
+    virtual void setXY(qint32 x, qint32 y, bool val);
+    virtual void setXYGlobalCoordiantes(qint32 _x, qint32 _y, bool val);
 
-    virtual void setByte(quint32 xDiv8, quint32 y, quint8 val);
+    virtual void setByte(qint32 xDiv8, qint32 y, quint8 val);
     
 protected:
-    quint32 x;
-    quint32 y;
-    quint32 width;
-    quint32 height;
+    qint32 x;
+    qint32 y;
+    qint32 width;
+    qint32 height;
 
     /*        x1
      *      y1+---------+

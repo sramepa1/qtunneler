@@ -12,15 +12,15 @@
 
 class Base {
 public:
-    Base(quint32 _x, quint32 _y, quint32 _width, quint32 _height, quint8 _color) : color(_color), x1(_x), y1(_y), x2(_x + _width), y2(_y + _height) {}
+    Base(qint32 _x, qint32 _y, qint32 _width, qint32 _height, quint8 _color) : color(_color), x1(_x), y1(_y), x2(_x + _width), y2(_y + _height) {}
     virtual ~Base() {}
 
-    virtual bool isWithinBase(quint32 _x, quint32 _y) const;
+    virtual bool isWithinBase(qint32 _x, qint32 _y) const;
     
-    quint32 x1;
-    quint32 y1;
-    quint32 x2;
-    quint32 y2;
+    qint32 x1;
+    qint32 y1;
+    qint32 x2;
+    qint32 y2;
 
     /*                  x2
      *        +---------+y2

@@ -38,7 +38,7 @@ signals:
     void confirmInitEnd();
     void gameStarts();
 
-    void redrawToCenter(quint32 x, quint32 y);
+    void redrawToCenter(qint32 x, qint32 y);
 
     void status(QString status);
 

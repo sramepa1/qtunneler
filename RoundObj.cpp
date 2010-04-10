@@ -7,19 +7,19 @@
 
 #include "RoundObj.h"
 
-void RoundObj::setX(quint32 _x) {
+void RoundObj::setX(qint32 _x) {
     x = _x;
 
     x1 = x - radius;
     x2 = x + radius;
 }
-void RoundObj::setY(quint32 _y) {
+void RoundObj::setY(qint32 _y) {
     y = _y;
 
     y1 = y - radius;
     y2 = y + radius;
 }
-void RoundObj::setRadius(quint32 _radius) {
+void RoundObj::setRadius(qint32 _radius) {
     radius = _radius;
 
     x1 = x - radius;
@@ -28,10 +28,10 @@ void RoundObj::setRadius(quint32 _radius) {
     y2 = y + radius;
 }
 
-bool RoundObj::isWithinCircle(quint32 _x, quint32 _y) const {
+bool RoundObj::isWithinCircle(qint32 _x, qint32 _y) const {
     return ((x - _x) * (x - _x) + (y - _y) * (y - _y)) <= (radius * radius);
 }
 
-quint32 RoundObj::getDistanceFormCenter(quint32 _x, quint32 _y) const {
-    return (quint32) sqrt((x - _x) * (x - _x) + (y - _y) * (y - _y));
+qint32 RoundObj::getDistanceFormCenter(qint32 _x, qint32 _y) const {
+    return (qint32) sqrt((x - _x) * (x - _x) + (y - _y) * (y - _y));
 }

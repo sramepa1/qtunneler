@@ -26,7 +26,7 @@ public slots:
     virtual void hideWindowAndSwitch();
     virtual void exit();
 
-    void redrawViewToCenter(quint32 x, quint32 y);
+    void redrawViewToCenter(qint32 x, qint32 y);
 
     // sets statusbar message (near-permanent). Maybe TODO replace with progressbars etc...
     virtual void setStatus(QString status);

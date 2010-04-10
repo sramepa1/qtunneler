@@ -13,7 +13,7 @@
 
 class RoundObj {
 public:
-    RoundObj(quint32 _x, quint32 _y, quint32 _radius,quint8 _color, quint32 _id) : x(_x), y(_y), radius(_radius), color(_color), id(_id) {}
+    RoundObj(qint32 _x, qint32 _y, qint32 _radius,quint8 _color, qint32 _id) : x(_x), y(_y), radius(_radius), color(_color), id(_id) {}
    
     //RoundObj(const RoundObj& orig) {} // implicit
 
@@ -22,38 +22,38 @@ public:
     /**
      * Check if given cooridantes colide witch circle
      */
-    virtual bool isWithinCircle(quint32 _x, quint32 _y) const;
+    virtual bool isWithinCircle(qint32 _x, qint32 _y) const;
 
     /**
      * Get absolute value of distance (round down) form center.
      */
-    virtual quint32 getDistanceFormCenter(quint32 _x, quint32 _y) const; //TODO refaktor name
+    virtual qint32 getDistanceFormCenter(qint32 _x, qint32 _y) const; //TODO refaktor name
 
-    quint32 getX() const {return x;}
-    quint32 getY() const {return y;}
-    quint32 getRadius() const {return radius;}
+    qint32 getX() const {return x;}
+    qint32 getY() const {return y;}
+    qint32 getRadius() const {return radius;}
 
-    void setX(quint32 _x);
-    void setY(quint32 _y);
-    void setRadius(quint32 _radius);
+    void setX(qint32 _x);
+    void setY(qint32 _y);
+    void setRadius(qint32 _radius);
 
-    quint32 getX1() const {return x1;}
-    quint32 getY1() const {return y1;}
-    quint32 getX2() const {return x2;}
-    quint32 getY2() const {return y2;}
+    qint32 getX1() const {return x1;}
+    qint32 getY1() const {return y1;}
+    qint32 getX2() const {return x2;}
+    qint32 getY2() const {return y2;}
 
     quint8 color;
-    quint32 id;
+    qint32 id;
 
 protected:
-    quint32 x1;
-    quint32 y1;
-    quint32 x2;
-    quint32 y2;
+    qint32 x1;
+    qint32 y1;
+    qint32 x2;
+    qint32 y2;
 
-    quint32 x;
-    quint32 y;
-    quint32 radius;
+    qint32 x;
+    qint32 y;
+    qint32 radius;
     
 };
 

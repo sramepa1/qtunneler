@@ -15,7 +15,7 @@
 
 class Tank : public OrientedRoundObj {
 public:
-    Tank(quint32 x, quint32 y, quint8 color, quint32 id) : OrientedRoundObj(x, y, TANK_RADIUS, color, id, DEFAULT_TANK_ROTATION) {
+    Tank(qint32 x, qint32 y, quint8 color, qint32 id) : OrientedRoundObj(x, y, TANK_RADIUS, color, id, DEFAULT_TANK_ROTATION) {
         hp = DEFAULT_TANK_HP;
         energy = DEFAULT_TANK_ENERGY;
     }

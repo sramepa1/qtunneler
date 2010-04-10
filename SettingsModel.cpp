@@ -69,11 +69,11 @@ void SettingsModel::setNumRounds(quint8 _numRounds) {
 }
 
 
-quint32 SettingsModel::getMaxRoundTime() {
+qint32 SettingsModel::getMaxRoundTime() {
     return maxRoundTime;
 }
 
-void SettingsModel::setMaxRoundTime(quint32 _maxRoundTime) {
+void SettingsModel::setMaxRoundTime(qint32 _maxRoundTime) {
     maxRoundTime = _maxRoundTime;
 }
 

@@ -61,7 +61,7 @@ void View::paintEvent(QPaintEvent* /*evt*/) {
     //TODO draw tanks
 }
 
-void View::setViewpoint(quint32 _x, quint32 _y) {
+void View::setViewpoint(qint32 _x, qint32 _y) {
     x = _x;
     y = _y;
 }
