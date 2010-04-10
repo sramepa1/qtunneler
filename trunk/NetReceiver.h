@@ -11,6 +11,8 @@
 #include <QtNetwork>
 
 #include "Receiver.h"
+#include "QueueReceiver.h"
+#include "NetReceiverThread.h"
 
 class NetReceiver : public Receiver {
 
@@ -18,15 +20,21 @@ class NetReceiver : public Receiver {
 
 public:
     NetReceiver(QObject* parent = NULL, QTcpSocket* socket = NULL);
-    virtual ~NetReceiver();
+    virtual ~NetReceiver() {}
 
-    virtual bool hasPacketReady();
-    virtual Packet getPacket();
+    virtual bool hasPacketReady() { return queueRec->hasPacketReady(); }
+    virtual Packet getPacket() { return queueRec->getPacket(); }
+
+protected slots:
+    virtual void packetRead(Receiver* /*rec*/) { emit packetReady(this); }
 
 protected:
 
     // not owner
     QTcpSocket* sock;
+
+    QueueReceiver* queueRec;
+    NetReceiverThread* thread;
 
 };
 

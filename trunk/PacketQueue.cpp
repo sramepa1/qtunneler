@@ -7,32 +7,26 @@
 
 #include "PacketQueue.h"
 
-
-// TODO don't forget synchronization / mutex <<<<<<<<<<<<<<<<<<<<<<
-
-
-PacketQueue::PacketQueue(QObject* parent) : QObject(parent) {
-}
-
-PacketQueue::~PacketQueue() {
-}
-
-Packet PacketQueue::peek() const {
-
-    //TODO
-
-    return Packet();
+const Packet PacketQueue::peek() const {
+    return queue.empty() ? Packet() : queue.first();
 }
 
 Packet PacketQueue::pop() {
-
-    //TODO
-
-    return Packet();
+    qDebug("PacketQueue: pop()");
+    mutex.lock(); // very simple sync, deadlock can't happen
+    Packet p = queue.dequeue();
+    mutex.unlock();
+    return p;
 }
 
 void PacketQueue::push(Packet p) {
+    qDebug("PacketQueue: push()");
+    mutex.lock();
+    queue.enqueue(p);
+    mutex.unlock();
+    emit packetPushed();
+}
 
-    //TODO
-
+bool PacketQueue::isEmpty() const {
+    return queue.empty();
 }

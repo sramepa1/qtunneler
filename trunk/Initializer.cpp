@@ -39,16 +39,7 @@ void Initializer::initGUI() {
     connect(this, SIGNAL(validated(QString)), initDialog, SLOT(validated(QString)));
 
     connect(controller,SIGNAL(initInProgress()),this,SLOT(displayInitInProgress()));
-
-
-    // ---------------------------------------------------------------
-    // TODO this is for testing only! startGame() will normally be invoked by controller receiving a start packet!
-
-    connect(settingsDialog,SIGNAL(startGame()),this,SLOT(startGame()));
-
-    // ---------------------------------------------------------------
-
-
+    connect(controller,SIGNAL(confirmInitEnd()),clicker,SLOT(confirmInitEnd()));
 
     connect(settingsDialog,SIGNAL(disconnect()),settingsController,SLOT(closeConnection()));
     connect(settingsController,SIGNAL(disconnected()),initDialog,SLOT(showDialog()));
@@ -56,10 +47,12 @@ void Initializer::initGUI() {
    
     connect(controller,SIGNAL(endGame(QString,bool)),this,SLOT(endGame(QString,bool)));
     connect(controller,SIGNAL(status(QString)),gameWindow,SLOT(setStatus(QString)));
-    connect(controller,SIGNAL(redraw(quint32,quint32)),gameWindow,SLOT(redrawView(quint32,quint32)));
+    connect(controller,SIGNAL(redrawToCenter(quint32,quint32)),gameWindow,SLOT(redrawViewToCenter(quint32,quint32)));
 
     connect(controller,SIGNAL(gameStarts()),this,SLOT(startGame()));
     connect(controller,SIGNAL(gameStarts()),clicker,SLOT(startClock()));
+
+    connect(gameWindow,SIGNAL(closeConnection()),this,SLOT(closeConnection()));
 }
 
 
@@ -102,7 +95,7 @@ void Initializer::initCore() {
         clicker->resetSender(new NetSender(clicker,comm->socket));
     }
 
-    controller->start();   
+    controller->start(); 
 }
 
 void Initializer::displayInitInProgress() {
@@ -133,5 +126,15 @@ void Initializer::endGame(QString message, bool ok) {
 }
 
 void Initializer::handleDisconnectInGame() {
+    closeConnection();
     endGame(tr("Connection has been lost."),false);
+}
+
+void Initializer::closeConnection() {
+    disconnect(comm->socket,0,0,0);
+    if(settingsModel->isCreating()) {
+        comm->server->close();        
+    }
+    comm->socket->abort();
+    comm->socket->close();
 }

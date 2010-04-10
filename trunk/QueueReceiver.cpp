@@ -10,20 +10,19 @@
 QueueReceiver::QueueReceiver(QObject* parent, PacketQueue* packetQueue) : Receiver(parent) {
     queue = packetQueue;
     queue->setParent(this);
-}
-
-QueueReceiver::~QueueReceiver() {
+    connect(queue,SIGNAL(packetPushed()),this,SLOT(packetPushed()));
 }
 
 Packet QueueReceiver::getPacket() {
-
-    //TODO
-
-    return Packet();
+    qDebug("QueueReceiver: returning packet with opcode %d",queue->peek().opcode);
+    return queue->isEmpty() ? Packet() : queue->pop();
 }
 
 bool QueueReceiver::hasPacketReady() {
-    //TODO
+    return !queue->isEmpty();
+}
 
-    return true;
+void QueueReceiver::packetPushed() {
+    qDebug("QueueReceiver: packet pushed");
+    emit packetReady(this);
 }

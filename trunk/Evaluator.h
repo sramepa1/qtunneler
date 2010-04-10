@@ -38,6 +38,12 @@ public slots:
     // Stop thread, dump queue contents, timer, senders and receivers
     virtual void clearStateAndStop();
 
+protected slots:
+
+    virtual void handlePacket(Receiver* r);
+
+    virtual void evaluateState();
+
 signals:
 
 
@@ -47,16 +53,15 @@ protected:
 
     virtual void dumpSendersAndReceivers();
 
-    // state machine: evaluation & dispatch vs. receive & wait
-    bool evaluating;
-
     // owner! this is a separate model because of sync problems (one frame ahead) and thread safety
     Model* model;
 
-    PacketQueue queue;
+    // TODO implement priority-queue by timecode
 
     QVector<Receiver*> receivers;
     QVector<Sender*> senders;
+
+    int readyCnt;
 
     QTimer timer;
 

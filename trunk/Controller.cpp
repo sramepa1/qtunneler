@@ -25,6 +25,26 @@ void Controller::resetStateAndStop() {
 }
 
 void Controller::setReceiver(Receiver* r) {
-    
+    if(receiver != NULL) {
+        disconnect(receiver,0,0,0);
+        delete receiver;
+    }
+    receiver = r;
+    connect(receiver,SIGNAL(packetReady(Receiver*)),this,SLOT(handlePacket(Receiver*)));
+}
+
+void Controller::handlePacket(Receiver* /*r*/) {
+
+    qDebug("controller got packet");
+    // TODO implement main packet-switch code here!
+
+    Packet pack = receiver->getPacket();
+
+    switch(pack.opcode) {
+        case OP_INIT_START: qDebug("controller init start"); emit initInProgress(); break;
+        case OP_INIT_END: qDebug("controller init end"); emit confirmInitEnd(); break;
+        case OP_START_GAME: qDebug("controller start game"); emit gameStarts(); break;
+    }
+
 }
 

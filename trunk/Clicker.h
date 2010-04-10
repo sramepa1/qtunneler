@@ -12,6 +12,7 @@
 #include <QTime>
 
 #include "Sender.h"
+#include "DefaultValues.h"
 
 class Clicker : public QObject {
 
@@ -24,6 +25,9 @@ public:
     virtual void resetSender(Sender* s);
 
 public slots:
+    // use sender to send confirmation packet
+    virtual void confirmInitEnd();
+
     virtual void startClock();
 
 protected:

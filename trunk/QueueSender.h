@@ -16,10 +16,10 @@ class QueueSender : public Sender {
     Q_OBJECT
 
 public:
-    QueueSender(QObject* parent = NULL, PacketQueue* packetQueue = NULL);
-    virtual ~QueueSender();
+    QueueSender(QObject* parent = NULL, PacketQueue* packetQueue = NULL): Sender(parent), queue(packetQueue) {}
+    virtual ~QueueSender() {}
 
-    virtual void sendPacket(Packet p);
+    virtual void sendPacket(Packet p) { queue->push(p); qDebug("QueueSender: sending %d",p.opcode); }
 
 protected:
 

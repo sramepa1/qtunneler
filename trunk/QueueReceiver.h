@@ -17,10 +17,13 @@ class QueueReceiver : public Receiver {
 
 public:
     QueueReceiver(QObject* parent = NULL, PacketQueue* packetQueue = NULL);
-    virtual ~QueueReceiver();
+    virtual ~QueueReceiver() {}
 
     virtual bool hasPacketReady();
     virtual Packet getPacket();
+
+public slots:
+    virtual void packetPushed();
 
 protected:
 

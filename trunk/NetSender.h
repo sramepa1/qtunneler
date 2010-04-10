@@ -9,7 +9,7 @@
 #define	_NETSENDER_H
 
 #include <QtNetwork>
-
+#include "DefaultValues.h"
 #include "Sender.h"
 
 class NetSender : public Sender {
@@ -18,7 +18,7 @@ class NetSender : public Sender {
 
 public:
     NetSender(QObject* parent = NULL, QTcpSocket* socket = NULL);
-    virtual ~NetSender();
+    virtual ~NetSender() { delete[] buffer; }
 
     virtual void sendPacket(Packet p);
 
@@ -26,6 +26,8 @@ protected:
 
     //not owner
     QTcpSocket* sock;
+
+    char* buffer;
 };
 
 #endif	/* _NETSENDER_H */

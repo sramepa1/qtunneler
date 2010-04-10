@@ -26,10 +26,7 @@ void SettingsModel::setCreating(bool _create) {
 }
 
 bool SettingsModel::isReady() const {
-
-    return true;
-
-    //return ready; TODO uncomment
+    return ready;
 }
 
 void SettingsModel::setReady(bool _ready) {
