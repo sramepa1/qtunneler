@@ -58,7 +58,8 @@ public:
     /**
      * Explosion methods
      */
-    
+
+    //Create exlosion, burn clue in matrix, damage tanks and destroye all projectiles within explosion radius
     void projectileExplosion(quint32 shotID);
 
     /**
@@ -81,11 +82,10 @@ public:
     
     QVector<Base*> * bases;
     QVector<BitmapObj*> * solidObjects; //stones and basewalls
+    QVector<Explosion*> * explosions; //TODO sebrat id
 
     QHash<quint32,Tank*> * tanks;
     QHash<quint32,Projectile*> * projectiles;
-    QHash<quint32,Explosion*> * explosions;
-
 private:
     Model(const Model& orig) {} // disabled
 };

@@ -31,6 +31,7 @@ public:
 
 protected:
     quint8** arr;
+    // 1 represents clue, 0 represents tunnel
 
 private:
     Matrix(const Matrix& orig) {} // disabled

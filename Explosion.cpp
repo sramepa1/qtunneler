@@ -11,14 +11,25 @@
 BitmapObj Explosion::getExplosionMask() {
 
     BitmapObj mask(x1, y1, 2 * radius, 2 * radius);
+    qsrand(seed);
+    qreal chance;
+    qreal distance;
 
     for (int i = x1; i < x2; i++) {
         for (int j = y1; j < y2; j++) {
+
             //if is in circle
             if(isWithinCircle(i, j)){
-                mask.setXYGlobalCoordiantes(i, j, false); //TODO use random seed
+                chance = (qrand() / RAND_MAX) + EXPLOSION_RAND_INCREASE;
+                distance = getDistanceFormCenter(i, j) / radius;
+
+                if(chance >= distance){
+                    mask.setXYGlobalCoordiantes(i, j, true);
+                }else{
+                    mask.setXYGlobalCoordiantes(i, j, false);
+                }  
             }else{
-                mask.setXYGlobalCoordiantes(i, j, true);
+                mask.setXYGlobalCoordiantes(i, j, false);
             }
         }
     }
