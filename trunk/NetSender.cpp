@@ -7,7 +7,8 @@
 
 #include "NetSender.h"
 
-NetSender::NetSender() {
+NetSender::NetSender(QObject* parent, QTcpSocket* socket) : Sender(parent) {
+    sock = socket;
 }
 
 NetSender::~NetSender() {
@@ -15,4 +16,6 @@ NetSender::~NetSender() {
 
 void NetSender::sendPacket(Packet p) {
 
+    //TODO
+    
 }

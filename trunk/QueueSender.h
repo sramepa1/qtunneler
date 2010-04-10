@@ -12,17 +12,20 @@
 #include "PacketQueue.h"
 
 class QueueSender : public Sender {
+
+    Q_OBJECT
+
 public:
-    QueueSender();
+    QueueSender(QObject* parent = NULL, PacketQueue* packetQueue = NULL);
     virtual ~QueueSender();
 
     virtual void sendPacket(Packet p);
 
 protected:
+
+    // not owner
     PacketQueue* queue;
 
-private:
-    QueueSender(const QueueSender& orig) {} // disabled
 };
 
 #endif	/* _QUEUESENDER_H */

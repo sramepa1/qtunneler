@@ -8,16 +8,22 @@
 #ifndef _RECEIVER_H
 #define	_RECEIVER_H
 
+#include <QObject>
+
 #include "Packet.h"
 
 
 // interface
 
-class Receiver {
+class Receiver : public QObject {
+
+    Q_OBJECT
+
 public:
-    Receiver() {}
+    Receiver(QObject* parent = NULL) : QObject(parent) {}
     virtual ~Receiver() {}
 
+    virtual bool hasPacketReady() =0;
     virtual Packet getPacket() =0;
 };
 

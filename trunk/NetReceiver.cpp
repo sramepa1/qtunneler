@@ -7,7 +7,8 @@
 
 #include "NetReceiver.h"
 
-NetReceiver::NetReceiver() {
+NetReceiver::NetReceiver(QObject* parent, QTcpSocket* socket) : Receiver(parent) {
+    sock = socket;
 }
 
 NetReceiver::~NetReceiver() {
@@ -16,4 +17,14 @@ NetReceiver::~NetReceiver() {
 
 Packet NetReceiver::getPacket() {
 
+    //TODO
+
+    return Packet();
+}
+
+bool NetReceiver::hasPacketReady() {
+
+    //TODO
+
+    return false;
 }

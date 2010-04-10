@@ -19,3 +19,8 @@ void Clicker::resetSender(Sender* s) {
     if(sender != NULL) delete sender;
     sender = s;
 }
+
+void Clicker::startClock() {
+    time.setHMS(0,0,0,0);
+    time.start();
+}

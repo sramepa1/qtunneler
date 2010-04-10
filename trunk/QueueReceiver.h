@@ -12,17 +12,21 @@
 #include "PacketQueue.h"
 
 class QueueReceiver : public Receiver {
+
+    Q_OBJECT
+
 public:
-    QueueReceiver(PacketQueue* q);
+    QueueReceiver(QObject* parent = NULL, PacketQueue* packetQueue = NULL);
     virtual ~QueueReceiver();
 
+    virtual bool hasPacketReady();
     virtual Packet getPacket();
 
 protected:
+
+    // owner and parent
     PacketQueue* queue;
 
-private:
-    QueueReceiver(const QueueReceiver& orig) {} // disabled
 };
 
 #endif	/* _QUEUERECEIVER_H */

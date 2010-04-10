@@ -11,11 +11,14 @@
 #include <QtCore>
 #include "Packet.h"
 
-// TODO Synchronized class, needs mutexes
+// Synchronized class, needs mutex
 
-class PacketQueue {
+class PacketQueue : public QObject {
+
+    Q_OBJECT
+
 public:
-    PacketQueue();    
+    PacketQueue(QObject* parent = NULL);
     virtual ~PacketQueue();
 
     virtual void push(Packet p);
@@ -24,9 +27,9 @@ public:
 
 protected:
     QQueue<Packet> queue;
+    
+    QMutex mutex;
 
-private:
-    PacketQueue(const PacketQueue& orig) {} // disabled
 };
 
 #endif	/* _PACKETQUEUE_H */

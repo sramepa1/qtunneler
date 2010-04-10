@@ -9,6 +9,7 @@
 #define	_CLICKER_H
 
 #include <QObject>
+#include <QTime>
 
 #include "Sender.h"
 
@@ -22,9 +23,13 @@ public:
 
     virtual void resetSender(Sender* s);
 
+public slots:
+    virtual void startClock();
+
 protected:
 
     Sender* sender;
+    QTime time;
 
 private:    
     Clicker(const Clicker& orig) {} // disabled

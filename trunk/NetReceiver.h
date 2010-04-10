@@ -13,14 +13,21 @@
 #include "Receiver.h"
 
 class NetReceiver : public Receiver {
+
+    Q_OBJECT
+
 public:
-    NetReceiver();
+    NetReceiver(QObject* parent = NULL, QTcpSocket* socket = NULL);
     virtual ~NetReceiver();
 
+    virtual bool hasPacketReady();
     virtual Packet getPacket();
 
-private:
-    NetReceiver(const NetReceiver& orig) {} // disabled
+protected:
+
+    // not owner
+    QTcpSocket* sock;
+
 };
 
 #endif	/* _NETRECEIVER_H */

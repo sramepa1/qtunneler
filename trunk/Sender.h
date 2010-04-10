@@ -8,14 +8,19 @@
 #ifndef _SENDER_H
 #define	_SENDER_H
 
+#include <QObject>
+
 #include "Packet.h"
 
 
 // interface
 
-class Sender {
+class Sender : public QObject {
+
+    Q_OBJECT
+
 public:
-    Sender() {}
+    Sender(QObject* parent = NULL) : QObject(parent) {}
     virtual ~Sender() {}
 
     virtual void sendPacket(Packet p) =0;

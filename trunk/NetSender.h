@@ -12,15 +12,20 @@
 
 #include "Sender.h"
 
-class NetSender : public Sender{
+class NetSender : public Sender {
+
+    Q_OBJECT
+
 public:
-    NetSender();    
+    NetSender(QObject* parent = NULL, QTcpSocket* socket = NULL);
     virtual ~NetSender();
 
     virtual void sendPacket(Packet p);
 
-private:
-    NetSender(const NetSender& orig) {} // disabled
+protected:
+
+    //not owner
+    QTcpSocket* sock;
 };
 
 #endif	/* _NETSENDER_H */

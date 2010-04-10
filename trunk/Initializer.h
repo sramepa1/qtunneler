@@ -44,6 +44,12 @@ public slots:
     // Starts game core. Or REinitializes, core might already be present from last game.
     virtual void initCore();
 
+    // Displays info message - generating world / receiving it
+    virtual void displayInitInProgress();
+
+    // Executes world initialization and starts actual game.
+    virtual void startGame();
+
     // Displays a message box and then hides GameWindow and shows InitDialog. Final stats or error.
     virtual void endGame(QString message, bool ok);
 
