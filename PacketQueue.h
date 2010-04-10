@@ -18,12 +18,17 @@ class PacketQueue : public QObject {
     Q_OBJECT
 
 public:
-    PacketQueue(QObject* parent = NULL);
-    virtual ~PacketQueue();
+    PacketQueue(QObject* parent = NULL) : QObject(parent) {}
+    virtual ~PacketQueue() {}
 
     virtual void push(Packet p);
     virtual Packet pop();
-    virtual Packet peek() const;
+
+    virtual const Packet peek() const;
+    virtual bool isEmpty() const;
+
+signals:
+    virtual void packetPushed();
 
 protected:
     QQueue<Packet> queue;

@@ -9,6 +9,8 @@
 
 Evaluator::Evaluator(QObject* parent) : QThread(parent) {
     model = new Model(this);
+    readyCnt = 0;
+    connect(&timer,SIGNAL(timeout()),this,SLOT(evaluateState()));
 }
 
 Evaluator::~Evaluator() {
@@ -31,9 +33,12 @@ void Evaluator::addSender(Sender* s) {
 
 void Evaluator::addReceiver(Receiver* r) {
     receivers.push_back(r);
+    connect(r,SIGNAL(packetReady(Receiver*)),this,SLOT(handlePacket(Receiver*)));
 }
 
 void Evaluator::clearStateAndStop() {
+    readyCnt = 0;
+    timer.stop();
     dumpSendersAndReceivers();
     quit();
 }
@@ -44,6 +49,7 @@ void Evaluator::dumpSendersAndReceivers() {
     }
     senders.clear();
     foreach(Receiver* r,receivers) {
+        disconnect(r,0,0,0);
         delete r;
     }
     receivers.clear();
@@ -52,7 +58,7 @@ void Evaluator::dumpSendersAndReceivers() {
 void Evaluator::generateWorldAndStartRound() {
 
     // TODO generate everything here
-
+    qDebug("evaluator - starting");
     dispatchAndDeletePacket(new Packet(OP_INIT_START));
 
     // TODO send everything here
@@ -61,8 +67,25 @@ void Evaluator::generateWorldAndStartRound() {
     // then just send all tanks everywhere, duplication does not matter
 
     dispatchAndDeletePacket(new Packet(OP_INIT_END));
+    // will now wait for confirmations to arrive
+}
 
-    //TODO wait for confirmations
+void Evaluator::handlePacket(Receiver* r) {
+    qDebug("evaluator got packet");
+    Packet p = r->getPacket();
+    if(p.opcode == OP_INIT_CONFIRM && ++readyCnt == receivers.size()) {
+        qDebug("evaluator dispatching start packet");
+        dispatchAndDeletePacket(new Packet(OP_START_GAME));
+        timer.start(FRAME_MSECS);
+    } else {
 
-    dispatchAndDeletePacket(new Packet(OP_START_GAME));
+        // TODO add p to priority queue !!!
+
+    }
+}
+
+void Evaluator::evaluateState() {
+
+    // TODO main state-evaluation code here - go through queue, evaluate, dispatch packets
+    timer.start(FRAME_MSECS);
 }

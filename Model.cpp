@@ -34,26 +34,26 @@ Model::~Model() {
     }
     delete bases;
 
-    //Delete vecObjects
+    //Delete solidObjects
     for (int i = 0; i < solidObjects->size(); i++) {
         delete (*solidObjects)[i];
     }
     delete solidObjects;
 
-    //Delete tanks
+    //Delete projectiles
     for (int i = 0; i < projectiles->size(); i++) {
         delete (*projectiles)[i];
     }
     delete projectiles;
 
-    //Delete projectiles
+    //Delete tanks
     for (int i = 0; i < tanks->size(); i++) {
         delete (*tanks)[i];
     }
     delete tanks;
 
     //Delete explosions
-    for (int i = 0; i < tanks->size(); i++) {
+    for (int i = 0; i < explosions->size(); i++) {
         delete (*explosions)[i];
     }
     delete explosions;

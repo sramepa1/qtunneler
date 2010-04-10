@@ -25,6 +25,9 @@ public:
 
     virtual bool hasPacketReady() =0;
     virtual Packet getPacket() =0;
+
+signals:
+    virtual void packetReady(Receiver* self);
 };
 
 #endif	/* _RECEIVER_H */

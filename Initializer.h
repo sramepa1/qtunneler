@@ -53,6 +53,7 @@ public slots:
     // Displays a message box and then hides GameWindow and shows InitDialog. Final stats or error.
     virtual void endGame(QString message, bool ok);
 
+    virtual void closeConnection();
     virtual void handleDisconnectInGame();
 
 signals:

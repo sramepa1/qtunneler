@@ -9,22 +9,9 @@
 
 NetReceiver::NetReceiver(QObject* parent, QTcpSocket* socket) : Receiver(parent) {
     sock = socket;
-}
-
-NetReceiver::~NetReceiver() {
-}
-
-
-Packet NetReceiver::getPacket() {
-
-    //TODO
-
-    return Packet();
-}
-
-bool NetReceiver::hasPacketReady() {
-
-    //TODO
-
-    return false;
+    PacketQueue* q = new PacketQueue();
+    thread = new NetReceiverThread(this,socket,q);
+    queueRec = new QueueReceiver(this,q);
+    connect(queueRec,SIGNAL(packetReady(Receiver*)),this,SLOT(packetRead(Receiver*)));
+    thread->start();
 }

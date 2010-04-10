@@ -29,6 +29,7 @@ HEADERS += Base.h \
            Matrix.h \
            Model.h \
            NetReceiver.h \
+           NetReceiverThread.h \
            NetSender.h \
            OrientedRoundObj.h \
            Packet.h \
@@ -61,12 +62,12 @@ SOURCES += Base.cpp \
            Matrix.cpp \
            Model.cpp \
            NetReceiver.cpp \
+           NetReceiverThread.cpp \
            NetSender.cpp \
            OrientedRoundObj.cpp \
            PacketQueue.cpp \
            Projectile.cpp \
            QueueReceiver.cpp \
-           QueueSender.cpp \
            RoundObj.cpp \
            SettingsController.cpp \
            SettingsDialog.cpp \

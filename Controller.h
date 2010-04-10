@@ -9,6 +9,8 @@
 #define	_CONTROLLER_H
 
 #include <QtCore>
+
+#include "DefaultValues.h"
 #include "Receiver.h"
 #include "Model.h"
 
@@ -28,12 +30,15 @@ public:
 
 public slots:
 
+    virtual void handlePacket(Receiver* /*r*/);
+
 signals:
 
     void initInProgress();
+    void confirmInitEnd();
     void gameStarts();
 
-    void redraw(quint32 x, quint32 y);
+    void redrawToCenter(quint32 x, quint32 y);
 
     void status(QString status);
 

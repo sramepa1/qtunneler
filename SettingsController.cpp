@@ -8,6 +8,8 @@
 #include "SettingsController.h"
 #include "DefaultValues.h"
 
+#include <iostream>
+
 SettingsController::SettingsController(QObject* parent, SettingsModel* _model, SettingsDialog* _dialog, Communicator* _comm) : QObject(parent) {
     model = _model;
     dialog = _dialog;
@@ -26,16 +28,25 @@ QString SettingsController::initNetwork(bool create, quint16 port, QString host)
         // server started
     }else {
         comm->socket->abort();
+        comm->socket->close();
         comm->socket->connectToHost(host, port);
         if(!comm->socket->waitForConnected(CONNECTION_TIMEOUT)) return comm->socket->errorString();
         // TCP established
         if(!comm->socket->waitForReadyRead(CONNECTION_TIMEOUT)){
             comm->socket->abort();
+            comm->socket->close();
             return tr("Server is not responding or is not a QTunneler server.");
         }
         QString response(comm->socket->readLine(SERVER_HELLO_BUFF_SIZE));
+        if(response.isEmpty()) {
+            QString s = comm->socket->errorString();
+            comm->socket->abort();
+            comm->socket->close();
+            return s;
+        }
         if(response.compare(SERVER_HELLO) != 0) {
             comm->socket->abort();
+            comm->socket->close();
             return tr("Not a QTunneler server.");
         }
         // Server OK
@@ -57,6 +68,7 @@ void SettingsController::closeConnection() {
         comm->server->close();
     }
     comm->socket->abort();
+    comm->socket->close();
     dialog->hide();
     emit disconnected();
 }
@@ -64,6 +76,7 @@ void SettingsController::closeConnection() {
 void SettingsController::handleIncomingConnection() {
     //cleanup old socket
     comm->socket->abort();
+    comm->socket->close();
     delete comm->socket;
     //get client
     comm->socket = comm->server->nextPendingConnection();
@@ -76,12 +89,14 @@ void SettingsController::handleIncomingConnection() {
     //test client
     if(!comm->socket->waitForReadyRead(CONNECTION_TIMEOUT)) {
         comm->socket->abort();
+        comm->socket->close();
         initServer();
         return;
     }
     QString response(comm->socket->readLine(CLIENT_HELLO_BUFF_SIZE));
     if(response.compare(CLIENT_HELLO) != 0) {
         comm->socket->abort();
+        comm->socket->close();
         initServer();
         return;
     }

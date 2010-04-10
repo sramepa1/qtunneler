@@ -24,3 +24,7 @@ void Clicker::startClock() {
     time.setHMS(0,0,0,0);
     time.start();
 }
+
+void Clicker::confirmInitEnd() {
+    sender->sendPacket(Packet(OP_INIT_CONFIRM));
+}

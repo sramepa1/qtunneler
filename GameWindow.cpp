@@ -43,10 +43,12 @@ GameWindow::GameWindow(Model* model) {
 
 void GameWindow::hideWindowAndSwitch() {
     hide();
+    emit closeConnection();
     emit switchToDialog();
 }
 
 void GameWindow::exit() {
+    emit closeConnection();
     close();
 }
 
@@ -54,7 +56,14 @@ void GameWindow::setStatus(QString status) {
     statusBar->showMessage(status,INT_MAX);
 }
 
-void GameWindow::redrawView(quint32 x, quint32 y) {
-    view->setViewpoint(x,y);
+void GameWindow::redrawViewToCenter(quint32 x, quint32 y) {
+
+    int _x = view->width()/2;
+    int _y = view->height()/2;
+    
+    _x = x + _x >= MATRIX_DIMENSION ? MATRIX_DIMENSION - view->width() -1 : x-_x;
+    _y = y + _y >= MATRIX_DIMENSION ? MATRIX_DIMENSION - view->height() - 1 : y-_y;
+
+    view->setViewpoint(_x < 0 ? 0 : _x, _y < 0 ? 0 : _y);
     view->update();
 }
