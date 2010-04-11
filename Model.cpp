@@ -9,7 +9,8 @@
 #include "BaseWall.h"
 #include "Stone.h"
 
-#include <iostream>
+#include <qt4/QtGui/qtextdocument.h>
+#include <qt4/QtGui/qsystemtrayicon.h>
 
 Model::Model(QObject* parent) : QObject(parent) {
     matrix = new Matrix();
@@ -63,7 +64,10 @@ Model::~Model() {
 void Model::init() {
     //TODO iniclialize game
 
-    //Testing purposes
+    //Init ID Providers
+    nextProjectileID = 0;
+
+    // ----------------------Testing purposes
 
     //create bases and basewalls
 
@@ -132,6 +136,35 @@ QVector<BitmapObj*> Model::getSolidObjInRect(qint32 x, qint32 y, qint32 width, q
         if(checkRectOverlap(x, y, x + width, y + height, obj->getX1(), obj->getY1(), obj->getX2(), obj->getY2())){
             vector.append(obj);
         }
+    }
+
+    return vector;
+}
+
+QVector<QRect> Model::getBorderInRect(qint32 x1, qint32 y1, qint32 width, qint32 height) const{
+    QVector<QRect> vector;
+    
+    qint32 x2 = x1 + width;
+    qint32 y2 = y1 + height;
+
+    //top rectangle
+    if(checkRectOverlap(0, 0, MATRIX_DIMENSION, BORDER_SIZE,  x1, y1, x2, y2)){
+        vector.append(QRect(QPoint(x1, y1), QPoint(x2, BORDER_SIZE)));
+    }
+
+    //rigth rectangle
+    if(checkRectOverlap(MATRIX_DIMENSION - BORDER_SIZE, 0, MATRIX_DIMENSION, MATRIX_DIMENSION,  x1, y1, x2, y2)){
+        vector.append(QRect(QPoint(MATRIX_DIMENSION - BORDER_SIZE, y1), QPoint(x2, y2)));
+    }
+
+    //bottum rectangle
+    if(checkRectOverlap(0, MATRIX_DIMENSION - BORDER_SIZE, MATRIX_DIMENSION, MATRIX_DIMENSION,  x1, y1, x2, y2)){
+        vector.append(QRect(QPoint(x1, MATRIX_DIMENSION - BORDER_SIZE), QPoint(x2, y2)));
+    }
+
+    //left rectangle
+    if(checkRectOverlap(0, 0, BORDER_SIZE, MATRIX_DIMENSION,  x1, y1, x2, y2)){
+        vector.append(QRect(QPoint(x1, y1), QPoint(BORDER_SIZE, y2)));
     }
 
     return vector;
@@ -284,6 +317,23 @@ void Model::tankFire(qint32 tankID){
     Projectile * projectile = new Projectile(tank->fire());
 
     projectiles->insert(projectile->id, projectile);
+}
+
+qint32 Model::getPixelCountInCircle(const RoundObj * obj){
+    RoundObj round(*obj);
+    round.setRadius(round.getRadius() + 1);
+
+    qint32 count = 0;
+
+    for (int i = round.getX1(); i < round.getX2(); i++) {
+        for (int j = round.getY1(); j < round.getY2(); j++) {
+            if(round.isWithinCircle(i, j) && matrix->getXY(i,j)){
+                ++count;
+            }
+        }
+    }
+
+    return count;
 }
 
 int Model::getFirstTankID() {

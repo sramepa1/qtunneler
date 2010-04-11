@@ -43,6 +43,7 @@ public:
      * Object drawing
      */
     virtual QVector<BitmapObj*> getSolidObjInRect(qint32 x, qint32 y, qint32 width, qint32 height) const;
+    virtual QVector<QRect> getBorderInRect(qint32 x, qint32 y, qint32 width, qint32 height) const;
 
     virtual QVector<QPoint> getShotsInRect(qint32 x, qint32 y, qint32 width, qint32 height) const;
 
@@ -50,6 +51,7 @@ public:
      * To correctly send user command packets
      */
     virtual int getFirstTankID();
+    quint32 provideProjectileID() { return nextProjectileID++;}
 
     /**
      * Collision detection;
@@ -75,6 +77,7 @@ public:
      */
     
     void tankFire(qint32 tankID);
+    qint32 getPixelCountInCircle(const RoundObj * obj);
 
     /**
      * Static methods
@@ -94,6 +97,10 @@ public:
 
     QHash<qint32,Tank*> * tanks;
     QHash<qint32,Projectile*> * projectiles;
+
+protected:
+    quint32 nextProjectileID;
+
 private:
     Model(const Model& orig) {} // disabled
 };

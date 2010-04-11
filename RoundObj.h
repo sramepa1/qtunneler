@@ -27,7 +27,7 @@ public:
     /**
      * Get absolute value of distance (round down) form center.
      */
-    virtual qint32 getDistanceFormCenter(qint32 _x, qint32 _y) const; //TODO refaktor name
+    virtual qint32 getDistanceFormCenter(qint32 _x, qint32 _y) const;
 
     qint32 getX() const {return x;}
     qint32 getY() const {return y;}
