@@ -14,6 +14,7 @@ View::View(QWidget* parent, Model* _model, Clicker* _clicker) : QWidget(parent),
     tunnel.setColor(Qt::black);
     solid.setColor(Qt::gray);
     border.setColor(Qt::darkGray);
+    border.setStyle(Qt::SolidPattern);
     shot.setColor(Qt::yellow);
     tile = QPixmap::fromImage(QImage(":/tile.png"));
     x = y = 0;
@@ -39,6 +40,14 @@ void View::paintEvent(QPaintEvent* /*evt*/) {
     painter.drawPixmap(0,0,QBitmap::fromData(QSize(wid,hei),data,QImage::Format_MonoLSB));
     delete[] data;
 
+    // draw border
+    painter.setPen(Qt::NoPen);
+    painter.setBrush(border);
+    QVector<QRect> borders = model->getBorderInRect(x,y,wid,hei);
+    foreach(QRect r, borders) {
+        painter.drawRect(r.x() - x, r.y() - y, r.width(), r.height());
+    }
+
     // draw bitmap objects
     QVector<BitmapObj*> bitmaps = model->getSolidObjInRect(x,y,wid,hei);
     foreach(BitmapObj* bmp, bitmaps) {
@@ -47,12 +56,8 @@ void View::paintEvent(QPaintEvent* /*evt*/) {
         painter.drawPixmap(bmp->getX1() - x, bmp->getY1() - y,*(bmp->getQBitmap()));
     }
 
-    // draw border
-    painter.setPen(Qt::NoPen);
-    painter.setBrush(border);
-    //TODO call model
-
     // draw shots
+    painter.setPen(Qt::NoPen);
     QPoint view(x,y);
     painter.setBrush(shot);
     QVector<QPoint> shots = model->getShotsInRect(x,y,wid,hei);
