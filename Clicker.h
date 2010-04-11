@@ -32,9 +32,6 @@ public:
 
 public slots:
 
-    // sends difference packets to evaluator
-    virtual void sendState();
-
     // use sender to send confirmation packet
     virtual void confirmInitEnd();
 
@@ -42,11 +39,9 @@ public slots:
 
 protected:
 
-    virtual void checkChanged(uchar val, uchar* stored, int* timecode, bool* flag);
+    virtual void handleChange(uchar val, uchar* stored);
 
     virtual bool handleKey(QKeyEvent* evt, uchar val);
-
-    bool keyHeld;
 
     uchar up;
     uchar down;
@@ -55,25 +50,8 @@ protected:
 
     uchar shoot;
 
-    bool movementChanged;
-    int lastMovementChange;
-
-    bool shootChanged;
-    int lastShootChange;
-
     Sender* sender;
     QTime time;
-
-    QTimer timer;
-
-    struct MyEvt {
-        uchar val;
-        uchar* stored;
-        int* timecode;
-        bool* flag;
-    };
-
-    QQueue<MyEvt> queue;
 
     //not owner
     Model* model;

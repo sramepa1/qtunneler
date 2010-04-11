@@ -49,13 +49,15 @@
 //Map
 #define BORDER_SIZE TANK_RADIUS
 
+//Base and BaseWall
+#define BASE_WIDTH 240
+#define BASE_HEIGHT 240
+
 //Evaluation
 #define FRAME_MSECS 33
 
-//Packets
-//
-//  TODO use enum instead? <<<<<<<
-//
+// Packets //
+// Init packets
 #define OP_NULL_PACKET 0
 
 #define OP_INIT_START 1
@@ -64,6 +66,7 @@
 
 #define OP_START_GAME 4
 
+// Client-to-server packets
 #define OP_MOVE 5
 // OP_MOVE - timecode yes, data1 = tank ID
 // OP_MOVE - data2:
@@ -78,8 +81,40 @@
 #define MOVE_NW 8
 
 #define OP_SHOOT 6
-// OP_SHOOT - timecode yes, data1 = tank ID
-// OP_SHOOT - data2: 1 = commence firing, 0 = cease fire
+// OP_SHOOT - timecode yes, 
+// OP_SHOOT - data1 = tank ID, data2: 1 = commence firing, 0 = cease fire
+
+//Server-to-client packets
+#define OP_TANK 7
+// OP_TANK - timecode used for orientation
+// OP_TANK - data1 = tank ID, data2 = X, data 3 = Y
+
+#define OP_TANK_STATUS 8
+// OP_TANK_STATUS - timecode not used
+// OP_TANK_STATUS - data1 = tank ID, data2 = HP, data3 = energy
+
+#define OP_PROJECTILE 9
+// OP_PROJECTILE - timecode used for orientation
+// OP_PROJECTILE - data1 = projectile ID, data2 = X, data 3 = Y
+
+#define OP_EXPLOSION 10
+// OP_EXPLOSION - timecode used for random seed
+// OP_EXPLOSION - data1 = projectile ID, data2 = X, data 3 = Y
+
+#define OP_TANK_EXPLOSION 11
+// OP_TANK_EXPLOSION - timecode used for random seed
+// OP_TANK_EXPLOSION - data1 = tank ID, data2 = X, data 3 = Y
+
+#define OP_BASE 12
+// OP_BASE - timecode not used, WARNING - this also declares a BaseWall
+// OP_BASE - data1 = tank ID, data2 = X1, data3 = Y1
+
+#define OP_STONE 13
+// OP_STONE - TODO decide what to send
+
+
+#define OP_END_GAME 14
+// OP_END_GAME - data1 = winner tank ID
 
 #endif	/* _DEFAULTVALUES_H */
 

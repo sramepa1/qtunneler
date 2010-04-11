@@ -97,7 +97,7 @@ void Evaluator::handlePacket(Receiver* r) {
         QLinkedList<Packet>::iterator i = list.end();
         while(--i != list.begin() && (*i).timecode >= p.timecode) {}
         
-        if(i != list.begin() || (*i).timecode < p.timecode) {
+        if(i != list.begin() || (*i).timecode <= p.timecode) {
             ++i;
         }
         list.insert(i,p);

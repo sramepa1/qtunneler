@@ -10,10 +10,7 @@
 Clicker::Clicker(QObject* parent, Model* _model) : QObject(parent), model(_model) {
     sender = NULL;
     up = down = left = right = 0;
-    shoot = shootChanged = movementChanged = keyHeld = false;
-    lastShootChange = lastMovementChange = 0;
-    timer.start(FRAME_MSECS);
-    connect(&timer,SIGNAL(timeout()),this,SLOT(sendState()));
+    shoot = false;
 }
 
 Clicker::~Clicker() {
@@ -48,27 +45,23 @@ bool Clicker::handleKey(QKeyEvent* evt, uchar val) {
         return true;
     }
     switch(evt->key()) {
-        case Qt::Key_Right : checkChanged(val, &right, &lastMovementChange, &movementChanged); return true;
-        case Qt::Key_Left : checkChanged(val, &left, &lastMovementChange, &movementChanged); return true;
-        case Qt::Key_Up : checkChanged(val, &up, &lastMovementChange, &movementChanged); return true;
-        case Qt::Key_Down : checkChanged(val, &down, &lastMovementChange, &movementChanged); return true;
-        case Qt::Key_Space : checkChanged(val, &shoot, &lastShootChange, &shootChanged); return true;
+        case Qt::Key_Right : handleChange(val, &right); return true;
+        case Qt::Key_Left : handleChange(val, &left); return true;
+        case Qt::Key_Up : handleChange(val, &up); return true;
+        case Qt::Key_Down : handleChange(val, &down); return true;
+        case Qt::Key_Space : handleChange(val, &shoot); return true;
     }
     return false;
 }
 
-void Clicker::sendState() {
-    bool tmp = keyHeld;
-    keyHeld = true;
-    while(!queue.isEmpty()) {
-        MyEvt e = queue.dequeue();
-        checkChanged(e.val,e.stored,e.timecode,e.flag);
-    }
-    keyHeld = tmp;
-    if(shootChanged) {
-        sender->sendPacket(Packet(OP_SHOOT, lastShootChange, model->getFirstTankID(), shoot ? 1 : 0, 0));
-    }
-    if(movementChanged) {
+void Clicker::handleChange(uchar val, uchar* stored) {
+
+    *stored = val;
+
+    if(stored == &shoot) {
+        sender->sendPacket(Packet(OP_SHOOT, time.elapsed(), model->getFirstTankID(), shoot ? 1 : 0, 0));
+        
+    }else {
         int horizontal = right - left;
         int vertical = up - down;
         int direction;
@@ -91,30 +84,7 @@ void Clicker::sendState() {
                             case 1: direction = MOVE_NE;
                         }
         }
-        sender->sendPacket(Packet(OP_MOVE, lastMovementChange, model->getFirstTankID(), direction, 0));
+        sender->sendPacket(Packet(OP_MOVE, time.elapsed(), model->getFirstTankID(), direction, 0));
     }
-
-    if(shootChanged || movementChanged) sender->flush();
-
-    keyHeld =  right != 0 || left != 0 || up != 0 || down != 0;
-
-    shootChanged = movementChanged = false;
-    timer.start(FRAME_MSECS);
-}
-
-void Clicker::checkChanged(uchar val, uchar* stored, int* timecode, bool* flag) {
-    if(val != *stored) {
-        if(val == 0 && !keyHeld) {
-            MyEvt e;
-            e.val = val;
-            e.stored = stored;
-            e.timecode = timecode;
-            e.flag = flag;
-            queue.enqueue(e);
-        }else {
-            *stored = val;
-            *timecode = time.elapsed();
-            *flag = true;
-        }
-    }
+    sender->flush();
 }
