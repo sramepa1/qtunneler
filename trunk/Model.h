@@ -39,10 +39,17 @@ public:
      */
     virtual const uchar* getTunnelBitmapData(qint32 x, qint32 y, qint32 width, qint32 height) const;
 
-
+    /**
+     * Object drawing
+     */
     virtual QVector<BitmapObj*> getSolidObjInRect(qint32 x, qint32 y, qint32 width, qint32 height) const;
 
     virtual QVector<QPoint> getShotsInRect(qint32 x, qint32 y, qint32 width, qint32 height) const;
+
+    /**
+     * To correctly send user command packets
+     */
+    virtual int getFirstTankID();
 
     /**
      * Collision detection;

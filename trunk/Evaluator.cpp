@@ -11,6 +11,12 @@ Evaluator::Evaluator(QObject* parent) : QThread(parent) {
     model = new Model(this);
     readyCnt = 0;
     connect(&timer,SIGNAL(timeout()),this,SLOT(evaluateState()));
+
+
+    //TODO remove
+    x = 512;
+    y = 388;
+    dx = dy = 0;
 }
 
 Evaluator::~Evaluator() {
@@ -24,9 +30,8 @@ void Evaluator::run() {
     exec();
 }
 
-void Evaluator::dispatchAndDeletePacket(Packet* packet) {
-    foreach(Sender* s, senders) s->sendPacket(*packet);
-    delete packet;
+void Evaluator::dispatchPacket(Packet& packet) {
+    foreach(Sender* s, senders) s->sendPacket(packet);
 }
 
 void Evaluator::addSender(Sender* s) {
@@ -60,34 +65,117 @@ void Evaluator::dumpSendersAndReceivers() {
 void Evaluator::generateWorldAndStartRound() {
 
     // TODO generate everything here
-    qDebug("evaluator - starting");
-    dispatchAndDeletePacket(new Packet(OP_INIT_START));
-
+    
+    Packet p(OP_INIT_START);
+    dispatchPacket(p);
+    
     // TODO send everything here
 
     // TODO Tanks - bypass regular dispatcher - first tank sent = player tank
     // then just send all tanks everywhere, duplication does not matter
 
-    dispatchAndDeletePacket(new Packet(OP_INIT_END));
+    p = Packet(OP_INIT_END);
+    dispatchPacket(p);
     // will now wait for confirmations to arrive
 }
 
 void Evaluator::handlePacket(Receiver* r) {
-    qDebug("evaluator got packet");
+    //qDebug("evaluator got packet");
     Packet p = r->getPacket();
+
+    // handle init confirmation
     if(p.opcode == OP_INIT_CONFIRM && ++readyCnt == receivers.size()) {
-        qDebug("evaluator dispatching start packet");
-        dispatchAndDeletePacket(new Packet(OP_START_GAME));
+        //qDebug("evaluator dispatching start packet");
+        Packet temp(OP_START_GAME);
+        dispatchPacket(temp);
         timer.start(FRAME_MSECS);
+
+    // add to priority queue
+    } else if(list.isEmpty()) {
+        list.append(p);
     } else {
-
-        // TODO add p to priority queue !!!
-
+        QLinkedList<Packet>::iterator i = list.end();
+        while(--i != list.begin() && (*i).timecode >= p.timecode) {}
+        
+        if(i != list.begin() || (*i).timecode < p.timecode) {
+            ++i;
+        }
+        list.insert(i,p);
     }
 }
 
 void Evaluator::evaluateState() {
+    // evaluate packets
+    Packet temp;
+    while(!list.isEmpty()) {
+        
+        Packet p = list.first();
+        //qDebug("Evaluating %d, data1 %d, data2 %d",p.opcode,p.data1,p.data2);
 
-    // TODO main state-evaluation code here - go through queue, evaluate, dispatch packets
+        switch(p.opcode) {
+            case OP_MOVE:  handleTankMovementChange(p.data1,p.data2); break;
+            case OP_SHOOT:  handleTankShootChange(p.data1,p.data2);
+        }
+
+        list.removeFirst();
+    }
+
+
+    // TODO remove - testing code
+    x += dx;
+    y += dy;
+
+    Packet p(424242,0,x,y,0);
+    updatePacket(p);
+
+
+
+
+    //send changes
+    foreach(Packet pack, tempList ) {
+        dispatchPacket(pack);
+        //qDebug("Dispatched opcode %d, data1 %d, data2 %d",pack.opcode,pack.data1,pack.data2);
+    }
+    tempList.clear();
+
+    foreach(Sender* sender, senders) sender->flush();
     timer.start(FRAME_MSECS);
+}
+
+void Evaluator::updatePacket(Packet& p) {
+    bool found = false;
+    //qDebug("Updating %d, data1 %d, data2 %d",p.opcode,p.data1,p.data2);
+    foreach(Packet pack, tempList) {
+        if(pack.opcode == p.opcode) {
+            //qDebug("Found it");
+            found = true;
+            pack = p;
+        }
+    }
+    if(!found) {
+        //qDebug("Not found, appending");
+        tempList.append(p);
+    }
+}
+
+void Evaluator::handleTankMovementChange(int tankID, int newDirection) {
+
+    // TODO implement - check collisions etc. then send tank packet
+
+    int step = 16;
+    switch(newDirection) {
+        case MOVE_STOP : dy = dx = 0; break;
+        case MOVE_N : dy = -step; dx = 0; break;
+        case MOVE_NE : dy = -step; dx = step; break;
+        case MOVE_E : dy = 0; dx = step; break;
+        case MOVE_SE : dy = dx = step; break;
+        case MOVE_S : dy = step; dx = 0; break;
+        case MOVE_SW : dy = step; dx = -step; break;
+        case MOVE_W : dy = 0; dx = -step; break;
+        case MOVE_NW : dy = dx = -step; break;
+    }
+}
+
+void Evaluator::handleTankShootChange(int tankID, int newState) {
+
 }

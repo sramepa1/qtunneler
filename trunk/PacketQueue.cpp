@@ -12,7 +12,7 @@ const Packet PacketQueue::peek() const {
 }
 
 Packet PacketQueue::pop() {
-    qDebug("PacketQueue: pop()");
+    //qDebug("PacketQueue: pop()");
     mutex.lock(); // very simple sync, deadlock can't happen
     Packet p = queue.dequeue();
     mutex.unlock();
@@ -20,7 +20,7 @@ Packet PacketQueue::pop() {
 }
 
 void PacketQueue::push(Packet p) {
-    qDebug("PacketQueue: push()");
+    //qDebug("PacketQueue: push()");
     mutex.lock();
     queue.enqueue(p);
     mutex.unlock();

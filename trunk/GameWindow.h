@@ -19,8 +19,10 @@ class GameWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-    GameWindow(Model* model);
+    GameWindow(Model* model, Clicker* clicker);
     virtual ~GameWindow() {}
+
+    void focusKeyboard();
 
 public slots:
     virtual void hideWindowAndSwitch();

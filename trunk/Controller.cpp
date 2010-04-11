@@ -37,15 +37,17 @@ void Controller::setReceiver(Receiver* r) {
 
 void Controller::handlePacket(Receiver* /*r*/) {
 
-    qDebug("controller got packet");
+    //qDebug("controller got packet");
     // TODO implement main packet-switch code here!
 
     Packet pack = receiver->getPacket();
 
     switch(pack.opcode) {
-        case OP_INIT_START: qDebug("controller init start"); emit initInProgress(); break;
-        case OP_INIT_END: qDebug("controller init end"); emit confirmInitEnd(); break;
-        case OP_START_GAME: qDebug("controller start game"); emit gameStarts(); break;
+        case OP_INIT_START: emit initInProgress(); break;
+        case OP_INIT_END: emit confirmInitEnd(); break;
+        case OP_START_GAME: emit gameStarts(); break;
+
+        case 424242: emit redrawToCenter(pack.data1,pack.data2);
     }
 
 }

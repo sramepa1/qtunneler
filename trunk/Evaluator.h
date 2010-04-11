@@ -49,14 +49,21 @@ signals:
 
 protected:
 
-    virtual void dispatchAndDeletePacket(Packet* packet);
+    virtual void updatePacket(Packet & p);
+    
+    virtual void dispatchPacket(Packet& packet);
 
     virtual void dumpSendersAndReceivers();
+
+
+    virtual void handleTankMovementChange(int tankID, int newDirection);
+    virtual void handleTankShootChange(int tankID, int newState);
 
     // owner! this is a separate model because of sync problems (one frame ahead) and thread safety
     Model* model;
 
-    // TODO implement priority-queue by timecode
+    QLinkedList<Packet> list;
+    QLinkedList<Packet> tempList;
 
     QVector<Receiver*> receivers;
     QVector<Sender*> senders;
@@ -64,6 +71,12 @@ protected:
     int readyCnt;
 
     QTimer timer;
+
+    //testing - TODO remove
+    int x;
+    int y;
+    int dx;
+    int dy;
 
 private:
     Evaluator(const Evaluator& orig) {} // disabled

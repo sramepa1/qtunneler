@@ -25,10 +25,10 @@ void Initializer::initGUI() {
 
     model = new Model(this);
     controller = new Controller(this,model);
-    clicker = new Clicker(this);
+    clicker = new Clicker(this,model);
 
     initDialog = new InitDialog();
-    gameWindow = new GameWindow(model);
+    gameWindow = new GameWindow(model,clicker);
 
     initDialog->show();
 
@@ -110,6 +110,7 @@ void Initializer::startGame() {
 
     settingsDialog->hide();
     gameWindow->show();
+    gameWindow->focusKeyboard();
 }
 
 void Initializer::endGame(QString message, bool ok) {

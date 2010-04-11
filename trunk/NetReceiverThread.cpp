@@ -26,13 +26,13 @@ void NetReceiverThread::run() {
 }
 
 void NetReceiverThread::readBytes() {
-    qDebug("NetThread: readBytes()");
+    //qDebug("NetThread: readBytes()");
     while(sock->bytesAvailable()) {
         sock->getChar((char*)(buffer + writeIndex));
-        qDebug("NetThread: Appending byte %d, value was %X",writeIndex,(uint)*((uchar*)(buffer + writeIndex)));
+        //qDebug("NetThread: Appending byte %d, value was %X",writeIndex,(uint)*((uchar*)(buffer + writeIndex)));
         writeIndex++;
         if(writeIndex >= PACKET_BYTES) {
-            qDebug("NetThread: pushing packet, opcode %d",qFromBigEndian(*((qint32*)(buffer))));
+            //qDebug("NetThread: pushing packet, opcode %d",qFromBigEndian(*((qint32*)(buffer))));
             writeIndex = 0;
             queue->push(Packet(
                 qFromBigEndian(*((qint32*)buffer)),

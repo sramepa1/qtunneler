@@ -8,7 +8,7 @@
 #include "GameWindow.h"
 #include "DefaultValues.h"
 
-GameWindow::GameWindow(Model* model) {
+GameWindow::GameWindow(Model* model,Clicker* clicker) {
 
     setWindowTitle(APP_NAME_STRING);
 
@@ -18,7 +18,7 @@ GameWindow::GameWindow(Model* model) {
     actionCreateJoin = new QAction(tr("&Create/Join"),menuGame);
     actionExit = new QAction(tr("E&xit"),menuGame);
     
-    view = new View(this, model);
+    view = new View(this, model, clicker);
     
     statusBar = new QStatusBar(this);
 
@@ -66,4 +66,9 @@ void GameWindow::redrawViewToCenter(qint32 x, qint32 y) {
 
     view->setViewpoint(_x < 0 ? 0 : _x, _y < 0 ? 0 : _y);
     view->update();
+}
+
+void GameWindow::focusKeyboard() {
+    view->setFocus();
+    view->grabKeyboard();
 }

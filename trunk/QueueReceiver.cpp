@@ -14,7 +14,7 @@ QueueReceiver::QueueReceiver(QObject* parent, PacketQueue* packetQueue) : Receiv
 }
 
 Packet QueueReceiver::getPacket() {
-    qDebug("QueueReceiver: returning packet with opcode %d",queue->peek().opcode);
+    //qDebug("QueueReceiver: returning packet with opcode %d",queue->peek().opcode);
     return queue->isEmpty() ? Packet() : queue->pop();
 }
 
@@ -23,6 +23,6 @@ bool QueueReceiver::hasPacketReady() {
 }
 
 void QueueReceiver::packetPushed() {
-    qDebug("QueueReceiver: packet pushed");
+    //qDebug("QueueReceiver: packet pushed");
     emit packetReady(this);
 }

@@ -64,6 +64,8 @@ InitDialog::InitDialog() {
     buttonBox->show();
 
     connect(buttonBox,SIGNAL(accepted()),this,SLOT(buttonClicked()));
+    connect(hostField,SIGNAL(returnPressed()),this,SLOT(buttonClicked()));
+    connect(portField,SIGNAL(returnPressed()),this,SLOT(buttonClicked()));
 
     connect(createRadio,SIGNAL(clicked()),this,SLOT(createSelected()));
     connect(joinRadio,SIGNAL(clicked()),this,SLOT(joinSelected()));
