@@ -14,15 +14,3 @@ Projectile Tank::fire(){
 
     return Projectile(pair.first, pair.second, color, 111111, rotation); //TODO system for IDs
 }
-
-void Tank::move(qint32 steps){
-    OrientedRoundObj::move(steps);
-
-    energy -= steps * TANK_ENERGY_COST_OF_MOVE;
-}
-
-void Tank::moveInClue(qint32 steps){
-    OrientedRoundObj::move(steps);
-
-    energy -= steps * TANK_ENERGY_COST_OF_MOVE_IN_CLUE;
-}

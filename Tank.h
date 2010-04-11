@@ -12,6 +12,7 @@
 #include "DefaultValues.h"
 #include "OrientedRoundObj.h"
 #include "Projectile.h"
+#include "BitmapObj.h"
 
 class Tank : public OrientedRoundObj {
 public:
@@ -25,8 +26,6 @@ public:
     virtual ~Tank(){}
 
     virtual Projectile fire();
-    virtual void move(qint32 steps = 1);
-    virtual void moveInClue(qint32 steps = 1);
 
     qint32 hp;
     qint32 energy;

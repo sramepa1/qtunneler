@@ -92,7 +92,7 @@ public:
     
     QVector<Base*> * bases;
     QVector<BitmapObj*> * solidObjects; //stones and basewalls
-    QVector<Explosion*> * explosions; //TODO sebrat id
+    QVector<Explosion*> * explosions;
 
     QHash<qint32,Tank*> * tanks;
     QHash<qint32,Projectile*> * projectiles;
@@ -101,6 +101,8 @@ public:
 
 protected:
     quint32 nextProjectileID;
+
+    void cleanContainers();
 
 private:
     Model(const Model& orig) {} // disabled

@@ -14,7 +14,7 @@
 
 Model::Model(QObject* parent) : QObject(parent) {
     matrix = new Matrix();
-    //border = new Border();
+    border = new Border();
 
     bases = new QVector<Base*>();
     solidObjects = new QVector<BitmapObj*>();
@@ -24,50 +24,52 @@ Model::Model(QObject* parent) : QObject(parent) {
     explosions = new QVector<Explosion*>();
 
     playerID = NO_PLAYER;
+    
+    //nextProjectileID - necháme tam smetí?
 
     init();
 }
 
 Model::~Model() {
+    cleanContainers();
+
     delete matrix;
-    //delete border;
-
-    //Delete bases
-    for (int i = 0; i < bases->size(); i++) {
-        delete (*bases)[i];
-    }
+    delete border;
     delete bases;
-
-    //Delete solidObjects
-    for (int i = 0; i < solidObjects->size(); i++) {
-        delete (*solidObjects)[i];
-    }
     delete solidObjects;
-
-    //Delete projectiles
-    for (int i = 0; i < projectiles->size(); i++) {
-        delete (*projectiles)[i];
-    }
     delete projectiles;
-
-    //Delete tanks
-    for (int i = 0; i < tanks->size(); i++) {
-        delete (*tanks)[i];
-    }
     delete tanks;
-
-    //Delete explosions
-    for (int i = 0; i < explosions->size(); i++) {
-        delete (*explosions)[i];
-    }
     delete explosions;
 }
 
-void Model::init() {
-    //TODO iniclialize game
+void Model::cleanContainers(){
+    //Delete bases
+    foreach (Base * base, *bases) {
+        delete base;
+    }
 
-    //Init ID Providers
-    nextProjectileID = 0;
+    //Delete solidObjects
+    foreach (BitmapObj * solidObject, *solidObjects) {
+        delete solidObject;
+    }
+
+    //Delete projectiles
+    foreach (Projectile * projectile, *projectiles) {
+        delete projectile;
+    }
+
+     //Delete tanks
+    foreach (Tank * tank, *tanks) {
+        delete tank;
+    }
+
+    //Delete explosions
+    foreach (Explosion * explosion, *explosions) {
+        delete explosion;
+    }
+}
+
+void Model::init() {
 
     // ----------------------Testing purposes
 
@@ -100,7 +102,15 @@ void Model::init() {
 }
 
 void Model::reset() {
-    //TODO reset game - clean everything
+    cleanContainers();
+
+    matrix->reset();
+    bases->clear();
+    solidObjects->clear();
+
+    tanks->clear();
+    projectiles->clear();
+    explosions->clear();
 }
 
 const uchar* Model::getTunnelBitmapData(qint32 x, qint32 y, qint32 width, qint32 height) const {
@@ -212,8 +222,27 @@ QVector<OrientedRoundObj*> Model::getTanksInRect(qint32 x, qint32 y, qint32 widt
 }
 
 void Model::maskMatrixWithTank(qint32 tankID, qint32 newX, qint32 newY) {
+    Tank tank(*tanks->value(tankID));
 
-    // TODO implement
+    while(tank.getX() != newX || tank.getY() != newY){
+        BitmapObj mask(tank.getX1(), tank.getX2(), tank.getRadius() * 2, tank.getRadius() * 2);
+
+        for (int i = tank.getX1(); i < tank.getX2(); i++) {
+            for (int j = tank.getY1(); j < tank.getY2(); j++) {
+
+                //if is in circle
+                if(tank.isWithinCircle(i, j)){
+                    mask.setXYGlobalCoordiantes(i, j, false);
+                }else{
+                    mask.setXYGlobalCoordiantes(i, j, true);
+                }
+            }
+        }
+
+        matrix->maskMatrix(&mask);
+
+        tank.move();
+    }
 
 }
 
