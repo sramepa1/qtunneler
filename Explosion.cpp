@@ -20,14 +20,18 @@ BitmapObj Explosion::getExplosionMask() {
 
             //if is in circle
             if(isWithinCircle(i, j)){
-                chance = ((qreal) qrand() / RAND_MAX) + increase;
+                chance = ((qreal) qrand() / RAND_MAX);
                 distance = (qreal) getDistanceFormCenter(i, j) / radius;
 
-                if(chance >= distance){
-                    mask.setXYGlobalCoordiantes(i, j, true);
+                if(distance > EXPLOSION_RAND_SOLID_PART){
+                    if(chance >= (distance - EXPLOSION_RAND_SOLID_PART) * 2){
+                        mask.setXYGlobalCoordiantes(i, j, true);
+                    }else{
+                        mask.setXYGlobalCoordiantes(i, j, false);
+                    }
                 }else{
-                    mask.setXYGlobalCoordiantes(i, j, false);
-                }  
+                    mask.setXYGlobalCoordiantes(i, j, true);
+                }
 
             }else{
                 mask.setXYGlobalCoordiantes(i, j, false);

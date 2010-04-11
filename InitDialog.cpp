@@ -99,7 +99,7 @@ void InitDialog::createSelected() {
 }
 
 void InitDialog::joinSelected() {
-    hostField->clear();
+    //hostField->clear();
     hostField->setEnabled(true);
     hostField->setFocus();
 }

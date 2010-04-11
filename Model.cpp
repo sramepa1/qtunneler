@@ -79,16 +79,14 @@ void Model::init() {
     tanks->insert(1, new Tank(500,500,1,1));
 
     solidObjects->append(new Stone(300, 100, 77, 100));
+ 
+    Explosion * ex = new Explosion(300,300,1,1,200);
+    matrix->invertMaskMatrix(& ex->getExplosionMask());
 
     Projectile * pr = new Projectile(50, 50, 11, 11, NORTH);
     projectiles->insert(11, pr);
 
-    Explosion * ex = new Explosion(300,300,1,1,200);
-    matrix->invertMaskMatrix(& ex->getExplosionMask());
-
-    //solidObjects->append(new BitmapObj(ex->getExplosionMask()));
-
-   // projectileExplosion(11);
+    projectileExplosion(11);
 
 
 }
@@ -248,10 +246,9 @@ bool Model::isAnyCollision (const RoundObj * obj) const{
 
 void Model::projectileExplosion(qint32 shotID){
     Projectile * shot = projectiles->take(shotID);
-    projectiles->remove(shotID);
-
     //make new explosion
-    qint32 seed = 1;//TODO gain somehow
+    
+    qint32 seed = 15;//TODO gain somehow
     
     Explosion * explosion = new Explosion(shot->getX(), shot->getY(), shot->color, seed);
     explosions->append(explosion);
@@ -259,9 +256,6 @@ void Model::projectileExplosion(qint32 shotID){
     //Burn clue
     matrix->invertMaskMatrix(& explosion->getExplosionMask());
 
-    //TODO segfault
-
-    /*
     //damage tanks within raius
     foreach(Tank * tank, *tanks){
         if(isTankCollision(explosion)){
@@ -280,7 +274,7 @@ void Model::projectileExplosion(qint32 shotID){
             projectiles->remove(projectile->id);
             delete projectile;
         }
-    }*/
+    }
     
 }
 
