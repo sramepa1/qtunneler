@@ -59,6 +59,7 @@
 
 //Evaluation
 #define FRAME_MSECS 33
+#define MAX_WINS 3
 
 // Packets //
 // Init packets
@@ -94,7 +95,7 @@
 // OP_TANK - data1 = tank ID, data2 = X, data 3 = Y
 
 #define OP_TANK_STATUS 8
-// OP_TANK_STATUS - timecode not used
+// OP_TANK_STATUS - timecode used for rounds won
 // OP_TANK_STATUS - data1 = tank ID, data2 = HP, data3 = energy
 
 #define OP_PROJECTILE 9
@@ -117,7 +118,10 @@
 // OP_STONE - TODO decide what to send
 
 
-#define OP_END_GAME 14
+// Server-to-Client control
+#define OP_FRAME_BOUNDARY 14
+
+#define OP_END_GAME 15
 // OP_END_GAME - data1 = winner tank ID
 
 #endif	/* _DEFAULTVALUES_H */

@@ -120,15 +120,22 @@ void Evaluator::evaluateState() {
         list.removeFirst();
     }
 
+    // TODO move all projectiles here (and handle any resulting collisions & generate explosions)
 
-    // TODO remove - testing code
+    // TODO execute all explosions - mask matrix, modify tank HPs
+
+    // TODO check tank HPs for <= 0, remove tanks, generate any tankExplosions (and eval them, checking tank HP again)
+
+    // TODO evaluate tank energy/HP gain from bases (distinguish own and emnemy)
+
+
+    // TODO remove this - testing code
     x += dx;
     y += dy;
 
     Packet p(424242,0,x,y,0);
     updatePacket(p);
-
-
+    // end of test
 
 
     //send changes
@@ -160,7 +167,7 @@ void Evaluator::updatePacket(Packet& p) {
 
 void Evaluator::handleTankMovementChange(int tankID, int newDirection) {
 
-    // TODO implement - check collisions etc. then send tank packet
+    // TODO implement - check collisions, calculate energy cost, etc. then send (update) tank packet
 
     int step = 16;
     switch(newDirection) {
@@ -177,5 +184,7 @@ void Evaluator::handleTankMovementChange(int tankID, int newDirection) {
 }
 
 void Evaluator::handleTankShootChange(int tankID, int newState) {
+
+    // TODO implement
 
 }

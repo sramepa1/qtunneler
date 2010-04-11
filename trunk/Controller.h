@@ -46,6 +46,18 @@ signals:
 
 protected:
 
+    virtual void handleTankMovement(qint32 tankID, qint32 x, qint32 y, qint32 rotation);
+    virtual void handleTankStatus(qint32 tankID, qint32 hp, qint32 energy, qint32 roundsWon);
+    virtual void handleProjectileSpawn(qint32 projectileID, qint32 x, qint32 y, qint32 rotation);
+    virtual void handleExplosion(qint32 projectileID, qint32 x, qint32 y, qint32 srand);
+    virtual void handleTankExplosion(qint32 tankID, qint32 x, qint32 y, qint32 srand);
+
+    virtual void handleAddBase(qint32 tankID, qint32 x, qint32 y);
+    virtual void handleAddStone(); // TODO parameters
+
+    virtual void handleFrameBoundary();
+    virtual void handleEndGame();
+
     Receiver* receiver;
 
     Model* model;
