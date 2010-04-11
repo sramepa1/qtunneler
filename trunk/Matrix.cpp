@@ -58,7 +58,7 @@ quint8 Matrix::getByte(qint32 xDiv8, qint32 y) const {
 void Matrix::reset() {
     for(qint32 x = 0; x < MATRIX_DIMENSION/8; x++) {
         for(qint32 y = 0; y < MATRIX_DIMENSION; y++) {
-            arr[x][y] = (quint8) 0;
+            arr[x][y] = (quint8) 0xff;
         }
     }
 }

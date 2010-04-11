@@ -29,18 +29,18 @@ public:
      */
     virtual qint32 getDistanceFormCenter(qint32 _x, qint32 _y) const;
 
-    qint32 getX() const {return x;}
-    qint32 getY() const {return y;}
-    qint32 getRadius() const {return radius;}
+    virtual qint32 getX() const {return x;}
+    virtual qint32 getY() const {return y;}
+    virtual qint32 getRadius() const {return radius;}
 
-    void setX(qint32 _x);
-    void setY(qint32 _y);
-    void setRadius(qint32 _radius);
+    virtual void setX(qint32 _x);
+    virtual void setY(qint32 _y);
+    virtual void setRadius(qint32 _radius);
 
-    qint32 getX1() const {return x1;}
-    qint32 getY1() const {return y1;}
-    qint32 getX2() const {return x2;}
-    qint32 getY2() const {return y2;}
+    virtual qint32 getX1() const {return x1;}
+    virtual qint32 getY1() const {return y1;}
+    virtual qint32 getX2() const {return x2;}
+    virtual qint32 getY2() const {return y2;}
 
     quint8 color;
 
@@ -53,7 +53,6 @@ protected:
     qint32 x;
     qint32 y;
     qint32 radius;
-    
 };
 
 #endif	/* _ROUNDOBJ_H */
