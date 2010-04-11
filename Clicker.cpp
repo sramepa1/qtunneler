@@ -59,7 +59,7 @@ void Clicker::handleChange(uchar val, uchar* stored) {
     *stored = val;
 
     if(stored == &shoot) {
-        sender->sendPacket(Packet(OP_SHOOT, time.elapsed(), model->getFirstTankID(), shoot ? 1 : 0, 0));
+        sender->sendPacket(Packet(OP_SHOOT, time.elapsed(), model->playerID, shoot ? 1 : 0, 0));
         
     }else {
         int horizontal = right - left;
@@ -84,7 +84,7 @@ void Clicker::handleChange(uchar val, uchar* stored) {
                             case 1: direction = MOVE_NE;
                         }
         }
-        sender->sendPacket(Packet(OP_MOVE, time.elapsed(), model->getFirstTankID(), direction, 0));
+        sender->sendPacket(Packet(OP_MOVE, time.elapsed(), model->playerID, direction, 0));
     }
     sender->flush();
 }

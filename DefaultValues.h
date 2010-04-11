@@ -24,6 +24,7 @@
 #define PACKET_BYTES 20
 
 //Player
+#define NO_PLAYER 0
 #define RED_PLAYER 1
 #define GREEN_PLAYER 2
 #define BLUE_PLAYER 3
@@ -121,7 +122,9 @@
 // Server-to-Client control
 #define OP_FRAME_BOUNDARY 14
 
-#define OP_END_GAME 15
+#define OP_END_ROUND 15
+
+#define OP_END_GAME 16
 // OP_END_GAME - data1 = winner tank ID
 
 #endif	/* _DEFAULTVALUES_H */

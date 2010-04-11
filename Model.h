@@ -47,37 +47,36 @@ public:
     virtual QVector<QPoint> getShotsInRect(qint32 x, qint32 y, qint32 width, qint32 height) const;
     virtual QVector<OrientedRoundObj*> getTanksInRect(qint32 x, qint32 y, qint32 width, qint32 height) const;
 
-    /**
-     * To correctly send user command packets
-     */
-    virtual int getFirstTankID();
-    quint32 provideProjectileID() { return nextProjectileID++;}
+    virtual quint32 provideProjectileID() { return nextProjectileID++;}
+
+    
+    virtual void maskMatrixWithTank(qint32 tankID, qint32 newX, qint32 newY);
 
     /**
      * Collision detection;
      */
 
-    bool isMatrixCollision (const RoundObj * obj) const;
+    virtual bool isMatrixCollision (const RoundObj * obj) const;
 
     //Collision with stone, basewall or border.
-    bool isSolidCollision (const RoundObj * obj) const;
-    bool isTankCollision (const RoundObj * obj) const;
-    bool isProjectileCollision (const RoundObj * obj) const;
-    bool isAnyCollision (const RoundObj * obj) const;
+    virtual bool isSolidCollision (const RoundObj * obj) const;
+    virtual bool isTankCollision (const RoundObj * obj) const;
+    virtual bool isProjectileCollision (const RoundObj * obj) const;
+    virtual bool isAnyCollision (const RoundObj * obj) const;
 
     /**
      * Explosion methods
      */
 
     //Create exlosion, burn clue in matrix, damage tanks and destroye all projectiles within explosion radius
-    void projectileExplosion(qint32 shotID);
+    virtual void projectileExplosion(qint32 shotID);
 
     /**
      * Tank control methods
      */
     
-    void tankFire(qint32 tankID);
-    qint32 getPixelCountInCircle(const RoundObj * obj);
+    virtual void tankFire(qint32 tankID);
+    virtual qint32 getPixelCountInCircle(const RoundObj * obj);
 
     /**
      * Static methods

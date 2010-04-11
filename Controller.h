@@ -56,10 +56,14 @@ protected:
     virtual void handleAddStone(); // TODO parameters
 
     virtual void handleFrameBoundary();
+    virtual void handleEndRound();
     virtual void handleEndGame();
 
     Receiver* receiver;
 
+    qint32 roundNr;
+
+    // not owner
     Model* model;
 
 private:    

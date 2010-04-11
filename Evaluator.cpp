@@ -108,7 +108,7 @@ void Evaluator::evaluateState() {
     // evaluate packets
     Packet temp;
     while(!list.isEmpty()) {
-        
+
         Packet p = list.first();
         //qDebug("Evaluating %d, data1 %d, data2 %d",p.opcode,p.data1,p.data2);
 
@@ -120,13 +120,18 @@ void Evaluator::evaluateState() {
         list.removeFirst();
     }
 
-    // TODO move all projectiles here (and handle any resulting collisions & generate explosions)
+    // TODO all firing tanks, fire!!!
+
+    // TODO move all new projectiles here (and handle any resulting collisions & generate explosions)
 
     // TODO execute all explosions - mask matrix, modify tank HPs
 
     // TODO check tank HPs for <= 0, remove tanks, generate any tankExplosions (and eval them, checking tank HP again)
 
-    // TODO evaluate tank energy/HP gain from bases (distinguish own and emnemy)
+    // TODO evaluate tank energy/HP gain from bases (distinguish own and enemy)
+
+    // TODO check for victory condition - if there is one last tank standing, send OP_END_ROUND (and reset tanks) or OP_END_GAME
+    //          otherwise send OP_FRAME_BOUNDARY
 
 
     // TODO remove this - testing code
@@ -153,7 +158,7 @@ void Evaluator::updatePacket(Packet& p) {
     bool found = false;
     //qDebug("Updating %d, data1 %d, data2 %d",p.opcode,p.data1,p.data2);
     foreach(Packet pack, tempList) {
-        if(pack.opcode == p.opcode) {
+        if(pack.opcode == p.opcode && pack.data1 == p.data1) { // data1 holds IDs where applicable
             //qDebug("Found it");
             found = true;
             pack = p;
