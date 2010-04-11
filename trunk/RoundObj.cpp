@@ -7,6 +7,13 @@
 
 #include "RoundObj.h"
 
+RoundObj::RoundObj(qint32 _x, qint32 _y, qint32 _radius,quint8 _color) : x(_x), y(_y), radius(_radius), color(_color) {
+    x1 = x - radius;
+    y1 = y - radius;
+    x2 = x + radius;
+    y2 = y + radius;
+}
+
 void RoundObj::setX(qint32 _x) {
     x = _x;
 

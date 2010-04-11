@@ -6,12 +6,20 @@
  */
 
 #include "Stone.h"
+#include "Explosion.h"
 
-// TODO inherit multi-parameter constructor from BitmapObj, set color to Qt::gray
+Stone::Stone(qint32 _x, qint32 _y, qint32 _width, qint32 _heigth) : BitmapObj(_x, _y, _width, _heigth) {
+    color = QColor("gray");
 
-Stone::Stone() {
+    for(qint32 i = 0; i < width; i++){
+        for (qint32 j = 0; j < height; j++) {
+            setXY(i, j, true);
+        }
+    }
+
 }
 
 Stone::~Stone() {
+    
 }
 

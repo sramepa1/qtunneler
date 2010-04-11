@@ -21,6 +21,7 @@
 #include "Explosion.h"
 #include "Tank.h"
 #include "Projectile.h"
+#include "Stone.h"
 
 class Model : public QObject {
 

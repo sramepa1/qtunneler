@@ -18,6 +18,7 @@ public:
     Tank(qint32 x, qint32 y, quint8 color, qint32 id) : OrientedRoundObj(x, y, TANK_RADIUS, color, id, DEFAULT_TANK_ROTATION) {
         hp = DEFAULT_TANK_HP;
         energy = DEFAULT_TANK_ENERGY;
+        isMoving = false;
     }
     virtual ~Tank(){}
 
@@ -27,6 +28,7 @@ public:
 
     qint32 hp;
     qint32 energy;
+    bool isMoving;
 
 private:
     Tank(const Tank& orig) : OrientedRoundObj(orig) {} // disabled

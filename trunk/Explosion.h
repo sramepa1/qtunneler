@@ -14,7 +14,7 @@
 
 class Explosion : public RoundObj{
 public:
-    Explosion(qint32 x, qint32 y, quint8 color, qint32 _seed, qint32 radius = EXPLOSION_RADIUS) : RoundObj(x,y,radius,color,id), seed(_seed) {}
+    Explosion(qint32 x, qint32 y, quint8 color, qint32 _seed, qint32 radius = EXPLOSION_RADIUS,qint32 _increase = EXPLOSION_RAND_INCREASE) : RoundObj(x,y,radius,color), seed(_seed), increase(_increase) {}
     //Explosion(const Explosion& orig) : RoundObj(orig) {} // implicit
     virtual ~Explosion() {}
 
@@ -26,6 +26,7 @@ public:
     qint32 countDamageToObj(RoundObj * obj);
 
     qint32 seed;
+    qint32 increase;
 };
 
 #endif	/* _EXPLOSION_H */

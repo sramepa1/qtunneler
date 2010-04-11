@@ -74,7 +74,7 @@ void Matrix::maskMatrix(const BitmapObj * mask){
     int y = mask->getY1();
     for (int i = 0; i < mask->getWidth() && (i+x < MATRIX_DIMENSION); i++) {
         for (int j = 0; j < mask->getHeight() && (j+y < MATRIX_DIMENSION); j++) {
-            if(getXY(x+i,y+j)) setXY(x+i,y+j,!mask->getXY(i,j));
+            if(getXY(x+i,y+j)) setXY(x+i,y+j,(mask->getXY(i,j)));
         }
     }
 }
@@ -84,7 +84,7 @@ void Matrix::invertMaskMatrix(const BitmapObj * mask){
     int y = mask->getY1();
     for (int i = 0; i < mask->getWidth() && (i+x < MATRIX_DIMENSION); i++) {
         for (int j = 0; j < mask->getHeight() && (j+y < MATRIX_DIMENSION); j++) {
-            if(getXY(x+i,y+j)) setXY(x+i,y+j,(mask->getXY(i,j)));
+            if(getXY(x+i,y+j)) setXY(x+i,y+j,!(mask->getXY(i,j)));
         }
     }
 }
