@@ -18,6 +18,7 @@ public:
     Tank(qint32 x, qint32 y, quint8 color, qint32 id) : OrientedRoundObj(x, y, TANK_RADIUS, color, id, DEFAULT_TANK_ROTATION) {
         hp = DEFAULT_TANK_HP;
         energy = DEFAULT_TANK_ENERGY;
+        roundsWon = 0;
         isMoving = false;
         isShoting = false;
     }
@@ -29,6 +30,9 @@ public:
 
     qint32 hp;
     qint32 energy;
+
+    qint32 roundsWon;
+
     bool isMoving;
     bool isShoting;
 
