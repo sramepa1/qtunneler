@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RCC version="1.0">
+    <qresource>
+        <file>tanks/red-N.png</file>
+        <file>tanks/red-NE.png</file>
+        <file>tanks/red-E.png</file>
+        <file>tanks/red-SE.png</file>
+        <file>tanks/red-S.png</file>
+        <file>tanks/red-SW.png</file>
+        <file>tanks/red-W.png</file>
+        <file>tanks/red-NW.png</file>
+
+        <file>tanks/blue-N.png</file>
+        <file>tanks/blue-NE.png</file>
+        <file>tanks/blue-E.png</file>
+        <file>tanks/blue-SE.png</file>
+        <file>tanks/blue-S.png</file>
+        <file>tanks/blue-SW.png</file>
+        <file>tanks/blue-W.png</file>
+        <file>tanks/blue-NW.png</file>
+
+        <file>tanks/green-N.png</file>
+        <file>tanks/green-NE.png</file>
+        <file>tanks/green-E.png</file>
+        <file>tanks/green-SE.png</file>
+        <file>tanks/green-S.png</file>
+        <file>tanks/green-SW.png</file>
+        <file>tanks/green-W.png</file>
+        <file>tanks/green-NW.png</file>
+    </qresource>
+</RCC>

@@ -23,9 +23,13 @@
 
 #define PACKET_BYTES 20
 
+//Player
+#define RED_PLAYER 1
+#define GREEN_PLAYER 2
+#define BLUE_PLAYER 3
+
 //Projectile
 #define PROJECTILE_RADIUS 4
-
 
 //Matrix
 #define MATRIX_DIMENSION (10 * 1024)

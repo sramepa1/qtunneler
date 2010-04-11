@@ -7,8 +7,7 @@
 
 #include "View.h"
 
-#include <QPalette>
-
+#include "OrientedRoundObj.h"
 
 View::View(QWidget* parent, Model* _model, Clicker* _clicker) : QWidget(parent), model(_model), clicker(_clicker) {
     tunnel.setColor(Qt::black);
@@ -18,6 +17,21 @@ View::View(QWidget* parent, Model* _model, Clicker* _clicker) : QWidget(parent),
     shot.setColor(Qt::yellow);
     tile = QPixmap::fromImage(QImage(":/tile.png"));
     x = y = 0;
+
+    int playerIDs[3] = {RED_PLAYER, BLUE_PLAYER, GREEN_PLAYER};
+    QString strings[3] = {"red", "green", "blue"};
+    for (int i = 0; i < 3; i++) {
+        QString prefix = QString(":/tanks/") + strings[i];
+        tanks[playerIDs[i]][OrientedRoundObj::NORTH] =      QPixmap::fromImage(QImage(prefix + QString("-N.png")));
+        tanks[playerIDs[i]][OrientedRoundObj::NORTH_EAST] = QPixmap::fromImage(QImage(prefix + QString("-NE.png")));
+        tanks[playerIDs[i]][OrientedRoundObj::EAST] =       QPixmap::fromImage(QImage(prefix + QString("-E.png")));
+        tanks[playerIDs[i]][OrientedRoundObj::SOUTH_EAST] = QPixmap::fromImage(QImage(prefix + QString("-SE.png")));
+        tanks[playerIDs[i]][OrientedRoundObj::SOUTH] =      QPixmap::fromImage(QImage(prefix + QString("-S.png")));
+        tanks[playerIDs[i]][OrientedRoundObj::SOUTH_WEST] = QPixmap::fromImage(QImage(prefix + QString("-SW.png")));
+        tanks[playerIDs[i]][OrientedRoundObj::WEST] =       QPixmap::fromImage(QImage(prefix + QString("-W.png")));
+        tanks[playerIDs[i]][OrientedRoundObj::NORTH_WEST] = QPixmap::fromImage(QImage(prefix + QString("-NW.png")));
+    }
+
 }
 
 View::~View() {
@@ -56,7 +70,7 @@ void View::paintEvent(QPaintEvent* /*evt*/) {
         painter.drawPixmap(bmp->getX1() - x, bmp->getY1() - y,*(bmp->getQBitmap()));
     }
 
-    // draw shots
+    // draw projectiles
     painter.setPen(Qt::NoPen);
     QPoint view(x,y);
     painter.setBrush(shot);
@@ -64,9 +78,13 @@ void View::paintEvent(QPaintEvent* /*evt*/) {
     foreach(QPoint center, shots) {
         painter.drawEllipse(center - view,PROJECTILE_RADIUS,PROJECTILE_RADIUS);
     }
-    
 
-    //TODO draw tanks
+    // draw tanks
+    painter.setBrush(Qt::NoBrush);
+    QVector<OrientedRoundObj*> tankVec = model->getTanksInRect(x,y,wid,hei);
+    foreach(OrientedRoundObj* tank, tankVec) {
+        painter.drawPixmap(tank->getX1(),tank->getY1(),tanks[tank->id][tank->rotation]);
+    }
 }
 
 void View::setViewpoint(qint32 _x, qint32 _y) {

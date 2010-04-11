@@ -87,7 +87,7 @@ void Model::init() {
     Explosion * ex = new Explosion(300,300,1,1,200);
     matrix->invertMaskMatrix(& ex->getExplosionMask());
 
-    Projectile * pr = new Projectile(50, 50, 11, 11, NORTH);
+    Projectile * pr = new Projectile(50, 50, 11, 11, OrientedRoundObj::NORTH);
     projectiles->insert(11, pr);
 
     projectileExplosion(11);
@@ -187,6 +187,15 @@ QVector<QPoint> Model::getShotsInRect(qint32 x, qint32 y, qint32 width, qint32 h
     }
 
     return shots;
+}
+
+QVector<OrientedRoundObj*> Model::getTanksInRect(qint32 x, qint32 y, qint32 width, qint32 height) const {
+
+    QVector<OrientedRoundObj*> vec;
+
+    // TODO fill
+
+    return vec;
 }
 
 bool Model::isMatrixCollision (const RoundObj * obj) const{
