@@ -12,6 +12,7 @@
 #include <QWidget>
 #include <QEvent>
 #include <QBitmap>
+#include <QHash>
 
 #include "Model.h"
 #include "BitmapObj.h"
@@ -41,10 +42,10 @@ protected:
     QPen solid;
     QBrush border;
     QBrush shot;
-
-    QBitmap* bitmap;
-
+    
     QPixmap tile;
+
+    QHash< qint32, QHash<qint32,QPixmap> > tanks;
 
     //not owner
     Model* model;

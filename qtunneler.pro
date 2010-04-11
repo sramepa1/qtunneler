@@ -75,4 +75,5 @@ SOURCES += Base.cpp \
            Stone.cpp \
            Tank.cpp \
            View.cpp
-RESOURCES += tile.qrc
+RESOURCES += tile.qrc \
+             tanks.qrc
