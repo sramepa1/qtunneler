@@ -14,7 +14,7 @@
 
 class Explosion : public RoundObj{
 public:
-    Explosion(qint32 x, qint32 y, quint8 color, qint32 _seed, qint32 radius = EXPLOSION_RADIUS,qint32 _increase = EXPLOSION_RAND_INCREASE) : RoundObj(x,y,radius,color), seed(_seed), increase(_increase) {}
+    Explosion(qint32 _x, qint32 _y, quint8 _color, qint32 _seed, qint32 _radius = EXPLOSION_RADIUS, qint32 _increase = EXPLOSION_RAND_SOLID_PART) : RoundObj(_x,_y,_radius,_color), seed(_seed), increase(_increase) {}
     //Explosion(const Explosion& orig) : RoundObj(orig) {} // implicit
     virtual ~Explosion() {}
 

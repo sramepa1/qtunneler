@@ -19,6 +19,7 @@ public:
         hp = DEFAULT_TANK_HP;
         energy = DEFAULT_TANK_ENERGY;
         isMoving = false;
+        isShoting = false;
     }
     virtual ~Tank(){}
 
@@ -29,6 +30,7 @@ public:
     qint32 hp;
     qint32 energy;
     bool isMoving;
+    bool isShoting;
 
 private:
     Tank(const Tank& orig) : OrientedRoundObj(orig) {} // disabled

@@ -28,7 +28,7 @@ class Model : public QObject {
     Q_OBJECT
 
 public:
-    Model(QObject* parent = NULL);
+    Model(QObject* _parent = NULL);
     virtual ~Model();
 
     virtual void init();

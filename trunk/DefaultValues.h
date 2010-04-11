@@ -26,11 +26,6 @@
 //Projectile
 #define PROJECTILE_RADIUS 4
 
-//Expolsion
-#define EXPLOSION_RADIUS 24
-#define EXPLOSION_TANK_RADIUS 24
-#define EXPLOSION_DAMAGE 500 //100% of explosion damage, decrease with distance linearly
-#define EXPLOSION_RAND_INCREASE 0.3
 
 //Matrix
 #define MATRIX_DIMENSION (10 * 1024)
@@ -46,6 +41,10 @@
 #define DEFAULT_TANK_HP 10000 //100%
 #define DEFAULT_TANK_ENERGY (5 * MATRIX_DIMENSION ) //100%
 
+//Expolsion
+#define EXPLOSION_RADIUS (TANK_RADIUS / 2)
+#define EXPLOSION_DAMAGE 500 //100% of explosion damage, decrease with distance linearly
+#define EXPLOSION_RAND_SOLID_PART 0.5
 
 //Map
 #define BORDER_SIZE 20
