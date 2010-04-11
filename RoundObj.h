@@ -13,7 +13,7 @@
 
 class RoundObj {
 public:
-    RoundObj(qint32 _x, qint32 _y, qint32 _radius,quint8 _color, qint32 _id) : x(_x), y(_y), radius(_radius), color(_color), id(_id) {}
+    RoundObj(qint32 _x, qint32 _y, qint32 _radius,quint8 _color);
    
     //RoundObj(const RoundObj& orig) {} // implicit
 
@@ -43,7 +43,6 @@ public:
     qint32 getY2() const {return y2;}
 
     quint8 color;
-    qint32 id;
 
 protected:
     qint32 x1;

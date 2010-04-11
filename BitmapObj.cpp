@@ -17,9 +17,13 @@ BitmapObj::BitmapObj(qint32 _x, qint32 _y,qint32 _width, qint32 _heigth) {
 
     qbitmap = NULL;
     
-    bitmap = new quint8* [width / 8];
-    for(qint32 i = 0; i < width / 8; i++) {
+    bitmap = new quint8* [width / 8  + ( width % 8 == 0 ? 0 : 1 )];
+    for(qint32 i = 0; i < width / 8 + ( width % 8 == 0 ? 0 : 1 ); i++) {
         bitmap[i] = new quint8[height];
+        
+        for (int j = 0; j < height; j++) {
+            bitmap[i][j] = 0x00;
+        }
     }
 
 }
@@ -37,12 +41,12 @@ BitmapObj::BitmapObj(const BitmapObj & orig) {
         qbitmap = new QBitmap(*orig.qbitmap);
     }
 
-    bitmap = new quint8* [width / 8];
-    for(qint32 i = 0; i < width / 8; i++) {
+    bitmap = new quint8* [width / 8 + ( width % 8 == 0 ? 0 : 1 )];
+    for(qint32 i = 0; i < width / 8 + ( width % 8 == 0 ? 0 : 1 ); i++) {
         bitmap[i] = new quint8[height];
     }
 
-    for(int i = 0; i < width / 8; i++) {
+    for(int i = 0; i < width / 8 + ( width % 8 == 0 ? 0 : 1 ); i++) {
         for (int j = 0; j < height; j++) {
             bitmap[i][j] = orig.bitmap[i][j];
         }
@@ -51,7 +55,7 @@ BitmapObj::BitmapObj(const BitmapObj & orig) {
 }
 
 BitmapObj::~BitmapObj() {
-    for(qint32 i = 0; i < width / 8; i++) {
+    for(qint32 i = 0; i < width / 8 + ( width % 8 == 0 ? 0 : 1 ); i++) {
         delete[] bitmap[i];
     }
     delete[] bitmap;

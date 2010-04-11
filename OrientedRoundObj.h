@@ -26,7 +26,7 @@ enum direction {
 
 class OrientedRoundObj : public RoundObj {
 public:
-    OrientedRoundObj(qint32 x, qint32 y, qint32 radius, quint8 color, qint32 id, direction _rotation) : RoundObj(x, y, radius, color, id), rotation(_rotation) {}
+    OrientedRoundObj(qint32 _x, qint32 _y, qint32 _radius, quint8 _color, qint32 _id, direction _rotation) : RoundObj(x, y, radius, color), id(_id), rotation(_rotation) {}
     //OrientedRoundObj(const OrientedRoundObj& orig) : RoundObj(orig) {} // implicit
     virtual ~OrientedRoundObj();
 
@@ -34,6 +34,7 @@ public:
     virtual void move(qint32 steps = 1);
 
     direction rotation;
+    qint32 id;
     
 };
 

@@ -15,7 +15,7 @@ class Stone : public BitmapObj {
 public:
     //NOT supported yet
 
-    Stone();
+    Stone(qint32 _x, qint32 _y, qint32 _width, qint32 _heigth);
     Stone(const Stone& orig) : BitmapObj(orig) {}
 
     virtual ~Stone();

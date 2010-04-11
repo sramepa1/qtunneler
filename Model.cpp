@@ -7,6 +7,7 @@
 
 #include "Model.h"
 #include "BaseWall.h"
+#include "Stone.h"
 
 #include <iostream>
 
@@ -76,6 +77,18 @@ void Model::init() {
     // ...
     
     tanks->insert(1, new Tank(500,500,1,1));
+
+    solidObjects->append(new Stone(300, 100, 77, 100));
+
+    Projectile * pr = new Projectile(50, 50, 11, 11, NORTH);
+    projectiles->insert(11, pr);
+
+    Explosion * ex = new Explosion(300,300,1,1,200);
+    matrix->invertMaskMatrix(& ex->getExplosionMask());
+
+    //solidObjects->append(new BitmapObj(ex->getExplosionMask()));
+
+   // projectileExplosion(11);
 
 
 }
@@ -168,10 +181,7 @@ bool Model::isSolidCollision (const RoundObj * obj) const{
 
     //Solid objects collision
 
-    BitmapObj * solid;
-
-    for (int h = 0; h < solidObjects->size(); h++) {
-        solid = (*solidObjects)[h];
+    foreach(BitmapObj * solid, *solidObjects){
         
         if(checkRectOverlap(obj->getX1() ,obj->getY1(), obj->getX2(), obj->getY2(), solid->getX1(), solid->getY1(), solid->getX2(), solid->getY2())){
 
@@ -192,10 +202,7 @@ bool Model::isSolidCollision (const RoundObj * obj) const{
 
 bool Model::isTankCollision (const RoundObj * obj) const{
 
-    Tank * tank;
-
-    for (int h = 0; h < tanks->size(); h++) {
-        tank = (*tanks)[h];
+    foreach(Tank * tank, *tanks){
 
         if(checkRectOverlap(obj->getX1() ,obj->getY1(), obj->getX2(), obj->getY2(), tank->getX1(), tank->getY1(), tank->getX2(), tank->getY2())){
 
@@ -216,10 +223,7 @@ bool Model::isTankCollision (const RoundObj * obj) const{
 
 bool Model::isProjectileCollision (const RoundObj * obj) const{
 
-    Projectile * projectile;
-
-    for (int h = 0; h < projectiles->size(); h++) {
-        projectile = (*projectiles)[h];
+    foreach(Projectile * projectile, *projectiles){
 
         if(checkRectOverlap(obj->getX1() ,obj->getY1(), obj->getX2(), obj->getY2(), projectile->getX1(), projectile->getY1(), projectile->getX2(), projectile->getY2())){
 
@@ -253,8 +257,11 @@ void Model::projectileExplosion(qint32 shotID){
     explosions->append(explosion);
 
     //Burn clue
-    matrix->maskMatrix(& explosion->getExplosionMask());
+    matrix->invertMaskMatrix(& explosion->getExplosionMask());
 
+    //TODO segfault
+
+    /*
     //damage tanks within raius
     foreach(Tank * tank, *tanks){
         if(isTankCollision(explosion)){
@@ -273,7 +280,8 @@ void Model::projectileExplosion(qint32 shotID){
             projectiles->remove(projectile->id);
             delete projectile;
         }
-    }
+    }*/
+    
 }
 
 void Model::tankFire(qint32 tankID){
