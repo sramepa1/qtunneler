@@ -98,6 +98,8 @@ public:
     QHash<qint32,Tank*> * tanks;
     QHash<qint32,Projectile*> * projectiles;
 
+    qint32 playerID;
+
 protected:
     quint32 nextProjectileID;
 
