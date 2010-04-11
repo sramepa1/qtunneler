@@ -21,6 +21,7 @@ public:
     virtual ~NetSender() { delete[] buffer; }
 
     virtual void sendPacket(Packet p);
+    virtual void flush();
 
 protected:
 

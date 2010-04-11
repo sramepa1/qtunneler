@@ -50,7 +50,7 @@
 #define BORDER_SIZE 20
 
 //Evaluation
-#define FRAME_MSECS 25
+#define FRAME_MSECS 33
 
 //Packets
 //
@@ -63,6 +63,23 @@
 #define OP_INIT_CONFIRM 3
 
 #define OP_START_GAME 4
+
+#define OP_MOVE 5
+// OP_MOVE - timecode yes, data1 = tank ID
+// OP_MOVE - data2:
+#define MOVE_STOP 0
+#define MOVE_N 1
+#define MOVE_NE 2
+#define MOVE_E 3
+#define MOVE_SE 4
+#define MOVE_S 5
+#define MOVE_SW 6
+#define MOVE_W 7
+#define MOVE_NW 8
+
+#define OP_SHOOT 6
+// OP_SHOOT - timecode yes, data1 = tank ID
+// OP_SHOOT - data2: 1 = commence firing, 0 = cease fire
 
 #endif	/* _DEFAULTVALUES_H */
 

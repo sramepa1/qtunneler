@@ -15,6 +15,7 @@
 
 #include "Model.h"
 #include "BitmapObj.h"
+#include "Clicker.h"
 #include "DefaultValues.h"
 
 class View : public QWidget {
@@ -22,7 +23,7 @@ class View : public QWidget {
     Q_OBJECT
 
 public:
-    View(QWidget* parent = NULL, Model* _model = NULL);
+    View(QWidget* parent = NULL, Model* _model = NULL, Clicker* _clicker = NULL);
     virtual ~View();
 
     virtual void setViewpoint(qint32 x, qint32 y);
@@ -30,18 +31,24 @@ public:
 protected:
     void paintEvent(QPaintEvent* evt);
 
+    void keyPressEvent(QKeyEvent* evt);
+    void keyReleaseEvent(QKeyEvent* evt);
+
     qint32 x;
     qint32 y;
 
-    QBrush tunnel;
-    QBrush solid;
+    QPen tunnel;
+    QPen solid;
+    QBrush border;
     QBrush shot;
 
     QBitmap* bitmap;
 
     QPixmap tile;
 
+    //not owner
     Model* model;
+    Clicker* clicker;
 };
 
 #endif	/* _VIEW_H */

@@ -25,6 +25,8 @@ public:
 
     virtual void sendPacket(Packet p) =0;
 
+    virtual void flush() =0;
+
 private:
     Sender(const Sender& orig) {} // disabled
 };

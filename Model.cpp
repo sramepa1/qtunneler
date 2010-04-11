@@ -286,6 +286,13 @@ void Model::tankFire(qint32 tankID){
     projectiles->insert(projectile->id, projectile);
 }
 
+int Model::getFirstTankID() {
+
+    // TODO implement
+
+    return 42;
+}
+
 bool Model::checkRectOverlap(qint32 x11, qint32 y11, qint32 x12, qint32 y12, qint32 x21, qint32 y21, qint32 x22, qint32 y22) {
 
     if(x11 >= x21 && x12 > x22 && x11 < x22) { // a prekryva levou cast r
