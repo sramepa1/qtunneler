@@ -75,6 +75,8 @@ void Model::init() {
 
     BaseWall * baseWall = new BaseWall(400, 400, 240, 240);
 
+    tanks->insert(1, new Tank(480,480,1,1));
+
     solidObjects->append(baseWall);
     matrix->maskMatrix(baseWall);
 
@@ -142,6 +144,7 @@ QVector<BitmapObj*> Model::getSolidObjInRect(qint32 x, qint32 y, qint32 width, q
 }
 
 QVector<QRect> Model::getBorderInRect(qint32 x1, qint32 y1, qint32 width, qint32 height) const{
+
     QVector<QRect> vector;
     
     qint32 x2 = x1 + width;
@@ -172,7 +175,6 @@ QVector<QRect> Model::getBorderInRect(qint32 x1, qint32 y1, qint32 width, qint32
 
 QVector<QPoint> Model::getShotsInRect(qint32 x, qint32 y, qint32 width, qint32 height) const{
 
-    //chci znaménkové
     qint32 x1 = (qint32)(x) - PROJECTILE_RADIUS;
     qint32 y1 = (qint32)(y) - PROJECTILE_RADIUS;
     qint32 x2 = x + width + PROJECTILE_RADIUS;
@@ -191,11 +193,20 @@ QVector<QPoint> Model::getShotsInRect(qint32 x, qint32 y, qint32 width, qint32 h
 
 QVector<OrientedRoundObj*> Model::getTanksInRect(qint32 x, qint32 y, qint32 width, qint32 height) const {
 
-    QVector<OrientedRoundObj*> vec;
+    QVector<OrientedRoundObj*> vector;
 
-    // TODO fill
+    qint32 x1 = (qint32)(x) - TANK_RADIUS;
+    qint32 y1 = (qint32)(y) - TANK_RADIUS;
+    qint32 x2 = x + width + TANK_RADIUS;
+    qint32 y2 = y + height + TANK_RADIUS;
 
-    return vec;
+    foreach(Tank * tank, *tanks){
+        if(tank->getX() > x1 && tank->getX() < x2 && tank->getY() > y1 && tank->getY() < y2){
+            vector.append(tank);
+        }
+    }
+
+    return vector;
 }
 
 bool Model::isMatrixCollision (const RoundObj * obj) const{
@@ -321,7 +332,7 @@ void Model::projectileExplosion(qint32 shotID){
 }
 
 void Model::tankFire(qint32 tankID){
-    Tank * tank = tanks->take(tankID);
+    Tank * tank = tanks->value(tankID);
 
     Projectile * projectile = new Projectile(tank->fire());
 
