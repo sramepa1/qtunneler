@@ -47,7 +47,7 @@
 #define EXPLOSION_RAND_SOLID_PART 0.5
 
 //Map
-#define BORDER_SIZE 20
+#define BORDER_SIZE TANK_RADIUS
 
 //Evaluation
 #define FRAME_MSECS 33
