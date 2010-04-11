@@ -35,9 +35,6 @@ public:
 
     bool isMoving;
     bool isShoting;
-
-private:
-    Tank(const Tank& orig) : OrientedRoundObj(orig) {} // disabled
 };
 
 #endif	/* _TANK_H */

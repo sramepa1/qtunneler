@@ -10,6 +10,7 @@
 Controller::Controller(QObject* parent, Model* _model) : QThread(parent) {
     receiver = NULL;
     model = _model;
+    roundNr = 0; // init phase
 }
 
 Controller::~Controller() {
@@ -62,20 +63,40 @@ void Controller::handlePacket(Receiver* /*r*/) {
 }
 
 void Controller::handleTankMovement(qint32 tankID, qint32 x, qint32 y, qint32 rotation) {
-
-    // TODO implement
-
+    
+    if(roundNr == 0) {
+        if(model->playerID == NO_PLAYER) {
+            model->playerID = tankID;
+        }
+        Tank* t = new Tank(x,y,(quint8)tankID,tankID);
+        t->rotation = (OrientedRoundObj::direction)rotation;
+        model->tanks->insert(tankID,t);
+    }else {
+        
+        model->maskMatrixWithTank(tankID,x,y);
+        Tank* t = model->tanks->value(tankID);
+        t->setX(x);
+        t->setY(y);
+    }
 }
 
 void Controller::handleTankStatus(qint32 tankID, qint32 hp, qint32 energy, qint32 roundsWon) {
 
-    // TODO implement
-
+    Tank* t = model->tanks->value(tankID);
+    t->hp = hp;
+    t->energy = energy;
+    t->roundsWon = roundsWon;
+    if(tankID == model->playerID) {
+        emit status(tr("HP: ") + QString::number((double)hp*100 / DEFAULT_TANK_HP,'f',0) + tr("% | Energy: ")
+            + QString::number((double)energy*100 / DEFAULT_TANK_ENERGY,'f',0) + tr("% | Rounds won: ")
+            + QString::number(roundsWon,10));
+    }
 }
 
 void Controller::handleProjectileSpawn(qint32 projectileID, qint32 x, qint32 y, qint32 rotation) {
 
-    // TODO implement
+    model->projectiles->insert(projectileID, new Projectile(x,y,NO_PLAYER,projectileID,(OrientedRoundObj::direction)rotation));
+    // TODO implement more ?
 
 }
 
@@ -108,7 +129,15 @@ void Controller::handleFrameBoundary() {
 
     // TODO implement
 
+    emit redrawToCenter(model->tanks->value(model->playerID)->getX(),model->tanks->value(model->playerID)->getY());
 }
+
+void Controller::handleEndRound() {
+
+    // TODO implement
+
+}
+
 
 void Controller::handleEndGame() {
 

@@ -83,7 +83,7 @@ void View::paintEvent(QPaintEvent* /*evt*/) {
     painter.setBrush(Qt::NoBrush);
     QVector<OrientedRoundObj*> tankVec = model->getTanksInRect(x,y,wid,hei);
     foreach(OrientedRoundObj* tank, tankVec) {
-        painter.drawPixmap(tank->getX1(),tank->getY1(),tanks[tank->id][tank->rotation]);
+        painter.drawPixmap(tank->getX1() - x,tank->getY1() - y,tanks[tank->id][tank->rotation]);
     }
 }
 

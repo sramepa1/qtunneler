@@ -23,6 +23,8 @@ Model::Model(QObject* parent) : QObject(parent) {
     projectiles = new QHash<qint32,Projectile*>();
     explosions = new QVector<Explosion*>();
 
+    playerID = NO_PLAYER;
+
     init();
 }
 
@@ -209,6 +211,14 @@ QVector<OrientedRoundObj*> Model::getTanksInRect(qint32 x, qint32 y, qint32 widt
     return vector;
 }
 
+void Model::maskMatrixWithTank(qint32 tankID, qint32 newX, qint32 newY) {
+
+    // TODO implement
+
+}
+
+
+
 bool Model::isMatrixCollision (const RoundObj * obj) const{
 
     for (int i = obj->getX1(); i < obj->getX2(); i++) {
@@ -354,13 +364,6 @@ qint32 Model::getPixelCountInCircle(const RoundObj * obj){
     }
 
     return count;
-}
-
-int Model::getFirstTankID() {
-
-    // TODO implement
-
-    return 42;
 }
 
 bool Model::checkRectOverlap(qint32 x11, qint32 y11, qint32 x12, qint32 y12, qint32 x21, qint32 y21, qint32 x22, qint32 y22) {
