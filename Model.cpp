@@ -24,6 +24,10 @@ Model::Model(QObject* parent) : QObject(parent) {
     
     nextProjectileID = 42*42;
 
+    playerColors[RED_PLAYER] = new QColor("red");
+    playerColors[BLUE_PLAYER] = new QColor("blue");
+    playerColors[GREEN_PLAYER] = new QColor("green");
+
     init();
 }
 
@@ -366,6 +370,16 @@ void Model::projectileExplosion(qint32 projectileID, qint32 x, qint32 y, qint32 
         }
     }
     
+}
+
+void Model::moveTanksBackToBases() {
+
+    foreach(Base* base, *bases) {
+            Tank* t = tanks->value(base->color);
+            t->setX(base->x1 + BASE_WIDTH/2);
+            t->setY(base->y1 + BASE_HEIGHT/2);
+            //rotation unchanged
+    }
 }
 
 void Model::tankFire(qint32 tankID){

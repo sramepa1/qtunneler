@@ -75,6 +75,8 @@ public:
     /**
      * Tank control methods
      */
+
+    virtual void moveTanksBackToBases();
     
     virtual void tankFire(qint32 tankID);
     virtual qint32 getPixelCountInCircle(const RoundObj * obj);
@@ -98,6 +100,7 @@ public:
     QHash<qint32,Tank*> * tanks;
     QHash<qint32,Projectile*> * projectiles;
 
+    QHash<qint32,QColor*> playerColors;
     qint32 playerID;
 
     // to synchronize access by view and controller

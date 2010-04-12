@@ -31,6 +31,7 @@
 
 //Projectile
 #define PROJECTILE_RADIUS 4
+#define PROJECTILE_SPEED 32
 
 //Matrix
 #define MATRIX_DIMENSION (10 * 1024)
@@ -51,8 +52,10 @@
 #define EXPLOSION_DAMAGE 500 //100% of explosion damage, decrease with distance linearly
 #define EXPLOSION_RAND_SOLID_PART 0.5
 
+#define TANK_EXPLOSION_RADIUS (2 * TANK_RADIUS)
+
 //Map
-#define BORDER_SIZE TANK_RADIUS
+#define BORDER_SIZE (3 * TANK_RADIUS)
 
 //Base and BaseWall
 #define BASE_WIDTH 240
