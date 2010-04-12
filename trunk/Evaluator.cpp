@@ -87,8 +87,8 @@ void Evaluator::generateWorldAndStartRound() {
     model->addBase(x2, y2, BASE_WIDTH, BASE_HEIGHT, BLUE_PLAYER, QColor('blue'));
 
     //generate tanks
-    model->tanks->insert(RED_PLAYER, new Tank(x1 + BASE_WIDTH / 2, y1 + BASE_WIDTH / 2, RED_PLAYER, RED_PLAYER));
-    model->tanks->insert(RED_PLAYER, new Tank(x2 + BASE_WIDTH / 2, y2 + BASE_WIDTH / 2, RED_PLAYER, RED_PLAYER));
+    model->tanks->insert(RED_PLAYER, new Tank(x1 + BASE_WIDTH / 2, y1 + BASE_HEIGHT / 2, RED_PLAYER, RED_PLAYER));
+    model->tanks->insert(RED_PLAYER, new Tank(x2 + BASE_WIDTH / 2, y2 + BASE_HEIGHT / 2, BLUE_PLAYER, BLUE_PLAYER));
 
     //generate stones
     QVector<Stone *> stones;

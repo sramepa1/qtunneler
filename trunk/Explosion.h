@@ -23,7 +23,7 @@ public:
      */
     virtual BitmapObj getExplosionMask();
 
-    qint32 countDamageToObj(RoundObj * obj);
+    qint32 countDamageToObj(const RoundObj * obj, qint32 maxDamage = EXPLOSION_DAMAGE);
 
     qint32 seed;
     qint32 increase;

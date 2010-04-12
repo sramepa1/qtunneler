@@ -42,7 +42,7 @@ BitmapObj Explosion::getExplosionMask() {
     return mask;
 }
 
-qint32 Explosion::countDamageToObj(RoundObj * obj){
+qint32 Explosion::countDamageToObj(const RoundObj * obj, qint32 maxDamage){
     //No damage from own shots explosions
     if(obj->color == color){
         return 0;
@@ -55,5 +55,5 @@ qint32 Explosion::countDamageToObj(RoundObj * obj){
         distance = 0;
     }
 
-    return (qint32)( (1 - (distance/radius)) * EXPLOSION_DAMAGE );
+    return (qint32)( (1 - (distance/radius)) * maxDamage);
 }
