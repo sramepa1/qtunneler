@@ -82,6 +82,12 @@ public:
     virtual qint32 getPixelCountInCircle(const RoundObj * obj);
 
     /**
+     * Costruction methods
+     */
+
+    virtual void addBase(qint32 _x, qint32 _y, qint32 _width, qint32 _height, quint8 _color, QColor _wallColor);
+
+    /**
      * Static methods
      */
 

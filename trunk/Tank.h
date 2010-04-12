@@ -25,7 +25,7 @@ public:
     }
     virtual ~Tank(){}
 
-    virtual Projectile fire();
+    virtual Projectile fire(quint32 projectileID);
 
     qint32 hp;
     qint32 energy;

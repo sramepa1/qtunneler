@@ -56,10 +56,14 @@
 
 //Map
 #define BORDER_SIZE (3 * TANK_RADIUS)
+#define STONES_COUNT 30
+#define STONES_MAX_WIDTH 480 / 8
+#define STONES_MAX_HEIGHT 480 / 8
 
 //Base and BaseWall
 #define BASE_WIDTH 240
 #define BASE_HEIGHT 240
+#define BASE_MIN_DISTANCE_FROM_BORDER 240
 
 //Evaluation
 #define FRAME_MSECS 33

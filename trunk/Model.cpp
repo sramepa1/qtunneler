@@ -77,8 +77,8 @@ void Model::init() {
     //create bases and basewalls
 
     bases->append(new Base(400, 400, 240, 240, 1));
-
     BaseWall * baseWall = new BaseWall(400, 400, 240, 240, QColor("red"));
+    matrix->maskMatrix(baseWall);
 
     solidObjects->append(baseWall);
     matrix->maskMatrix(baseWall);
@@ -245,7 +245,13 @@ void Model::maskMatrixWithTank(qint32 tankID, qint32 newX, qint32 newY) {
 
 }
 
+void Model::addBase(qint32 _x, qint32 _y, qint32 _width, qint32 _height, quint8 _color, QColor _wallColor){
+    bases->append(new Base(_x, _y, _width, _height, _color));
 
+    BaseWall * baseWall = new BaseWall(_x, _y, _width, _height, _wallColor);
+    solidObjects->append(baseWall);
+    matrix->maskMatrix(baseWall);
+}
 
 bool Model::isMatrixCollision (const RoundObj * obj) const{
 
@@ -385,7 +391,7 @@ void Model::moveTanksBackToBases() {
 void Model::tankFire(qint32 tankID){
     Tank * tank = tanks->value(tankID);
 
-    Projectile * projectile = new Projectile(tank->fire());
+    Projectile * projectile = new Projectile(tank->fire(provideProjectileID()));
 
     projectiles->insert(projectile->id, projectile);
 }
