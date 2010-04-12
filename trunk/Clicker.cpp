@@ -62,8 +62,8 @@ void Clicker::handleChange(uchar val, uchar* stored) {
         sender->sendPacket(Packet(OP_SHOOT, time.elapsed(), model->playerID, shoot ? 1 : 0, 0));
         
     }else {
-        int horizontal = right - left;
         int vertical = up - down;
+        int horizontal = right - left;
         int direction;
         switch(vertical) {
             case -1:    switch(horizontal) {

@@ -60,9 +60,7 @@ void Controller::handlePacket(Receiver* /*r*/) {
 
         case OP_FRAME_BOUNDARY: handleFrameBoundary(); break;
         case OP_END_ROUND: handleEndRound(); break;
-        case OP_END_GAME: handleEndGame(pack.data1); break;
-
-        case 424242: emit redrawToCenter(pack.data1,pack.data2);
+        case OP_END_GAME: handleEndGame(pack.data1);
     }
 
     model->containerAccess.unlock();

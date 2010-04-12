@@ -45,9 +45,9 @@ void Initializer::initGUI() {
     connect(settingsController,SIGNAL(disconnected()),initDialog,SLOT(showDialog()));
     connect(settingsController,SIGNAL(connectionEstablished()),this,SLOT(initCore()));
    
-    connect(controller,SIGNAL(endGame(QString,bool)),this,SLOT(endGame(QString,bool)));
-    connect(controller,SIGNAL(status(QString)),gameWindow,SLOT(setStatus(QString)));
-    connect(controller,SIGNAL(redrawToCenter(qint32,qint32)),gameWindow,SLOT(redrawViewToCenter(qint32,qint32)));
+    connect(controller,SIGNAL(endGame(QString,bool)),this,SLOT(endGame(QString,bool)),Qt::QueuedConnection);
+    connect(controller,SIGNAL(status(QString)),gameWindow,SLOT(setStatus(QString)),Qt::QueuedConnection);
+    connect(controller,SIGNAL(redrawToCenter(qint32,qint32)),gameWindow,SLOT(redrawViewToCenter(qint32,qint32)),Qt::QueuedConnection);
 
     connect(controller,SIGNAL(gameStarts()),this,SLOT(startGame()));
     connect(controller,SIGNAL(gameStarts()),clicker,SLOT(startClock()));

@@ -225,6 +225,9 @@ QVector<OrientedRoundObj*> Model::getTanksInRect(qint32 x, qint32 y, qint32 widt
 void Model::maskMatrixWithTank(qint32 tankID, qint32 newX, qint32 newY) {
     Tank tank(*tanks->value(tankID));
 
+    /* TODO fix this, makes segfaults (writes after allocated block)! <<<<<<<<<<<<<<<<<<<<
+     *
+     * 
     while(tank.getX() != newX || tank.getY() != newY){
         BitmapObj mask(tank.getX1(), tank.getX2(), tank.getRadius() * 2, tank.getRadius() * 2);
 
@@ -244,7 +247,7 @@ void Model::maskMatrixWithTank(qint32 tankID, qint32 newX, qint32 newY) {
 
         tank.move();
     }
-
+    */
 }
 
 void Model::addBase(qint32 _x, qint32 _y, qint32 _width, qint32 _height, quint8 _color, QColor _wallColor) {
@@ -371,7 +374,7 @@ bool Model::isAnyCollisionExceptOwnTank (const Projectile * projectile) const{
     return isMatrixCollision(projectile) || isSolidCollision(projectile) || isTankCollision(projectile) || isProjectileCollision(projectile);
 }
 
-// TODO rewrite (Pavel)
+// TODO rewrite ??
 
 void Model::projectileExplosion(qint32 projectileID, qint32 x, qint32 y, qint32 srand) {
     Projectile * shot = projectiles->take(projectileID);
@@ -404,8 +407,16 @@ void Model::projectileExplosion(qint32 projectileID, qint32 x, qint32 y, qint32 
             projectiles->remove(projectile->id);
             delete projectile;
         }
-    }
-    
+    } 
+}
+
+void Model::moveTankWhilePossible(Tank* tank) {
+
+
+    // TODO implement
+
+    tank->move(16);
+
 }
 
 void Model::moveTanksBackToBases() {
