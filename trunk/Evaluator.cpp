@@ -196,13 +196,22 @@ void Evaluator::evaluateState() {
         list.removeFirst();
     }
 
-    // TODO all firing tanks, fire!!!
+    //all firing tanks, fire!!!
+    QList<Projectile*> firedProjectiles;
+
+    foreach (Tank * tank, *model->tanks) {
+        if(tank->isShoting){
+            Projectile * projectile = tank->fire(model->provideProjectileID());
+            model->projectiles->insert(projectile->id, projectile);
+            firedProjectiles.append(projectile);
+        }
+    }
 
     // TODO move all new projectiles here (and handle any resulting collisions & generate explosions)
 
     // TODO execute all explosions - mask matrix, modify tank HPs
 
-    // TODO check tank HPs for <= 0, remove tanks, generate any tankExplosions (and eval them, checking tank HP again)
+    // TODO check tank HPs for <= 0, generate any tankExplosions (and eval them, checking tank HP again)
 
     // TODO evaluate tank energy/HP gain from bases (distinguish own and enemy)
 

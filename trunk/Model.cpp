@@ -59,7 +59,7 @@ void Model::cleanContainers(){
         delete projectile;
     }
 
-     //Delete tanks
+    //Delete tanks
     foreach (Tank * tank, *tanks) {
         delete tank;
     }
@@ -213,7 +213,9 @@ QVector<OrientedRoundObj*> Model::getTanksInRect(qint32 x, qint32 y, qint32 widt
 
     foreach(Tank * tank, *tanks){
         if(tank->getX() > x1 && tank->getX() < x2 && tank->getY() > y1 && tank->getY() < y2){
-            vector.append(tank);
+            if(tank->hp > 0){ //alive tanks only
+                vector.append(tank);
+            }
         }
     }
 
@@ -316,6 +318,30 @@ bool Model::isTankCollision (const RoundObj * obj) const{
     return false;
 }
 
+bool Model::isTankCollision (const Projectile * projectile) const{
+
+    foreach(Tank * tank, *tanks){
+
+        if(checkRectOverlap(projectile->getX1() ,projectile->getY1(), projectile->getX2(), projectile->getY2(), tank->getX1(), tank->getY1(), tank->getX2(), tank->getY2())){
+
+            for (int i = projectile->getX1(); i < projectile->getX2(); i++) {
+                for (int j = projectile->getY1(); j < projectile->getY2(); j++) {
+                    //colides
+                    if(projectile->isWithinCircle(i, j) && tank->isWithinCircle(i, j)){
+                        if(tank->id != projectile->tankID){
+                            //do not colide with own  tank
+                            return true;
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+    return false;
+}
+
 bool Model::isProjectileCollision (const RoundObj * obj) const{
 
     foreach(Projectile * projectile, *projectiles){
@@ -339,6 +365,10 @@ bool Model::isProjectileCollision (const RoundObj * obj) const{
 
 bool Model::isAnyCollision (const RoundObj * obj) const{
     return isMatrixCollision(obj) || isSolidCollision(obj) || isTankCollision(obj) || isProjectileCollision(obj);
+}
+
+bool Model::isAnyCollisionExceptOwnTank (const Projectile * projectile) const{
+    return isMatrixCollision(projectile) || isSolidCollision(projectile) || isTankCollision(projectile) || isProjectileCollision(projectile);
 }
 
 // TODO rewrite (Pavel)
@@ -386,14 +416,6 @@ void Model::moveTanksBackToBases() {
             t->setY(base->y1 + BASE_HEIGHT/2);
             //rotation unchanged
     }
-}
-
-void Model::tankFire(qint32 tankID){
-    Tank * tank = tanks->value(tankID);
-
-    Projectile * projectile = new Projectile(tank->fire(provideProjectileID()));
-
-    projectiles->insert(projectile->id, projectile);
 }
 
 qint32 Model::getPixelCountInCircle(const RoundObj * obj){
