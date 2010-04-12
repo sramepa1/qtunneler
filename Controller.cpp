@@ -144,7 +144,7 @@ void Controller::handleFrameBoundary() {
 void Controller::handleEndRound() {
 
     roundNr++;
-    foreach(Base* base, model.bases) {
+    foreach(Base* base, *(model->bases)) {
         if(base->color == model->playerID) {
             Tank* t = model->tanks->value(model->playerID);
             t->setX(base->x1 + BASE_WIDTH/2);
@@ -158,6 +158,6 @@ void Controller::handleEndRound() {
 
 void Controller::handleEndGame(qint32 tankID) {
 
-    emit endGame(tr("Game finished. You have ") + tankID==model->playerID ? tr("won!") : tr("lost."),true);
+    emit endGame(tr("Game finished. You have ") + (tankID==model->playerID ? tr("won!") : tr("lost.")),true);
 }
 
