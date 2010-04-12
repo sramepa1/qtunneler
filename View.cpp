@@ -18,7 +18,7 @@ View::View(QWidget* parent, Model* _model, Clicker* _clicker) : QWidget(parent),
     tile = QPixmap::fromImage(QImage(":/tile.png"));
     x = y = 0;
 
-    int playerIDs[3] = {RED_PLAYER, BLUE_PLAYER, GREEN_PLAYER};
+    int playerIDs[3] = {RED_PLAYER, GREEN_PLAYER, BLUE_PLAYER};
     QString strings[3] = {"red", "green", "blue"};
     for (int i = 0; i < 3; i++) {
         QString prefix = QString(":/tanks/") + strings[i];

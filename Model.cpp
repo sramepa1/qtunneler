@@ -28,7 +28,7 @@ Model::Model(QObject* parent) : QObject(parent) {
     playerColors[BLUE_PLAYER] = new QColor("blue");
     playerColors[GREEN_PLAYER] = new QColor("green");
 
-    init();
+    //init();
 }
 
 Model::~Model() {

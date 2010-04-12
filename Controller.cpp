@@ -24,7 +24,7 @@ void Controller::run() {
 }
 
 void Controller::resetStateAndStop() {
-    //model->reset();                       TODO uncomment!!!!!!!! <<<<<<<<<<<<<<<<<<<<<<<<<<<
+    model->reset();
     quit();
 }
 
@@ -127,10 +127,7 @@ void Controller::handleTankExplosion(qint32 tankID, qint32 x, qint32 y, qint32 s
 
 void Controller::handleAddBase(qint32 tankID, qint32 x, qint32 y) {
 
-    model->bases->append(new Base(x,y,BASE_WIDTH,BASE_HEIGHT,(quint8)tankID));
-    BaseWall* b = new BaseWall(x,y,BASE_WIDTH,BASE_HEIGHT,*(model->playerColors.value(tankID)));
-    model->matrix->maskMatrix(b);
-    model->solidObjects->append(b);
+    model->addBase(x,y,BASE_WIDTH,BASE_HEIGHT,(quint8)tankID,*(model->playerColors.value(tankID)));
 }
 
 void Controller::handleAddStone(qint32 x, qint32 y, qint32 width, qint32 height) { // TODO parameters

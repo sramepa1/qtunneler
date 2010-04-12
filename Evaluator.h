@@ -49,8 +49,6 @@ signals:
 
 protected:
 
-    virtual void updatePacket(Packet & p);
-    
     virtual void dispatchPacket(Packet& packet);
 
     virtual void dumpSendersAndReceivers();
