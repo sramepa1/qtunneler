@@ -56,7 +56,7 @@
 
 //Map
 #define BORDER_SIZE (3 * TANK_RADIUS)
-#define STONE_COUNT 60
+#define STONE_COUNT 150
 #define STONES_MAX_WIDTH 360 / 8
 #define STONES_MAX_HEIGHT 360 / 8
 
