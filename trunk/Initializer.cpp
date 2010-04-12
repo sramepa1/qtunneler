@@ -120,6 +120,7 @@ void Initializer::endGame(QString message, bool ok) {
     msgBox.setStandardButtons(QMessageBox::Ok);
     msgBox.setIcon(ok ? QMessageBox::Information : QMessageBox::Critical);
     msgBox.exec();
+    settingsController->closeConnection();
     controller->quit();
     if(evaluator) evaluator->quit();
     gameWindow->hide();

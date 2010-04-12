@@ -48,6 +48,8 @@ void View::paintEvent(QPaintEvent* /*evt*/) {
     // draw background
     painter.drawTiledPixmap(0,0,width(),height(),tile, x % tile.width(), y % tile.height());
 
+    model->containerAccess.lock();
+
     // draw tunnel network
     const uchar* data = model->getTunnelBitmapData(x,y,wid,hei);   
     painter.setPen(tunnel);
@@ -85,6 +87,8 @@ void View::paintEvent(QPaintEvent* /*evt*/) {
     foreach(OrientedRoundObj* tank, tankVec) {
         painter.drawPixmap(tank->getX1() - x,tank->getY1() - y,tanks[tank->id][tank->rotation]);
     }
+
+    model->containerAccess.unlock();
 }
 
 void View::setViewpoint(qint32 _x, qint32 _y) {

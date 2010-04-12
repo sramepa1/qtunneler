@@ -15,7 +15,7 @@
 
 class BitmapObj{ //TODO copy constructor
 public:
-    BitmapObj(qint32 _x = 0, qint32 _y = 0, qint32 _width = 0, qint32 _heigth = 0);
+    BitmapObj(qint32 _x = 0, qint32 _y = 0, qint32 _width = 0, qint32 _height = 0);
     BitmapObj(const BitmapObj & orig);
 
     virtual ~BitmapObj();
@@ -59,7 +59,7 @@ protected:
      quint8** bitmap;
      
      QBitmap* qbitmap;
-     QColor color;      // TODO initialize!
+     QColor color;      // initialized in subclasses;
 
 };
 

@@ -6,20 +6,17 @@
  */
 
 #include "Stone.h"
-#include "Explosion.h"
 
-Stone::Stone(qint32 _x, qint32 _y, qint32 _width, qint32 _heigth) : BitmapObj(_x, _y, _width, _heigth) {
-    color = QColor("gray");
+Stone::Stone(qint32 _x, qint32 _y, qint32 _width, qint32 _height) : BitmapObj(_x, _y, _width, _height) {
+    color = QColor("darkGray");
 
-    for(qint32 i = 0; i < width; i++){
-        for (qint32 j = 0; j < height; j++) {
-            setXY(i, j, true);
+    Q_ASSERT(_width % 8 == 0);
+
+    for(qint32 i = 0; i < _width/8; i++){
+        for (qint32 j = 0; j < _height; j++) {
+            setByte(i, j, 0xFF);
         }
     }
 
-}
-
-Stone::~Stone() {
-    
 }
 
