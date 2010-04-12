@@ -63,6 +63,8 @@ protected:
 
     qint32 roundNr;
 
+    bool moveProjectiles;
+
     // not owner
     Model* model;
 
