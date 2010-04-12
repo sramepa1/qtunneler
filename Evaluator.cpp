@@ -5,7 +5,10 @@
  * Created on 19. březen 2010, 11:42
  */
 
+#include <qt4/QtGui/qtextdocument.h>
+
 #include "Evaluator.h"
+#include "BaseWall.h"
 
 Evaluator::Evaluator(QObject* parent) : QThread(parent) {
     model = new Model(this);
@@ -64,7 +67,54 @@ void Evaluator::dumpSendersAndReceivers() {
 
 void Evaluator::generateWorldAndStartRound() {
 
-    // TODO generate everything here
+    //WORLD GENERATION
+
+    //generate bases
+    srand(QTime::currentTime().elapsed());
+
+    qint32 x1, y1, x2, y2, width, heigth;
+
+    do{
+
+        x1 = (qint32) (((qreal) qrand() / RAND_MAX) * (MATRIX_DIMENSION - 2 * BASE_MIN_DISTANCE_FROM_BORDER - 2 * BORDER_SIZE) + BASE_MIN_DISTANCE_FROM_BORDER);
+        y1 = (qint32) (((qreal) qrand() / RAND_MAX) * (MATRIX_DIMENSION - 2 * BASE_MIN_DISTANCE_FROM_BORDER - 2 * BORDER_SIZE) + BASE_MIN_DISTANCE_FROM_BORDER);
+        x2 = (qint32) (((qreal) qrand() / RAND_MAX) * (MATRIX_DIMENSION - 2 * BASE_MIN_DISTANCE_FROM_BORDER - 2 * BORDER_SIZE) + BASE_MIN_DISTANCE_FROM_BORDER);
+        y2 = (qint32) (((qreal) qrand() / RAND_MAX) * (MATRIX_DIMENSION - 2 * BASE_MIN_DISTANCE_FROM_BORDER - 2 * BORDER_SIZE) + BASE_MIN_DISTANCE_FROM_BORDER);
+
+    }while(Model::checkRectOverlap(x1, y1 ,x1 + BASE_WIDTH, y1 + BASE_HEIGHT, x2, y2 ,x2 + BASE_WIDTH, y2 + BASE_HEIGHT));
+
+    model->addBase(x1, y1, BASE_WIDTH, BASE_HEIGHT, RED_PLAYER, QColor('red'));
+    model->addBase(x2, y2, BASE_WIDTH, BASE_HEIGHT, BLUE_PLAYER, QColor('blue'));
+
+    //generate tanks
+    model->tanks->insert(RED_PLAYER, new Tank(x1 + BASE_WIDTH / 2, y1 + BASE_WIDTH / 2, RED_PLAYER, RED_PLAYER));
+    model->tanks->insert(RED_PLAYER, new Tank(x2 + BASE_WIDTH / 2, y2 + BASE_WIDTH / 2, RED_PLAYER, RED_PLAYER));
+
+    //generate stones
+    QVector<Stone *> stones;
+
+    for (int i = 0; i < STONES_COUNT; i++) {
+        x1 = (qint32) (((qreal) qrand() / RAND_MAX) * (MATRIX_DIMENSION - 2 * STONES_MAX_WIDTH - 2 * BORDER_SIZE) + STONES_MAX_WIDTH) ;
+        y1 = (qint32) (((qreal) qrand() / RAND_MAX) * (MATRIX_DIMENSION - 2 * STONES_MAX_HEIGHT - 2 * BORDER_SIZE) + STONES_MAX_WIDTH);
+        width = ( (qint32) (((qreal) qrand() / RAND_MAX) * STONES_MAX_WIDTH)) * 8 ;
+        heigth = ( (qint32) (((qreal) qrand() / RAND_MAX) * STONES_MAX_HEIGHT)) * 8 ;
+
+        //check bases colisions
+        bool flag = true;
+        foreach(Base * base, *model->bases){
+            if(Model::checkRectOverlap(x1, y1, x1 + width, y1 + heigth, base->x1, base->y1, base->x2, base->y2)){
+                flag = false;
+            } 
+        }
+
+        if(flag){
+           stones.append(new Stone(x1, y1, width, heigth));
+        }else{
+           --i;
+        }
+    }
+
+    //----------------------------------
     
     Packet p(OP_INIT_START);
     dispatchPacket(p);

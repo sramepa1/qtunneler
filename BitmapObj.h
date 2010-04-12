@@ -13,7 +13,7 @@
 #include <QColor>
 #include "DefaultValues.h"
 
-class BitmapObj{ //TODO copy constructor
+class BitmapObj{
 public:
     BitmapObj(qint32 _x = 0, qint32 _y = 0, qint32 _width = 0, qint32 _height = 0);
     BitmapObj(const BitmapObj & orig);

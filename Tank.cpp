@@ -7,10 +7,10 @@
 
 #include "Tank.h"
 
-Projectile Tank::fire(){
+Projectile Tank::fire(quint32 projectileID){
     QPair<qint32, qint32> pair = getMoveCoorinates(radius + PROJECTILE_RADIUS);
 
     energy -= TANK_ENERGY_COST_OF_FIRE;
 
-    return Projectile(pair.first, pair.second, color, 111111, rotation); //TODO system for IDs
+    return Projectile(pair.first, pair.second, color, projectileID, rotation);
 }
