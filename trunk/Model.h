@@ -31,7 +31,8 @@ public:
     Model(QObject* _parent = NULL);
     virtual ~Model();
 
-    virtual void init();
+   //delete
+   // virtual void init();
     virtual void reset();
 
     /**
@@ -62,17 +63,13 @@ public:
     virtual bool isSolidCollision (const RoundObj * obj) const;
     virtual bool isTankCollision (const RoundObj * obj) const;
     virtual bool isTankCollision (const Projectile * projectile) const;
-    virtual bool isProjectileCollision (const RoundObj * obj) const;
+    virtual bool isProjectileCollision (const Projectile * projectile) const;
     virtual bool isAnyCollision (const RoundObj * obj) const;
     virtual bool isAnyCollisionExceptOwnTank (const Projectile * projectile) const;
 
     /**
      * Explosion methods
      */
-
-    // TODO rewrite
-    //Create exlposion, burn clue in matrix, damage tanks and destroye all projectiles within explosion radius
-    virtual void projectileExplosion(qint32 projectileID, qint32 x, qint32 y, qint32 srand);
 
     /**
      * Tank control methods

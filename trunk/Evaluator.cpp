@@ -198,8 +198,51 @@ void Evaluator::evaluateState() {
 
     // TODO move projectiles here (and handle any resulting collisions & generate explosions)
 
-    foreach(Projectile* p, *(model->projectiles)) {
-        p->move(PROJECTILE_SPEED); // default (identical to dumb Controller), rewrite!
+    foreach(Projectile * projectile, *(model->projectiles)) {
+
+        for (int i = 0; i < PROJECTILE_SPEED; i++) {
+
+            projectile->move(1); //předělat
+
+            if(model->isMatrixCollision(projectile)){
+
+                Explosion explosion(projectile->getX(), projectile->getY(), projectile->color, projectile->id);;
+
+                temp = Packet(OP_EXPLOSION, projectile->id, projectile->id, projectile->getX(), projectile->getY());
+                tempList.append(temp);
+
+                //Burn clue
+                model->matrix->invertMaskMatrix((& explosion.getExplosionMask()));
+
+                //damage tanks within raius
+                foreach(Tank * tank, *model->tanks){
+                    if(model->isTankCollision((& explosion))){
+                        tank->hp -= explosion.countDamageToObj(tank);
+
+                        if(tank->hp < 0){
+                            tank->hp = 0;
+                            //TODO react - tank destroyed
+                        }
+                    }
+                }
+
+                model->projectiles->remove(projectile->id);
+                delete projectile;
+
+                /*//destroy projectiles within radius
+                //TODO change - chain effect
+                foreach(Projectile * shot, *model->projectiles){
+                    if(model->isProjectileCollision((& explosion))){
+                        model->projectiles->remove(shot->id);
+                        delete shot;
+                    }
+                }
+                 * */
+
+                break;
+
+            }
+        }
     }
 
 
