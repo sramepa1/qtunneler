@@ -12,10 +12,6 @@ Controller::Controller(QObject* parent, Model* _model) : QThread(parent) {
     receiver = NULL;
     model = _model;
     roundNr = 0; // init phase
-
-    playerColors[RED_PLAYER] = new QColor("red");
-    playerColors[BLUE_PLAYER] = new QColor("blue");
-    playerColors[GREEN_PLAYER] = new QColor("green");
 }
 
 Controller::~Controller() {
@@ -81,6 +77,7 @@ void Controller::handleTankMovement(qint32 tankID, qint32 x, qint32 y, qint32 ro
         Tank* t = new Tank(x,y,(quint8)tankID,tankID);
         t->rotation = (OrientedRoundObj::direction)rotation;
         model->tanks->insert(tankID,t);
+        roundNr++;
     }else {
         Tank* t = model->tanks->value(tankID);
         t->rotation = (OrientedRoundObj::direction)rotation;
@@ -110,21 +107,28 @@ void Controller::handleProjectileSpawn(qint32 projectileID, qint32 x, qint32 y, 
 
 void Controller::handleExplosion(qint32 projectileID, qint32 x, qint32 y, qint32 srand) {
 
-    // TODO implement
+    // QTunneler2 : add explosion to model and draw, next frame - remove
 
+    Explosion* ex = new Explosion(x,y,NO_PLAYER,srand);
+    model->projectiles->remove(projectileID);
+    model->matrix->invertMaskMatrix( (&(ex->getExplosionMask())) );
+    delete ex;
 }
 
 void Controller::handleTankExplosion(qint32 tankID, qint32 x, qint32 y, qint32 srand) {
 
-    // TODO implement
+    // QTunneler2 : add explosion to model and draw, next frame - remove
 
+    Explosion* ex = new Explosion(x,y,NO_PLAYER,srand,TANK_EXPLOSION_RADIUS);
+    model->matrix->invertMaskMatrix( (&(ex->getExplosionMask())) );
+    delete ex;
 }
 
 
 void Controller::handleAddBase(qint32 tankID, qint32 x, qint32 y) {
 
     model->bases->append(new Base(x,y,BASE_WIDTH,BASE_HEIGHT,(quint8)tankID));
-    BaseWall* b = new BaseWall(x,y,BASE_WIDTH,BASE_HEIGHT,*(playerColors.value(tankID)));
+    BaseWall* b = new BaseWall(x,y,BASE_WIDTH,BASE_HEIGHT,*(model->playerColors.value(tankID)));
     model->matrix->maskMatrix(b);
     model->solidObjects->append(b);
 }
@@ -136,23 +140,16 @@ void Controller::handleAddStone(qint32 x, qint32 y, qint32 width, qint32 height)
 
 void Controller::handleFrameBoundary() {
 
-    // TODO implement - move projectiles etc.
-
+    foreach(Projectile* p, *(model->projectiles)) {
+        p->move(PROJECTILE_SPEED);
+    }
     emit redrawToCenter(model->tanks->value(model->playerID)->getX(),model->tanks->value(model->playerID)->getY());
 }
 
 void Controller::handleEndRound() {
 
     roundNr++;
-    foreach(Base* base, *(model->bases)) {
-        if(base->color == model->playerID) {
-            Tank* t = model->tanks->value(model->playerID);
-            t->setX(base->x1 + BASE_WIDTH/2);
-            t->setY(base->y1 + BASE_HEIGHT/2);
-            //rotation unchanged
-            break;
-        }
-    }
+    model->moveTanksBackToBases();
 }
 
 

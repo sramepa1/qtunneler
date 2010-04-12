@@ -63,8 +63,6 @@ protected:
 
     qint32 roundNr;
 
-    QHash<qint32,QColor*> playerColors;
-
     // not owner
     Model* model;
 
@@ -73,5 +71,3 @@ private:
 };
 
 #endif	/* _CONTROLLER_H */
-
-
