@@ -76,20 +76,21 @@ void View::paintEvent(QPaintEvent* /*evt*/) {
         painter.drawPixmap(bmp->getX1() - x, bmp->getY1() - y,*(bmp->getQBitmap()));
     }
 
-    // draw projectiles
-    painter.setPen(Qt::NoPen);
-    painter.setBrush(shot);
-    QPoint view(x,y);    
-    QVector<QPoint> shots = model->getShotsInRect(x,y,wid,hei);
-    foreach(QPoint center, shots) {
-        painter.drawEllipse(center - view,PROJECTILE_RADIUS,PROJECTILE_RADIUS);
-    }
-
     // draw tanks
     painter.setBrush(Qt::NoBrush);
     QVector<OrientedRoundObj*> tankVec = model->getTanksInRect(x,y,wid,hei);
     foreach(OrientedRoundObj* tank, tankVec) {
         painter.drawPixmap(tank->getX1() - x,tank->getY1() - y,tanks[tank->id][tank->rotation]);
+    }
+
+    
+    // draw projectiles
+    painter.setPen(Qt::NoPen);
+    painter.setBrush(shot);
+    QPoint view(x,y);
+    QVector<QPoint> shots = model->getShotsInRect(x,y,wid,hei);
+    foreach(QPoint center, shots) {
+        painter.drawEllipse(center - view,PROJECTILE_RADIUS,PROJECTILE_RADIUS);
     }
 
     model->containerAccess.unlock();

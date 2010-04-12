@@ -12,6 +12,7 @@ Controller::Controller(QObject* parent, Model* _model) : QThread(parent) {
     receiver = NULL;
     model = _model;
     roundNr = 0; // init phase
+    moveProjectiles = false;
 }
 
 Controller::~Controller() {
@@ -43,6 +44,13 @@ void Controller::handlePacket(Receiver* /*r*/) {
     Packet pack = receiver->getPacket();
 
     model->containerAccess.lock();
+
+    if(moveProjectiles) {
+        foreach(Projectile* p, *(model->projectiles)) {
+            p->move(PROJECTILE_SPEED);
+        }
+        moveProjectiles = false;
+    }
 
     switch(pack.opcode) {
         case OP_INIT_START: emit initInProgress(); break;
@@ -136,10 +144,9 @@ void Controller::handleAddStone(qint32 x, qint32 y, qint32 width, qint32 height)
 
 void Controller::handleFrameBoundary() {
 
-    foreach(Projectile* p, *(model->projectiles)) {
-        p->move(PROJECTILE_SPEED);
-    }
     emit redrawToCenter(model->tanks->value(model->playerID)->getX(),model->tanks->value(model->playerID)->getY());
+
+    moveProjectiles = true; // delay to next packet
 }
 
 void Controller::handleEndRound() {
