@@ -79,7 +79,7 @@ public:
      */
 
     virtual void moveTanksBackToBases();
-
+    virtual void moveTankWhilePossible(Tank* tank);
     virtual qint32 getPixelCountInCircle(const RoundObj * obj);
 
     /**

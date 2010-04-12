@@ -12,9 +12,13 @@
 View::View(QWidget* parent, Model* _model, Clicker* _clicker) : QWidget(parent), model(_model), clicker(_clicker) {
     tunnel.setColor(Qt::black);
     solid.setColor(Qt::gray);
+    
     border.setColor(Qt::darkGray);
     border.setStyle(Qt::SolidPattern);
+
     shot.setColor(Qt::yellow);
+    shot.setStyle(Qt::SolidPattern);
+
     tile = QPixmap::fromImage(QImage(":/tile.png"));
     x = y = 0;
 
@@ -74,8 +78,8 @@ void View::paintEvent(QPaintEvent* /*evt*/) {
 
     // draw projectiles
     painter.setPen(Qt::NoPen);
-    QPoint view(x,y);
     painter.setBrush(shot);
+    QPoint view(x,y);    
     QVector<QPoint> shots = model->getShotsInRect(x,y,wid,hei);
     foreach(QPoint center, shots) {
         painter.drawEllipse(center - view,PROJECTILE_RADIUS,PROJECTILE_RADIUS);

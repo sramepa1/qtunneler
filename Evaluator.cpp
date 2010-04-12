@@ -196,37 +196,64 @@ void Evaluator::evaluateState() {
         list.removeFirst();
     }
 
+    // TODO move projectiles here (and handle any resulting collisions & generate explosions)
+
+    foreach(Projectile* p, *(model->projectiles)) {
+        p->move(PROJECTILE_SPEED); // default (identical to dumb Controller), rewrite!
+    }
+
+
+    //all moving tanks, move!
+    foreach(Tank* t, *(model->tanks)) {
+        if(t->isMoving) {
+            model->moveTankWhilePossible(t);
+        }
+        if(t->isMoving || t->turned) {
+            Packet p(OP_TANK,(qint32)t->rotation,t->id,t->getX(),t->getY());
+            tempList.append(p);
+        }
+        if(t->turned) {
+            t->turned = false;
+            t->isMoving = true;
+        }
+    }
+
     //all firing tanks, fire!!!
-    QList<Projectile*> firedProjectiles;
+    QList<qint32> firedProjectiles;
 
     foreach (Tank * tank, *model->tanks) {
         if(tank->isShoting){
             Projectile * projectile = tank->fire(model->provideProjectileID());
             model->projectiles->insert(projectile->id, projectile);
-            firedProjectiles.append(projectile);
+            firedProjectiles.append(projectile->id);
         }
     }
-
-    // TODO move all new projectiles here (and handle any resulting collisions & generate explosions)
+    // fired projectiles are spawned but not yet evaluated (will try to move next frame)
 
     // TODO execute all explosions - mask matrix, modify tank HPs
 
     // TODO check tank HPs for <= 0, generate any tankExplosions (and eval them, checking tank HP again)
 
+    //send new projectiles that survived evaluation
+    foreach(quint32 id, firedProjectiles) {
+        if(model->projectiles->contains(id)) {
+            Projectile* p = model->projectiles->value(id);
+            temp = Packet(OP_PROJECTILE,(qint32)p->rotation,p->id,p->getX(),p->getY());
+            tempList.append(temp);
+        }
+    }
+
     // TODO evaluate tank energy/HP gain from bases (distinguish own and enemy)
 
+    foreach(Tank* t, *(model->tanks)) {
+        temp = Packet(OP_TANK_STATUS,t->roundsWon,t->id,t->hp,t->energy);
+        tempList.append(temp);
+    }
+
     // TODO check for victory condition - if there is one last tank standing, send OP_END_ROUND (and reset tanks) or OP_END_GAME
-    //          otherwise send OP_FRAME_BOUNDARY
 
-
-    // TODO remove this - testing code
-//    x += dx;
-//    y += dy;
-//
-//    Packet p(424242,0,x,y,0);
-//    tempList.append(p);
-    // end of test
-
+    temp = Packet(OP_FRAME_BOUNDARY);
+    tempList.append(temp);
 
     //send changes
     foreach(Packet pack, tempList ) {
@@ -234,32 +261,45 @@ void Evaluator::evaluateState() {
         //qDebug("Dispatched opcode %d, data1 %d, data2 %d",pack.opcode,pack.data1,pack.data2);
     }
     tempList.clear();
-
     foreach(Sender* sender, senders) sender->flush();
+
     timer.start(FRAME_MSECS);
 }
 
 void Evaluator::handleTankMovementChange(int tankID, int newDirection) {
 
-    // TODO implement - check collisions, calculate energy cost, etc. then send (update) tank packet
+    //qDebug("Changing movement status of tank %d, new direction=%d (net)",tankID,newDirection);
 
-    int step = 16;
+    Tank* t = model->tanks->value(tankID);
+    OrientedRoundObj::direction dir = t->rotation;
+
     switch(newDirection) {
-        case MOVE_STOP : dy = dx = 0; break;
-        case MOVE_N : dy = -step; dx = 0; break;
-        case MOVE_NE : dy = -step; dx = step; break;
-        case MOVE_E : dy = 0; dx = step; break;
-        case MOVE_SE : dy = dx = step; break;
-        case MOVE_S : dy = step; dx = 0; break;
-        case MOVE_SW : dy = step; dx = -step; break;
-        case MOVE_W : dy = 0; dx = -step; break;
-        case MOVE_NW : dy = dx = -step; break;
+        case MOVE_N : dir = OrientedRoundObj::NORTH; break;
+        case MOVE_NE : dir = OrientedRoundObj::NORTH_EAST; break;
+        case MOVE_E : dir = OrientedRoundObj::EAST; break;
+        case MOVE_SE : dir = OrientedRoundObj::SOUTH_EAST; break;
+        case MOVE_S : dir = OrientedRoundObj::SOUTH; break;
+        case MOVE_SW : dir = OrientedRoundObj::SOUTH_WEST; break;
+        case MOVE_W : dir = OrientedRoundObj::WEST; break;
+        case MOVE_NW : dir = OrientedRoundObj::NORTH_WEST;
+    }
+
+    if(newDirection == MOVE_STOP) {
+        t->isMoving = false;
+        t->turned = false;
+    }else {
+        if(dir == t->rotation) {
+            t->isMoving = true;
+            t->turned = false;
+        }else {
+            t->rotation = dir;
+            t->turned = true;
+        }
     }
 }
 
 void Evaluator::handleTankShootChange(int tankID, int newState) {
 
-    // TODO implement, this is only temporary <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    Packet p = Packet(OP_FRAME_BOUNDARY);
-    dispatchPacket(p);
+    model->tanks->value(tankID)->isShoting = (bool)newState;
+    
 }

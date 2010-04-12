@@ -16,13 +16,7 @@
 
 class Tank : public OrientedRoundObj {
 public:
-    Tank(qint32 x, qint32 y, quint8 color, qint32 id) : OrientedRoundObj(x, y, TANK_RADIUS, color, id, DEFAULT_TANK_ROTATION) {
-        hp = DEFAULT_TANK_HP;
-        energy = DEFAULT_TANK_ENERGY;
-        roundsWon = 0;
-        isMoving = false;
-        isShoting = false;
-    }
+    Tank(qint32 x, qint32 y, quint8 color, qint32 id);
     virtual ~Tank(){}
 
     virtual Projectile * fire(quint32 projectileID);
@@ -34,6 +28,7 @@ public:
 
     bool isMoving;
     bool isShoting;
+    bool turned;
 };
 
 #endif	/* _TANK_H */
