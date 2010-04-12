@@ -4,8 +4,7 @@
  * 
  * Created on 19. březen 2010, 11:42
  */
-
-#include <qt4/QtGui/qtextdocument.h>
+#include <ctime>
 
 #include "Evaluator.h"
 #include "BaseWall.h"
@@ -70,7 +69,7 @@ void Evaluator::generateWorldAndStartRound() {
     //WORLD GENERATION
 
     //generate bases
-    srand(QTime::currentTime().elapsed());
+    qsrand( time(NULL) );
 
     qint32 x1, y1, x2, y2, width, heigth;
 
@@ -83,8 +82,8 @@ void Evaluator::generateWorldAndStartRound() {
 
     }while(Model::checkRectOverlap(x1, y1 ,x1 + BASE_WIDTH, y1 + BASE_HEIGHT, x2, y2 ,x2 + BASE_WIDTH, y2 + BASE_HEIGHT));
 
-    model->addBase(x1, y1, BASE_WIDTH, BASE_HEIGHT, RED_PLAYER, QColor('red'));
-    model->addBase(x2, y2, BASE_WIDTH, BASE_HEIGHT, BLUE_PLAYER, QColor('blue'));
+    model->addBase(x1, y1, BASE_WIDTH, BASE_HEIGHT, RED_PLAYER, *(model->playerColors.value(RED_PLAYER)));
+    model->addBase(x2, y2, BASE_WIDTH, BASE_HEIGHT, BLUE_PLAYER, *(model->playerColors.value(BLUE_PLAYER)));
 
     //generate tanks
     model->tanks->insert(RED_PLAYER, new Tank(x1 + BASE_WIDTH / 2, y1 + BASE_HEIGHT / 2, RED_PLAYER, RED_PLAYER));
@@ -93,7 +92,7 @@ void Evaluator::generateWorldAndStartRound() {
     //generate stones
     QVector<Stone *> stones;
 
-    for (int i = 0; i < STONES_COUNT; i++) {
+    for (int i = 0; i < STONE_COUNT; i++) {
         x1 = (qint32) (((qreal) qrand() / RAND_MAX) * (MATRIX_DIMENSION - 2 * STONES_MAX_WIDTH - 2 * BORDER_SIZE) + STONES_MAX_WIDTH) ;
         y1 = (qint32) (((qreal) qrand() / RAND_MAX) * (MATRIX_DIMENSION - 2 * STONES_MAX_HEIGHT - 2 * BORDER_SIZE) + STONES_MAX_WIDTH);
         width = ( (qint32) (((qreal) qrand() / RAND_MAX) * STONES_MAX_WIDTH)) * 8 ;
@@ -118,14 +117,35 @@ void Evaluator::generateWorldAndStartRound() {
     
     Packet p(OP_INIT_START);
     dispatchPacket(p);
-    
-    // TODO send everything here
+    foreach(Sender* s, senders) s->flush();
 
-    // TODO Tanks - bypass regular dispatcher - first tank sent = player tank
+    foreach(Base* base, *(model->bases)) {
+        p = Packet(OP_BASE,0,base->color,base->x1,base->x2);
+        dispatchPacket(p);
+    }
+    foreach(Stone* stone, stones) {
+        p = Packet(OP_STONE,stone->getX1(),stone->getY1(),stone->getWidth(),stone->getHeight());
+        dispatchPacket(p);
+    }
+
+    // Tanks - bypass regular dispatcher - first tank sent = player tank
     // then just send all tanks everywhere, duplication does not matter
+    QList<Tank*> tanks = model->tanks->values();
+    for(int i = 0; i < tanks.size(); i++) {
+        Tank* t = tanks.value(i);
+        p = Packet(OP_TANK,t->rotation,t->id,t->getX(),t->getY());
+        senders[i]->sendPacket(p);
+    }
+
+    foreach(Tank* t, *(model->tanks)) {
+        p = Packet(OP_TANK,t->rotation,t->id,t->getX(),t->getY());
+        dispatchPacket(p);
+    }
 
     p = Packet(OP_INIT_END);
     dispatchPacket(p);
+    foreach(Sender* s, senders) s->flush();
+
     // will now wait for confirmations to arrive
 }
 
@@ -138,6 +158,7 @@ void Evaluator::handlePacket(Receiver* r) {
         //qDebug("evaluator dispatching start packet");
         Packet temp(OP_START_GAME);
         dispatchPacket(temp);
+        foreach(Sender* s, senders) s->flush();
         timer.start(FRAME_MSECS);
 
     // add to priority queue
@@ -189,7 +210,7 @@ void Evaluator::evaluateState() {
     y += dy;
 
     Packet p(424242,0,x,y,0);
-    updatePacket(p);
+    tempList.append(p);
     // end of test
 
 
@@ -202,22 +223,6 @@ void Evaluator::evaluateState() {
 
     foreach(Sender* sender, senders) sender->flush();
     timer.start(FRAME_MSECS);
-}
-
-void Evaluator::updatePacket(Packet& p) {
-    bool found = false;
-    //qDebug("Updating %d, data1 %d, data2 %d",p.opcode,p.data1,p.data2);
-    foreach(Packet pack, tempList) {
-        if(pack.opcode == p.opcode && pack.data1 == p.data1) { // data1 holds IDs where applicable
-            //qDebug("Found it");
-            found = true;
-            pack = p;
-        }
-    }
-    if(!found) {
-        //qDebug("Not found, appending");
-        tempList.append(p);
-    }
 }
 
 void Evaluator::handleTankMovementChange(int tankID, int newDirection) {
@@ -240,6 +245,8 @@ void Evaluator::handleTankMovementChange(int tankID, int newDirection) {
 
 void Evaluator::handleTankShootChange(int tankID, int newState) {
 
-    // TODO implement
-
+    // TODO implement, this is only temporary <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    Packet p = Packet(OP_FRAME_BOUNDARY);
+    qDebug("Bingo");
+    dispatchPacket(p);
 }
