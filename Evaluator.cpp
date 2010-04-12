@@ -73,10 +73,10 @@ void Evaluator::generateWorldAndStartRound() {
 
     qint32 x1, y1, x2, y2, width, heigth;
 
-    do{
+    x1 = (qint32) (((qreal) qrand() / RAND_MAX) * (MATRIX_DIMENSION - 2 * BASE_MIN_DISTANCE_FROM_BORDER - 2 * BORDER_SIZE) + BASE_MIN_DISTANCE_FROM_BORDER);
+    y1 = (qint32) (((qreal) qrand() / RAND_MAX) * (MATRIX_DIMENSION - 2 * BASE_MIN_DISTANCE_FROM_BORDER - 2 * BORDER_SIZE) + BASE_MIN_DISTANCE_FROM_BORDER);
 
-        x1 = (qint32) (((qreal) qrand() / RAND_MAX) * (MATRIX_DIMENSION - 2 * BASE_MIN_DISTANCE_FROM_BORDER - 2 * BORDER_SIZE) + BASE_MIN_DISTANCE_FROM_BORDER);
-        y1 = (qint32) (((qreal) qrand() / RAND_MAX) * (MATRIX_DIMENSION - 2 * BASE_MIN_DISTANCE_FROM_BORDER - 2 * BORDER_SIZE) + BASE_MIN_DISTANCE_FROM_BORDER);
+    do {
         x2 = (qint32) (((qreal) qrand() / RAND_MAX) * (MATRIX_DIMENSION - 2 * BASE_MIN_DISTANCE_FROM_BORDER - 2 * BORDER_SIZE) + BASE_MIN_DISTANCE_FROM_BORDER);
         y2 = (qint32) (((qreal) qrand() / RAND_MAX) * (MATRIX_DIMENSION - 2 * BASE_MIN_DISTANCE_FROM_BORDER - 2 * BORDER_SIZE) + BASE_MIN_DISTANCE_FROM_BORDER);
 
@@ -87,7 +87,7 @@ void Evaluator::generateWorldAndStartRound() {
 
     //generate tanks
     model->tanks->insert(RED_PLAYER, new Tank(x1 + BASE_WIDTH / 2, y1 + BASE_HEIGHT / 2, RED_PLAYER, RED_PLAYER));
-    model->tanks->insert(RED_PLAYER, new Tank(x2 + BASE_WIDTH / 2, y2 + BASE_HEIGHT / 2, BLUE_PLAYER, BLUE_PLAYER));
+    model->tanks->insert(BLUE_PLAYER, new Tank(x2 + BASE_WIDTH / 2, y2 + BASE_HEIGHT / 2, BLUE_PLAYER, BLUE_PLAYER));
 
     //generate stones
     QVector<Stone *> stones;
@@ -114,13 +114,15 @@ void Evaluator::generateWorldAndStartRound() {
     }
 
     //----------------------------------
+
+    // PACKET DISPATCH
     
     Packet p(OP_INIT_START);
     dispatchPacket(p);
     foreach(Sender* s, senders) s->flush();
 
     foreach(Base* base, *(model->bases)) {
-        p = Packet(OP_BASE,0,base->color,base->x1,base->x2);
+        p = Packet(OP_BASE,0,base->color,base->x1,base->y1);
         dispatchPacket(p);
     }
     foreach(Stone* stone, stones) {
@@ -131,6 +133,7 @@ void Evaluator::generateWorldAndStartRound() {
     // Tanks - bypass regular dispatcher - first tank sent = player tank
     // then just send all tanks everywhere, duplication does not matter
     QList<Tank*> tanks = model->tanks->values();
+    Q_ASSERT(tanks.size() == senders.size());
     for(int i = 0; i < tanks.size(); i++) {
         Tank* t = tanks.value(i);
         p = Packet(OP_TANK,t->rotation,t->id,t->getX(),t->getY());
@@ -139,6 +142,8 @@ void Evaluator::generateWorldAndStartRound() {
 
     foreach(Tank* t, *(model->tanks)) {
         p = Packet(OP_TANK,t->rotation,t->id,t->getX(),t->getY());
+        dispatchPacket(p);
+        p = Packet(OP_TANK_STATUS,t->roundsWon,t->id,t->hp,t->energy);
         dispatchPacket(p);
     }
 
@@ -206,11 +211,11 @@ void Evaluator::evaluateState() {
 
 
     // TODO remove this - testing code
-    x += dx;
-    y += dy;
-
-    Packet p(424242,0,x,y,0);
-    tempList.append(p);
+//    x += dx;
+//    y += dy;
+//
+//    Packet p(424242,0,x,y,0);
+//    tempList.append(p);
     // end of test
 
 
@@ -247,6 +252,5 @@ void Evaluator::handleTankShootChange(int tankID, int newState) {
 
     // TODO implement, this is only temporary <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     Packet p = Packet(OP_FRAME_BOUNDARY);
-    qDebug("Bingo");
     dispatchPacket(p);
 }
