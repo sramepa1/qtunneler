@@ -13,7 +13,7 @@
 
 class BaseWall : public BitmapObj {
 public:
-    BaseWall(qint32 _x, qint32 _y,qint32 _width, qint32 _heigth);
+    BaseWall(qint32 _x, qint32 _y,qint32 _width, qint32 _height, QColor _color);
     BaseWall(const BaseWall& orig) : BitmapObj(orig) {}
     virtual ~BaseWall() {}
 };

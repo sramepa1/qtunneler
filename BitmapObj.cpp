@@ -9,11 +9,11 @@
 #include "BitmapObj.h"
 
 
-BitmapObj::BitmapObj(qint32 _x, qint32 _y,qint32 _width, qint32 _heigth) {
+BitmapObj::BitmapObj(qint32 _x, qint32 _y,qint32 _width, qint32 _height) {
     x = _x;
     y = _y;
     width = _width;
-    height = _heigth;
+    height = _height;
 
     qbitmap = NULL;
     

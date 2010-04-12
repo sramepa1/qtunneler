@@ -68,8 +68,9 @@ public:
      * Explosion methods
      */
 
-    //Create exlosion, burn clue in matrix, damage tanks and destroye all projectiles within explosion radius
-    virtual void projectileExplosion(qint32 shotID);
+    // TODO rewrite
+    //Create exlposion, burn clue in matrix, damage tanks and destroye all projectiles within explosion radius
+    virtual void projectileExplosion(qint32 projectileID, qint32 x, qint32 y, qint32 srand);
 
     /**
      * Tank control methods
@@ -98,6 +99,9 @@ public:
     QHash<qint32,Projectile*> * projectiles;
 
     qint32 playerID;
+
+    // to synchronize access by view and controller
+    QMutex containerAccess;
 
 protected:
     quint32 nextProjectileID;

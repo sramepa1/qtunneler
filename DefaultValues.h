@@ -116,7 +116,7 @@
 // OP_BASE - data1 = tank ID, data2 = X1, data3 = Y1
 
 #define OP_STONE 13
-// OP_STONE - TODO decide what to send
+// OP_STONE - timecode = x1, data1 = y1, data2 = width, data3 = height
 
 
 // Server-to-Client control

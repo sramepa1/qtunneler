@@ -9,9 +9,6 @@
 #include "BaseWall.h"
 #include "Stone.h"
 
-#include <qt4/QtGui/qtextdocument.h>
-#include <qt4/QtGui/qsystemtrayicon.h>
-
 Model::Model(QObject* parent) : QObject(parent) {
     matrix = new Matrix();
     border = new Border();
@@ -25,7 +22,7 @@ Model::Model(QObject* parent) : QObject(parent) {
 
     playerID = NO_PLAYER;
     
-    //nextProjectileID - necháme tam smetí?
+    nextProjectileID = 42*42;
 
     init();
 }
@@ -77,18 +74,16 @@ void Model::init() {
 
     bases->append(new Base(400, 400, 240, 240, 1));
 
-    BaseWall * baseWall = new BaseWall(400, 400, 240, 240);
-
-    tanks->insert(1, new Tank(480,480,1,1));
+    BaseWall * baseWall = new BaseWall(400, 400, 240, 240, QColor("red"));
 
     solidObjects->append(baseWall);
     matrix->maskMatrix(baseWall);
 
     // ...
     
-    tanks->insert(1, new Tank(500,500,1,1));
+    tanks->insert(RED_PLAYER, new Tank(500,500,RED_PLAYER,RED_PLAYER));
 
-    solidObjects->append(new Stone(300, 100, 77, 100));
+    solidObjects->append(new Stone(300, 100, 88, 100));
  
     Explosion * ex = new Explosion(300,300,1,1,200);
     matrix->invertMaskMatrix(& ex->getExplosionMask());
@@ -96,7 +91,7 @@ void Model::init() {
     Projectile * pr = new Projectile(50, 50, 11, 11, OrientedRoundObj::NORTH);
     projectiles->insert(11, pr);
 
-    projectileExplosion(11);
+    projectileExplosion(11,50,50,42);
 
 
 }
@@ -336,18 +331,20 @@ bool Model::isAnyCollision (const RoundObj * obj) const{
     return isMatrixCollision(obj) || isSolidCollision(obj) || isTankCollision(obj) || isProjectileCollision(obj);
 }
 
-void Model::projectileExplosion(qint32 shotID){
-    Projectile * shot = projectiles->take(shotID);
+// TODO rewrite (Pavel)
+
+void Model::projectileExplosion(qint32 projectileID, qint32 x, qint32 y, qint32 srand) {
+    Projectile * shot = projectiles->take(projectileID);
     //make new explosion
     
-    qint32 seed = 15;//TODO gain somehow
-    
-    Explosion * explosion = new Explosion(shot->getX(), shot->getY(), shot->color, seed);
+    Explosion * explosion = new Explosion(shot->getX(), shot->getY(), shot->color, srand);
     explosions->append(explosion);
 
     //Burn clue
     matrix->invertMaskMatrix(& explosion->getExplosionMask());
 
+    /*TODO move to evaluator
+     *
     //damage tanks within raius
     foreach(Tank * tank, *tanks){
         if(isTankCollision(explosion)){
@@ -359,6 +356,7 @@ void Model::projectileExplosion(qint32 shotID){
             }
         }
     }
+     */
 
     //destroy projectiles within radius
     foreach(Projectile * projectile, *projectiles){
