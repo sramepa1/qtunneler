@@ -61,8 +61,10 @@ public:
     //Collision with stone, basewall or border.
     virtual bool isSolidCollision (const RoundObj * obj) const;
     virtual bool isTankCollision (const RoundObj * obj) const;
+    virtual bool isTankCollision (const Projectile * projectile) const;
     virtual bool isProjectileCollision (const RoundObj * obj) const;
     virtual bool isAnyCollision (const RoundObj * obj) const;
+    virtual bool isAnyCollisionExceptOwnTank (const Projectile * projectile) const;
 
     /**
      * Explosion methods
@@ -77,8 +79,7 @@ public:
      */
 
     virtual void moveTanksBackToBases();
-    
-    virtual void tankFire(qint32 tankID);
+
     virtual qint32 getPixelCountInCircle(const RoundObj * obj);
 
     /**
