@@ -93,8 +93,8 @@ void Evaluator::generateWorldAndStartRound() {
     QVector<Stone *> stones;
 
     for (int i = 0; i < STONE_COUNT; i++) {
-        x1 = (qint32) (((qreal) qrand() / RAND_MAX) * (MATRIX_DIMENSION - 2 * STONES_MAX_WIDTH - 2 * BORDER_SIZE) + STONES_MAX_WIDTH) ;
-        y1 = (qint32) (((qreal) qrand() / RAND_MAX) * (MATRIX_DIMENSION - 2 * STONES_MAX_HEIGHT - 2 * BORDER_SIZE) + STONES_MAX_WIDTH);
+        x1 = (qint32) (((qreal) qrand() / RAND_MAX) * (MATRIX_DIMENSION - STONES_MAX_WIDTH * 8 - 2 * BORDER_SIZE) + BORDER_SIZE) ;
+        y1 = (qint32) (((qreal) qrand() / RAND_MAX) * (MATRIX_DIMENSION - STONES_MAX_HEIGHT * 8 - 2 * BORDER_SIZE) + BORDER_SIZE);
         width = ( (qint32) (((qreal) qrand() / RAND_MAX) * STONES_MAX_WIDTH)) * 8 ;
         heigth = ( (qint32) (((qreal) qrand() / RAND_MAX) * STONES_MAX_HEIGHT)) * 8 ;
 
