@@ -47,7 +47,7 @@ void Controller::handlePacket(Receiver* /*r*/) {
     switch(pack.opcode) {
         case OP_INIT_START: emit initInProgress(); break;
         case OP_INIT_END: emit confirmInitEnd(); break;
-        case OP_START_GAME: emit gameStarts(); break;
+        case OP_START_GAME: roundNr = 1; emit gameStarts(); break;
 
         case OP_TANK: handleTankMovement(pack.data1,pack.data2,pack.data3,pack.timecode); break;
         case OP_TANK_STATUS: handleTankStatus(pack.data1,pack.data2,pack.data3,pack.timecode); break;
@@ -70,20 +70,21 @@ void Controller::handlePacket(Receiver* /*r*/) {
 
 void Controller::handleTankMovement(qint32 tankID, qint32 x, qint32 y, qint32 rotation) {
     
-    if(roundNr == 0) {
-        if(model->playerID == NO_PLAYER) {
-            model->playerID = tankID;
-        }
-        Tank* t = new Tank(x,y,(quint8)tankID,tankID);
-        t->rotation = (OrientedRoundObj::direction)rotation;
-        model->tanks->insert(tankID,t);
-        roundNr++;
-    }else {
+    if(model->tanks->contains(tankID)) {
         Tank* t = model->tanks->value(tankID);
         t->rotation = (OrientedRoundObj::direction)rotation;
         model->maskMatrixWithTank(tankID,x,y);
         t->setX(x);
         t->setY(y);
+    }else {
+        if(model->playerID == NO_PLAYER) {
+            model->playerID = tankID;
+            qDebug("Set playerID to %d",model->playerID);
+        }
+        Tank* t = new Tank(x,y,(quint8)tankID,tankID);
+        t->rotation = (OrientedRoundObj::direction)rotation;
+        model->tanks->insert(tankID,t);
+        qDebug("Added tank of id %d to x=%d, y=%d",tankID,x,y);
     }
 }
 
@@ -126,7 +127,7 @@ void Controller::handleTankExplosion(qint32 tankID, qint32 x, qint32 y, qint32 s
 
 
 void Controller::handleAddBase(qint32 tankID, qint32 x, qint32 y) {
-
+    qDebug("Adding base of id %d to x=%d, y=%d",tankID,x,y);
     model->addBase(x,y,BASE_WIDTH,BASE_HEIGHT,(quint8)tankID,*(model->playerColors.value(tankID)));
 }
 

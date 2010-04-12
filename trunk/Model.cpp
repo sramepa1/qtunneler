@@ -245,7 +245,7 @@ void Model::maskMatrixWithTank(qint32 tankID, qint32 newX, qint32 newY) {
 
 }
 
-void Model::addBase(qint32 _x, qint32 _y, qint32 _width, qint32 _height, quint8 _color, QColor _wallColor){
+void Model::addBase(qint32 _x, qint32 _y, qint32 _width, qint32 _height, quint8 _color, QColor _wallColor) {
     bases->append(new Base(_x, _y, _width, _height, _color));
 
     BaseWall * baseWall = new BaseWall(_x, _y, _width, _height, _wallColor);
