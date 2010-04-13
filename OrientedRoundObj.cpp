@@ -9,9 +9,6 @@
 
 #include <cmath>
 
-OrientedRoundObj::~OrientedRoundObj() {
-}
-
 QPair<qint32, qint32> OrientedRoundObj::getMoveCoorinates(qint32 steps){
     qint32 x = this->x;
     qint32 y = this->y;
@@ -35,6 +32,11 @@ void OrientedRoundObj::move(qint32 steps){
     QPair<qint32, qint32> pair = getMoveCoorinates(steps);
     x = pair.first;
     y = pair.second;
+
+    x1 = x - radius;
+    y1 = y - radius;
+    x2 = x + radius;
+    y2 = y + radius;
 }
 
 

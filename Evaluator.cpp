@@ -5,6 +5,7 @@
  * Created on 19. březen 2010, 11:42
  */
 #include <ctime>
+#include <qt4/QtGui/qstyleoption.h>
 
 #include "Evaluator.h"
 #include "BaseWall.h"
@@ -107,7 +108,9 @@ void Evaluator::generateWorldAndStartRound() {
         }
 
         if(flag){
-           stones.append(new Stone(x1, y1, width, heigth));
+           Stone * stone = new Stone(x1, y1, width, heigth);
+           stones.append(stone);
+           model->solidObjects->append(stone);
         }else{
            --i;
         }
@@ -202,9 +205,9 @@ void Evaluator::evaluateState() {
 
         for (int i = 0; i < PROJECTILE_SPEED; i++) {
 
-            projectile->move(1); //předělat
+            projectile->move(1);
 
-            if(model->isMatrixCollision(projectile)){
+            if(model->isAnyCollisionExceptOwnTank(projectile)){
 
                 Explosion explosion(projectile->getX(), projectile->getY(), projectile->color, projectile->id);;
 

@@ -19,5 +19,5 @@ Projectile * Tank::fire(quint32 projectileID){
 
     energy -= TANK_ENERGY_COST_OF_FIRE;
 
-    return new Projectile(pair.first, pair.second, color, projectileID, rotation);
+    return new Projectile(pair.first, pair.second, color, projectileID, rotation, id);
 }
