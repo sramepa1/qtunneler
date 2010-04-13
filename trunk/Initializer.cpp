@@ -132,13 +132,13 @@ void Initializer::startGame() {
 }
 
 void Initializer::endGame(QString message, bool ok) {
+    closeConnection();
     QMessageBox msgBox;
     msgBox.setText(ok ? tr("Finished") : tr("Error"));
     msgBox.setInformativeText(message);
     msgBox.setStandardButtons(QMessageBox::Ok);
     msgBox.setIcon(ok ? QMessageBox::Information : QMessageBox::Critical);
-    msgBox.exec();
-    settingsController->closeConnection();
+    msgBox.exec();    
     controller->quit();
     if(evaluator) evaluator->quit();
     gameWindow->hide();

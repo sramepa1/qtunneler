@@ -281,7 +281,7 @@ void Evaluator::evaluateState() {
     // evaluate tank energy/HP gain from bases (distinguish own and enemy)
     foreach(Tank* t, *(model->tanks)) {
         foreach(Base* b, *(model->bases)) {
-            if(b->isWithinBase(t->getX(),t->getY()) && t->hp >= 0) { // replace with linear calculation?
+            if(b->isWithinBase(t->getX(),t->getY()) && t->hp > 0) { // replace with linear calculation?
                 if(t->id == (qint32)b->color) {
                     t->hp += TANK_HP_GAIN_OWN_BASE;
                     t->energy += TANK_ENERGY_GAIN_OWN_BASE;
@@ -305,7 +305,7 @@ void Evaluator::evaluateState() {
     qint32 tanksAlive = 0;
     Tank* winner = NULL; // only holds winner if tanksAlive <= 0
     foreach(Tank* t, *(model->tanks)) {
-        if(t->hp >= 0) {
+        if(t->hp > 0) {
             tanksAlive++;
             winner = t;
         }
@@ -320,7 +320,7 @@ void Evaluator::evaluateState() {
         temp = Packet(OP_FRAME_BOUNDARY);
         tempList.append(temp);
         flushPacketList();
-        wait(FRAME_MSECS);
+        msleep(FRAME_MSECS);
 
         if(winner != NULL && winner->roundsWon >= MAX_WINS) {   // end of game
             temp = Packet(OP_END_GAME,0,winner->id,0,0);
@@ -346,7 +346,11 @@ void Evaluator::evaluateState() {
     //send changes
     flushPacketList();
 
-    timer.start(FRAME_MSECS);
+    if(winner != NULL && winner->roundsWon >= MAX_WINS) {
+        timer.stop(); // end game
+    }else {
+        timer.start(FRAME_MSECS); // new frame
+    }
 }
 
 void Evaluator::handleTankMovementChange(int tankID, int newDirection) {
