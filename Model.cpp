@@ -26,6 +26,7 @@
 #include "Model.h"
 #include "BaseWall.h"
 #include "Stone.h"
+#include <cmath>
 
 Model::Model(QObject* parent) : QObject(parent) {
     qsrand( time(NULL) );
@@ -242,8 +243,7 @@ bool Model::isMatrixCollision (const RoundObj * obj) const{
     for (int i = obj->getX1(); i < obj->getX2(); i++) {
         for (int j = obj->getY1(); j < obj->getY2(); j++) {
             if(matrix->getXY(i, j) && obj->isWithinCircle(i, j)){
-                return true
-                        ;
+                return true;
             }
         }
     }
@@ -259,7 +259,7 @@ bool Model::isSolidCollision (const RoundObj * obj) const{
     if(border->isBorderCollision(obj)){
         return true;
     }
-
+/*
     //Solid objects collision
 
     foreach(BitmapObj * solid, *solidObjects){
@@ -277,7 +277,7 @@ bool Model::isSolidCollision (const RoundObj * obj) const{
             
         }
     }
-
+*/
     return false;
 }
 
@@ -356,7 +356,7 @@ bool Model::isProjectileCollision (const RoundObj * obj) const{
 }
 
 bool Model::isCollisionForTank (const Tank * obj) const{
-    return isMatrixCollision(obj) || isSolidCollision(obj) || isTankCollision(obj) || isProjectileCollision(obj);
+    return isSolidCollision(obj) || isTankCollision(obj);
 }
 
 bool Model::isCollisionForProjectile (const Projectile * projectile) const{
@@ -365,15 +365,48 @@ bool Model::isCollisionForProjectile (const Projectile * projectile) const{
 
 void Model::moveTankWhilePossible(Tank* tank) {
 
-    // TODO implement
-    QPair<qint32, qint32> coord = tank->getMoveCoorinates(16);
+    QPair<qint32, qint32> coord = tank->getMoveCoorinates(TANK_SPEED);
+    qint32 x = coord.first;
+    qint32 y = coord.second;
 
-    maskMatrixWithTank(tank->id, coord.first, coord.second);
+    qint32 moves = TANK_SPEED;
+    qint32 pixels = 10 * TANK_RADIUS;
+    bool canMove = true;
 
-    tank->move(16);
+    while(tank->getX() != x || tank->getY() != y){
+        if(moves > 0 && pixels > 0 && canMove){
+            --moves;
+            tank->move(1);
+        }else{
+            x = tank->getX();
+            y = tank->getY();
 
+            break;
+        }
 
+        if(isCollisionForTank(tank)){
+            tank->move(-1);
+            canMove = false;
+        }
+
+        if(isMatrixCollision(tank)){
+            qint32 a = getPixelCountInCircle(tank);
+            pixels -= a;
+
+            for (int i = tank->getX1(); i < tank->getX2(); i++) {
+                for (int j = tank->getY1(); j < tank->getY2(); j++) {
+                    if(tank->isWithinCircle(i, j)){
+                        matrix->setXY(i,j,false);
+                    }
+                }
+            }
+
+        }
+        
     }
+
+   
+}
 
 void Model::moveTanksBackToBases() {
 

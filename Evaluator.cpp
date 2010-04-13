@@ -419,7 +419,7 @@ void Evaluator::explode(Projectile * projectile){
 
     //damage tanks within raius
     foreach(Tank * tank, *model->tanks){
-        if(model->isTankCollision((& explosion))){
+        if(model->isTankCollision(& explosion) && tank->id != projectile->tankID){
             tank->hp -= explosion.countDamageToObj(tank);
 
             if(tank->hp < 0){
