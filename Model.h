@@ -108,6 +108,7 @@ public:
      */
 
     static bool checkRectOverlap(qint32 x11, qint32 y11, qint32 x12, qint32 y12, qint32 x21, qint32 y21, qint32 x22, qint32 y22);
+    static bool checkRectInsideRect(qint32 x11, qint32 y11, qint32 x12, qint32 y12, qint32 x21, qint32 y21, qint32 x22, qint32 y22);
 
     // making these private or protected would result in a tremendous method count
     // better leave them public and open to Controller's logic

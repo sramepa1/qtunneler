@@ -253,6 +253,8 @@ bool Model::isMatrixCollision (const RoundObj * obj) const{
 }
 
 bool Model::isSolidCollision (const RoundObj * obj) const{
+    //Optimalized for common situlation
+    //Could be contraproductive to totaly different world
 
     //Border collision
     if(border->isBorderCollision(obj)){
@@ -262,16 +264,42 @@ bool Model::isSolidCollision (const RoundObj * obj) const{
     //Solid objects collision
     foreach(BitmapObj * solid, *solidObjects){
         if(checkRectOverlap(obj->getX1() ,obj->getY1(), obj->getX2(), obj->getY2(), solid->getX1(), solid->getY1(), solid->getX2(), solid->getY2())){
-            for (int i = solid->getX1(); i < solid->getX2(); i++) {
-                for (int j = solid->getY1(); j < solid->getY2(); j++) {
-                    //colides
-                    if(obj->isWithinCircle(i, j) && solid->getXYGlobalCoordiantes(i, j)){
-                        return true;
+
+            //whole object inside solid - optimalization
+            if(checkRectInsideRect(obj->getX1() ,obj->getY1(), obj->getX2(), obj->getY2(), solid->getX1(), solid->getY1(), solid->getX2(), solid->getY2())){
+                for (int i = obj->getX1(); i < obj->getX2(); i++) {
+                    for (int j = obj->getY1(); j < obj->getY2(); j++) {
+                        //colides
+                        if(obj->isWithinCircle(i, j) && solid->getXYGlobalCoordiantes(i, j)){
+                            return true;
+                        }
+                    }
+                }
+
+            //colides with wrapper
+            }else{
+                for (int i = solid->getX1(); i < solid->getX2(); i++) {
+                    //indexes optimalization
+                    if(obj->getDistanceFormCenter(i, obj->getY()) > obj->getRadius()){
+                        if(i < obj->getX1()){
+                            i = obj->getX1();
+                        }else{
+                            break;
+                        }
+                    }
+
+                    //univerasl search
+                    for (int j = solid->getY1(); j < solid->getY2(); j++) {
+                        if(obj->isWithinCircle(i, j) && solid->getXYGlobalCoordiantes(i, j)){
+                            return true;
+                        }
+                        
                     }
                 }
             }
-            
+
         }
+       
     }
 
     return false;
@@ -490,4 +518,13 @@ bool Model::checkRectOverlap(qint32 x11, qint32 y11, qint32 x12, qint32 y12, qin
 
     return false;
 
+}
+
+
+bool Model::checkRectInsideRect(qint32 x11, qint32 y11, qint32 x12, qint32 y12, qint32 x21, qint32 y21, qint32 x22, qint32 y22){
+    if(x11 >= x21 && x12 <= x22 && y11 >= y21 && y12 <= y22){
+        return true;
+    }
+
+    return false;
 }
