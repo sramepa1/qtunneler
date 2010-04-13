@@ -28,6 +28,8 @@
 #include "Stone.h"
 
 Model::Model(QObject* parent) : QObject(parent) {
+    qsrand( time(NULL) );
+
     matrix = new Matrix();
     border = new Border();
 
@@ -353,24 +355,33 @@ bool Model::isProjectileCollision (const RoundObj * obj) const{
     return false;
 }
 
-bool Model::isAnyCollision (const RoundObj * obj) const{
+bool Model::isCollisionForTank (const Tank * obj) const{
     return isMatrixCollision(obj) || isSolidCollision(obj) || isTankCollision(obj) || isProjectileCollision(obj);
 }
 
-bool Model::isAnyCollisionExceptOwnTank (const Projectile * projectile) const{
+bool Model::isCollisionForProjectile (const Projectile * projectile) const{
     return isMatrixCollision(projectile) || isSolidCollision(projectile) || isTankCollision(projectile) || isProjectileCollision(projectile);
 }
 
 void Model::moveTankWhilePossible(Tank* tank) {
 
-
     // TODO implement
-    QPair<qint32, qint32> coord = tank->getMoveCoorinates(16);
+    QPair<qint32, qint32> coord = tank->getMoveCoorinates(TANK_SPEED);
+    qint32 x = coord.first;
+    qint32 y = coord.first;
+
+    while(tank->getX() != x || tank->getY() != y){
+
+      /*  if(isCollisionForProjectile(projectile)){
+
+
+            break;
+        }*/
+
+        tank->move(1);
+    }
 
     maskMatrixWithTank(tank->id, coord.first, coord.second);
-
-    tank->move(16);
-
 
 }
 

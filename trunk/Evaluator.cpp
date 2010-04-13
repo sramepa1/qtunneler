@@ -212,53 +212,35 @@ void Evaluator::evaluateState() {
 
     // move projectiles (and handle any resulting collisions & generate explosions)
     foreach(Projectile * projectile, *(model->projectiles)) {
+        
+        QPair<qint32, qint32> pair = projectile->getMoveCoorinates(PROJECTILE_SPEED);
+        qint32 x = pair.first;
+        qint32 y = pair.second;
 
-        for (int i = 0; i < PROJECTILE_SPEED; i++) {
+        while(projectile->getX() != x || projectile->getY() != y) {
 
             projectile->move(1);
 
-            if(model->isAnyCollisionExceptOwnTank(projectile)){
-
-                Explosion explosion(projectile->getX(), projectile->getY(), projectile->color, projectile->id);;
-
-                temp = Packet(OP_EXPLOSION, projectile->id, projectile->id, projectile->getX(), projectile->getY());
-                tempList.append(temp);
-
-                //Burn clue
-                model->matrix->invertMaskMatrix((& explosion.getExplosionMask()));
-
-                //damage tanks within raius
-                foreach(Tank * tank, *model->tanks){
-                    if(model->isTankCollision((& explosion))){
-                        tank->hp -= explosion.countDamageToObj(tank);
-
-                        if(tank->hp < 0){
-                            tank->hp = 0;
-                            //TODO react - tank destroyed
-                        }
-                    }
-                }
-
-                model->projectiles->remove(projectile->id);
-                delete projectile;
-
-                /*//destroy projectiles within radius
-                //TODO change - chain effect
-                foreach(Projectile * shot, *model->projectiles){
-                    if(model->isProjectileCollision((& explosion))){
-                        model->projectiles->remove(shot->id);
-                        delete shot;
-                    }
-                }
-                 * */
-
+            if(model->isCollisionForProjectile(projectile)){
+                explode(projectile);
                 break;
-
             }
         }
     }
 
+    foreach(Projectile * projectile, deletedProjectiles) {
+        model->projectiles->remove(projectile->id);
+        delete projectile;
+    }
 
+    foreach(Tank * tank, deletedTanks) {
+        model->tanks->remove(tank->id);
+        delete tank;
+    }
+
+    deletedProjectiles.clear();
+    deletedTanks.clear();
+    
 
     //all moving tanks, move!
     foreach(Tank* t, *(model->tanks)) {
@@ -412,4 +394,85 @@ void Evaluator::flushPacketList() {
     }
     tempList.clear();
     foreach(Sender* sender, senders) sender->flush();
+}
+
+void Evaluator::explode(Projectile * projectile){
+
+    if(deletedProjectiles.contains(projectile->id)){
+        return;
+    }
+
+    Packet temp;
+
+    Explosion explosion(projectile->getX(), projectile->getY(), projectile->color, qrand());
+
+    temp = Packet(OP_EXPLOSION, explosion.seed, projectile->id, explosion.getX(), explosion.getY());
+    tempList.append(temp);
+
+    //Burn clue
+    BitmapObj mask = explosion.getExplosionMask();
+    model->matrix->invertMaskMatrix(& mask);
+
+    //damage tanks within raius
+    foreach(Tank * tank, *model->tanks){
+        if(model->isTankCollision((& explosion))){
+            tank->hp -= explosion.countDamageToObj(tank);
+
+            if(tank->hp < 0){
+                tank->hp = 0;
+
+                //TODO possible bug
+             //   explode(tank);
+            }
+        }
+    }
+
+    deletedProjectiles.insert(projectile->id, projectile);
+
+    //destroy shots within radius
+    foreach(Projectile * shot, *model->projectiles){
+        if(model->isProjectileCollision(& explosion) && shot->tankID != projectile->tankID){
+            explode(shot);
+        }
+    }
+                 
+}
+
+void Evaluator::explode(Tank * tank){
+
+    if(deletedTanks.contains(tank->id)){
+        return;
+    }
+
+    Packet temp;
+
+    Explosion explosion(tank->getX(), tank->getY(), tank->color, qrand(), TANK_EXPLOSION_RADIUS);
+
+    temp = Packet(OP_TANK_EXPLOSION, explosion.seed, tank->id, explosion.getX(), explosion.getY());
+    tempList.append(temp);
+
+    //Burn clue
+    BitmapObj mask = explosion.getExplosionMask();
+    model->matrix->invertMaskMatrix(& mask);
+
+    //damage tanks within raius
+    foreach(Tank * tank, *model->tanks){
+        if(model->isTankCollision((& explosion))){
+            tank->hp -= explosion.countDamageToObj(tank, TANK_EXPLOSION_DAMAGE);
+
+            if(tank->hp < 0){
+                explode(tank);
+            }
+        }
+    }
+
+    deletedTanks.insert(tank->id, tank);
+
+    //destroy shots within radius
+    foreach(Projectile * shot, *model->projectiles){
+        if(model->isProjectileCollision(& explosion) && shot->tankID != tank->id){
+            explode(shot);
+        }
+    }
+
 }
