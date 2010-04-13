@@ -185,12 +185,8 @@ void Evaluator::handlePacket(Receiver* r) {
     } else if(list.isEmpty()) {
         list.append(p);
     } else {
-        QLinkedList<Packet>::iterator i = list.end();
-        while(--i != list.begin() && (*i).timecode >= p.timecode) {}
-        
-        if(i != list.begin() || (*i).timecode <= p.timecode) {
-            ++i;
-        }
+        QLinkedList<Packet>::iterator i = list.begin();
+        while(i != list.end() && (*i).timecode <= p.timecode) { ++i; }
         list.insert(i,p);
     }
 }
@@ -254,9 +250,13 @@ void Evaluator::evaluateState() {
 
     //all moving tanks, move!
     foreach(Tank* t, *(model->tanks)) {
+
         if(t->isMoving) {
             model->moveTankWhilePossible(t);
+        }else {
+            t->energy -= TANK_ENERGY_COST_OF_WAIT;
         }
+        
         if(t->isMoving || t->turned) {
             Packet p(OP_TANK,(qint32)t->rotation,t->id,t->getX(),t->getY());
             tempList.append(p);
@@ -265,6 +265,7 @@ void Evaluator::evaluateState() {
             t->turned = false;
             t->isMoving = true;
         }
+        
     }
 
     //all firing tanks, fire!!!
@@ -272,7 +273,9 @@ void Evaluator::evaluateState() {
 
     foreach (Tank * tank, *model->tanks) {
         if(tank->isShoting){
+            qDebug("Tank ID %d is firing, tank orientation is %d",tank->id,(int)tank->rotation);
             Projectile * projectile = tank->fire(model->provideProjectileID());
+            qDebug("Shot ID %d fired,  projectile orientation %d",projectile->id,(int)projectile->rotation);
             model->projectiles->insert(projectile->id, projectile);
             firedProjectiles.append(projectile->id);
         }
@@ -365,7 +368,7 @@ void Evaluator::evaluateState() {
 
 void Evaluator::handleTankMovementChange(int tankID, int newDirection) {
 
-    //qDebug("Changing movement status of tank %d, new direction=%d (net)",tankID,newDirection);
+    qDebug("Changing movement status of tank %d, new direction in packet: %d",tankID,newDirection);
 
     Tank* t = model->tanks->value(tankID);
     OrientedRoundObj::direction dir = t->rotation;
@@ -389,6 +392,7 @@ void Evaluator::handleTankMovementChange(int tankID, int newDirection) {
             t->isMoving = true;
             t->turned = false;
         }else {
+            qDebug("Setting rotation of tank %d to %d",t->id,(int)dir);
             t->rotation = dir;
             t->turned = true;
         }
