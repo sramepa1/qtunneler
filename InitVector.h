@@ -26,7 +26,7 @@
 #ifndef _INITVECTOR_H
 #define	_INITVECTOR_H
 
-#include <QtCore>
+#include <QString>
 
 struct InitVector {
 

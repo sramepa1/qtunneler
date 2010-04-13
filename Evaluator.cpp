@@ -210,6 +210,16 @@ void Evaluator::evaluateState() {
         list.removeFirst();
     }
 
+
+    // ---------------- TODO --------------------
+
+    // ----- Explode tanks with zero energy -----
+
+    // ------------------------------------------
+
+
+
+
     // move projectiles (and handle any resulting collisions & generate explosions)
     foreach(Projectile * projectile, *(model->projectiles)) {
         

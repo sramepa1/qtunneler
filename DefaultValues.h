@@ -55,15 +55,18 @@
 //Tank
 #define TANK_RADIUS 32
 
-#define TANK_ENERGY_COST_OF_MOVE 1
-#define TANK_ENERGY_COST_OF_MOVE_IN_CLUE 10 // TODO remove - will be replaced by pixel munching
-#define TANK_ENERGY_COST_OF_FIRE 100
-#define TANK_SPEED 16
-#define TANK_MAX_TUNNEL 4 * TANK_RADIUS
-
 #define DEFAULT_TANK_ROTATION NORTH //defined in OrientedRoundObj
 #define DEFAULT_TANK_HP 10000 //100%
 #define DEFAULT_TANK_ENERGY (5 * MATRIX_DIMENSION ) //100%
+
+#define TANK_ENERGY_COST_OF_MOVE 1
+#define TANK_ENERGY_COST_OF_MOVE_IN_CLUE 10 // TODO remove - will be replaced by pixel munching
+#define TANK_ENERGY_COST_OF_FIRE 100
+
+#define TANK_ENERGY_STATIC_THRESHOLD (DEFAULT_TANK_ENERGY / 3)
+
+#define TANK_SPEED 16
+#define TANK_MAX_TUNNEL 4 * TANK_RADIUS
 
 //Expolsion
 #define EXPLOSION_RADIUS (TANK_RADIUS / 2)
