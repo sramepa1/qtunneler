@@ -30,6 +30,7 @@ Tank::Tank(qint32 x, qint32 y, quint8 color, qint32 id) : OrientedRoundObj(x, y,
     energy = DEFAULT_TANK_ENERGY;
     roundsWon = 0;
     isMoving =  isShoting = turned = false;
+    lastRotation = DEFAULT_TANK_ROTATION;
 }
 
 Projectile * Tank::fire(quint32 projectileID){
