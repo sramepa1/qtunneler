@@ -210,6 +210,7 @@ void Evaluator::evaluateState() {
     foreach(Tank * tank, *(model->tanks)) {
         if(tank->energy <= 0){
             tank->hp = 0;
+            explode(tank);
         }
     }
 
