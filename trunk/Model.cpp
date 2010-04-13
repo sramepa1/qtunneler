@@ -217,6 +217,7 @@ QVector<OrientedRoundObj*> Model::getTanksInRect(qint32 x, qint32 y, qint32 widt
 void Model::maskMatrixWithTank(qint32 tankID, qint32 newX, qint32 newY) {
     Tank tank(*tanks->value(tankID));
 
+    tank.setRadius(TANK_MASK_RADIUS);
     while(tank.getX() != newX || tank.getY() != newY){
         for (int i = tank.getX1(); i < tank.getX2(); i++) {
             for (int j = tank.getY1(); j < tank.getY2(); j++) {
@@ -253,21 +254,16 @@ bool Model::isMatrixCollision (const RoundObj * obj) const{
 
 bool Model::isSolidCollision (const RoundObj * obj) const{
 
-    //TODO bug in base
-
     //Border collision
     if(border->isBorderCollision(obj)){
         return true;
     }
-/*
+
     //Solid objects collision
-
     foreach(BitmapObj * solid, *solidObjects){
-        
         if(checkRectOverlap(obj->getX1() ,obj->getY1(), obj->getX2(), obj->getY2(), solid->getX1(), solid->getY1(), solid->getX2(), solid->getY2())){
-
-            for (int i = obj->getX1(); i < obj->getX2(); i++) {
-                for (int j = obj->getY1(); j < obj->getY2(); j++) {
+            for (int i = solid->getX1(); i < solid->getX2(); i++) {
+                for (int j = solid->getY1(); j < solid->getY2(); j++) {
                     //colides
                     if(obj->isWithinCircle(i, j) && solid->getXYGlobalCoordiantes(i, j)){
                         return true;
@@ -277,7 +273,7 @@ bool Model::isSolidCollision (const RoundObj * obj) const{
             
         }
     }
-*/
+
     return false;
 }
 
@@ -370,7 +366,7 @@ void Model::moveTankWhilePossible(Tank* tank) {
     qint32 y = coord.second;
 
     qint32 moves = TANK_SPEED;
-    qint32 pixels = 10 * TANK_RADIUS;
+    qint32 pixels = TANK_MAX_TUNNEL;
     bool canMove = true;
 
     while(tank->getX() != x || tank->getY() != y){
@@ -380,6 +376,8 @@ void Model::moveTankWhilePossible(Tank* tank) {
         }else{
             x = tank->getX();
             y = tank->getY();
+            
+            tank->energy -= TANK_ENERGY_COST_OF_MOVE;
 
             break;
         }
@@ -390,9 +388,14 @@ void Model::moveTankWhilePossible(Tank* tank) {
         }
 
         if(isMatrixCollision(tank)){
-            qint32 a = getPixelCountInCircle(tank);
-            pixels -= a;
+            if(tank->isShoting){
+                pixels -= TANK_MAX_TUNNEL / TANK_SPEED_FAST_TUNNELING;
 
+            }else{
+                pixels -= getPixelCountInCircle(tank);
+            }
+
+            tank->setRadius(TANK_MASK_RADIUS);
             for (int i = tank->getX1(); i < tank->getX2(); i++) {
                 for (int j = tank->getY1(); j < tank->getY2(); j++) {
                     if(tank->isWithinCircle(i, j)){
@@ -400,7 +403,9 @@ void Model::moveTankWhilePossible(Tank* tank) {
                     }
                 }
             }
+            tank->setRadius(TANK_RADIUS);
 
+            
         }
         
     }

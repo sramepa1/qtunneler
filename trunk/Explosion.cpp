@@ -61,17 +61,14 @@ BitmapObj Explosion::getExplosionMask() {
 }
 
 qint32 Explosion::countDamageToObj(const RoundObj * obj, qint32 maxDamage){
-    //No damage from own shots explosions
-    if(obj->color == color){
-        return 0;
-    }
 
-    //Distance of round obj border from explosion center
     qreal distance = getDistanceFormCenter(obj->getX(), obj->getY()) - obj->getRadius();
 
-    if(0 > distance){
-        distance = 0;
+    if(distance <= 0){
+        return maxDamage;
+    }else if(distance <= radius){
+        return (qint32)( (1 - (distance/radius)) * maxDamage);
+    }else{
+        return 0;
     }
-
-    return (qint32)( (1 - (distance/radius)) * maxDamage);
 }
