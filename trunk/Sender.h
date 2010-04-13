@@ -28,7 +28,7 @@ public:
     virtual void flush() =0;
 
 private:
-    Sender(const Sender& orig) {} // disabled
+    Sender(const Sender& /*orig*/) : QObject() {} // disabled
 };
 
 #endif	/* _SENDER_H */

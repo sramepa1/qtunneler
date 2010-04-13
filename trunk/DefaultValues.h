@@ -40,7 +40,7 @@
 #define TANK_RADIUS 32
 
 #define TANK_ENERGY_COST_OF_MOVE 1
-#define TANK_ENERGY_COST_OF_MOVE_IN_CLUE 10
+#define TANK_ENERGY_COST_OF_MOVE_IN_CLUE 10 // TODO remove - will be replaced by pixel munching
 #define TANK_ENERGY_COST_OF_FIRE 100
 
 #define DEFAULT_TANK_ROTATION NORTH //defined in OrientedRoundObj
@@ -64,6 +64,12 @@
 #define BASE_WIDTH 240
 #define BASE_HEIGHT 240
 #define BASE_MIN_DISTANCE_FROM_BORDER 240
+
+#define TANK_ENERGY_GAIN_OWN_BASE 80
+#define TANK_ENERGY_GAIN_ENEMY_BASE 40
+#define TANK_HP_GAIN_OWN_BASE 80
+#define TANK_HP_GAIN_ENEMY_BASE 40
+
 
 //Evaluation
 #define FRAME_MSECS 33
