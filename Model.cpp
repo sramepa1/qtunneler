@@ -405,6 +405,7 @@ void Model::moveTankWhilePossible(Tank* tank) {
         
     }
 
+    tank->energy -= TANK_ENERGY_COST_OF_MOVE;
    
 }
 

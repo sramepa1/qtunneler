@@ -62,9 +62,6 @@ protected slots:
 
     virtual void evaluateState();
 
-signals:
-
-
 protected:
 
     virtual void dispatchPacket(Packet& packet);

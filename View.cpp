@@ -94,7 +94,9 @@ void View::paintEvent(QPaintEvent* /*evt*/) {
         painter.setPen(tunnel);
         painter.setBackground(white);
         painter.setBackgroundMode(Qt::OpaqueMode);
-        painter.drawTiledPixmap(0,0,wid, hei, QBitmap::fromData(QSize(256,256),data,QImage::Format_MonoLSB),qrand() % 256, qrand() % 256);
+
+        painter.drawTiledPixmap(0, 0, wid, hei, QBitmap::fromData(QSize(256,256),data,QImage::Format_MonoLSB),qrand() % 256, qrand() % 256);
+
         delete[] data;
         painter.setBackgroundMode(Qt::TransparentMode);
 
