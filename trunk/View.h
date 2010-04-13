@@ -60,6 +60,7 @@ protected:
     QPen solid;
     QBrush border;
     QBrush shot;
+    QBrush white;
     
     QPixmap tile;
 

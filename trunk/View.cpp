@@ -25,6 +25,9 @@
 
 #include "View.h"
 
+#include <ctime>
+#include <cstdlib>
+
 #include "OrientedRoundObj.h"
 
 View::View(QWidget* parent, Model* _model, Clicker* _clicker) : QWidget(parent), model(_model), clicker(_clicker) {
@@ -36,6 +39,9 @@ View::View(QWidget* parent, Model* _model, Clicker* _clicker) : QWidget(parent),
 
     shot.setColor(Qt::yellow);
     shot.setStyle(Qt::SolidPattern);
+
+    white.setColor(Qt::white);
+    white.setStyle(Qt::SolidPattern);
 
     tile = QPixmap::fromImage(QImage(":/tile.png"));
     x = y = 0;
@@ -54,6 +60,7 @@ View::View(QWidget* parent, Model* _model, Clicker* _clicker) : QWidget(parent),
         tanks[playerIDs[i]][OrientedRoundObj::NORTH_WEST] = QPixmap::fromImage(QImage(prefix + QString("-NW.png")));
     }
 
+    qsrand(time(NULL));
 }
 
 View::~View() {
@@ -67,48 +74,74 @@ void View::paintEvent(QPaintEvent* /*evt*/) {
     QPainter painter(this);
     painter.setPen(Qt::NoPen);
 
-    // draw background
-    painter.drawTiledPixmap(0,0,width(),height(),tile, x % tile.width(), y % tile.height());
-
     model->containerAccess.lock();
 
-    // draw tunnel network
-    const uchar* data = model->getTunnelBitmapData(x,y,wid,hei);   
-    painter.setPen(tunnel);
-    painter.drawPixmap(0,0,QBitmap::fromData(QSize(wid,hei),data,QImage::Format_MonoLSB));
-    delete[] data;
-
-    // draw border
-    painter.setPen(Qt::NoPen);
-    painter.setBrush(border);
-    QVector<QRect> borders = model->getBorderInRect(x,y,wid,hei);
-    foreach(QRect r, borders) {
-        painter.drawRect(r.x() - x, r.y() - y, r.width(), r.height());
+    qint32 energy = model->tanks->value(model->playerID)->energy;
+    double probability = 0;
+    if(energy <= TANK_ENERGY_STATIC_THRESHOLD) {
+        probability = 1 - (double)energy / TANK_ENERGY_STATIC_THRESHOLD;
     }
-
-    // draw bitmap objects
-    QVector<BitmapObj*> bitmaps = model->getSolidObjInRect(x,y,wid,hei);
-    foreach(BitmapObj* bmp, bitmaps) {
-        solid.setColor(bmp->getColor());
-        painter.setPen(solid);
-        painter.drawPixmap(bmp->getX1() - x, bmp->getY1() - y,*(bmp->getQBitmap()));
-    }
-
-    // draw tanks
-    painter.setBrush(Qt::NoBrush);
-    QVector<OrientedRoundObj*> tankVec = model->getTanksInRect(x,y,wid,hei);
-    foreach(OrientedRoundObj* tank, tankVec) {
-        painter.drawPixmap(tank->getX1() - x,tank->getY1() - y,tanks[tank->id][tank->rotation]);
-    }
-
     
-    // draw projectiles
-    painter.setPen(Qt::NoPen);
-    painter.setBrush(shot);
-    QPoint view(x,y);
-    QVector<QPoint> shots = model->getShotsInRect(x,y,wid,hei);
-    foreach(QPoint center, shots) {
-        painter.drawEllipse(center - view,PROJECTILE_RADIUS,PROJECTILE_RADIUS);
+    if( (qrand() % 0x1000 / (double)0x1000) < probability) {
+
+        // draw static
+        const uchar* data = new uchar[32*256];
+        uchar* ptr = (uchar*)data;
+        for(int i = 0; i < 32*256; i++) {
+            *ptr++ = (uchar)(qrand() % 256);
+        }
+
+        painter.setPen(tunnel);
+        painter.setBackground(white);
+        painter.setBackgroundMode(Qt::OpaqueMode);
+        painter.drawTiledPixmap(0,0,wid, hei, QBitmap::fromData(QSize(256,256),data,QImage::Format_MonoLSB),qrand() % 256, qrand() % 256);
+        delete[] data;
+        painter.setBackgroundMode(Qt::TransparentMode);
+
+    }else {
+
+        // draw background
+        painter.drawTiledPixmap(0,0,wid,hei,tile, x % tile.width(), y % tile.height());
+
+        // draw tunnel network
+        const uchar* data = model->getTunnelBitmapData(x,y,wid,hei);
+        painter.setPen(tunnel);
+        painter.drawPixmap(0,0,QBitmap::fromData(QSize(wid,hei),data,QImage::Format_MonoLSB));
+        delete[] data;
+
+        // draw border
+        painter.setPen(Qt::NoPen);
+        painter.setBrush(border);
+        QVector<QRect> borders = model->getBorderInRect(x,y,wid,hei);
+        foreach(QRect r, borders) {
+            painter.drawRect(r.x() - x, r.y() - y, r.width(), r.height());
+        }
+
+        // draw bitmap objects
+        QVector<BitmapObj*> bitmaps = model->getSolidObjInRect(x,y,wid,hei);
+        foreach(BitmapObj* bmp, bitmaps) {
+            solid.setColor(bmp->getColor());
+            painter.setPen(solid);
+            painter.drawPixmap(bmp->getX1() - x, bmp->getY1() - y,*(bmp->getQBitmap()));
+        }
+
+        // draw tanks
+        painter.setBrush(Qt::NoBrush);
+        QVector<OrientedRoundObj*> tankVec = model->getTanksInRect(x,y,wid,hei);
+        foreach(OrientedRoundObj* tank, tankVec) {
+            painter.drawPixmap(tank->getX1() - x,tank->getY1() - y,tanks[tank->id][tank->rotation]);
+        }
+
+
+        // draw projectiles
+        painter.setPen(Qt::NoPen);
+        painter.setBrush(shot);
+        QPoint view(x,y);
+        QVector<QPoint> shots = model->getShotsInRect(x,y,wid,hei);
+        foreach(QPoint center, shots) {
+            painter.drawEllipse(center - view,PROJECTILE_RADIUS,PROJECTILE_RADIUS);
+        }
+
     }
 
     model->containerAccess.unlock();
