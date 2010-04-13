@@ -76,6 +76,12 @@ protected:
     virtual void handleTankMovementChange(int tankID, int newDirection);
     virtual void handleTankShootChange(int tankID, int newState);
 
+    //destruct projectile
+    QHash<qint32, Tank *> deletedTanks;
+    QHash<qint32, Projectile *> deletedProjectiles;
+    void explode(Projectile * obj);
+    void explode(Tank * obj);
+
     // owner! this is a separate model because of sync problems (one frame ahead) and thread safety
     Model* model;
 

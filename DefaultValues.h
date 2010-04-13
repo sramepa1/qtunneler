@@ -47,7 +47,7 @@
 
 //Projectile
 #define PROJECTILE_RADIUS 4
-#define PROJECTILE_SPEED 32
+#define PROJECTILE_SPEED (32 * 2) //TEST * 2
 
 //Matrix
 #define MATRIX_DIMENSION (10 * 1024)
@@ -58,6 +58,7 @@
 #define TANK_ENERGY_COST_OF_MOVE 1
 #define TANK_ENERGY_COST_OF_MOVE_IN_CLUE 10 // TODO remove - will be replaced by pixel munching
 #define TANK_ENERGY_COST_OF_FIRE 100
+#define TANK_SPEED (12 * 2) //TEST
 
 #define DEFAULT_TANK_ROTATION NORTH //defined in OrientedRoundObj
 #define DEFAULT_TANK_HP 10000 //100%
@@ -69,6 +70,7 @@
 #define EXPLOSION_RAND_SOLID_PART 0.5
 
 #define TANK_EXPLOSION_RADIUS (2 * TANK_RADIUS)
+#define TANK_EXPLOSION_DAMAGE (10 * EXPLOSION_DAMAGE)
 
 //Map
 #define BORDER_SIZE (3 * TANK_RADIUS)
