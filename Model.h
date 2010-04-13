@@ -49,8 +49,6 @@ public:
     Model(QObject* _parent = NULL);
     virtual ~Model();
 
-   //delete
-   // virtual void init();
     virtual void reset();
 
     /**

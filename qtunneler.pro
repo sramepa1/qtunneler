@@ -75,3 +75,4 @@ SOURCES += Base.cpp \
            View.cpp
 RESOURCES += tile.qrc \
              tanks.qrc
+LIBS += -L/usr/lib -lao

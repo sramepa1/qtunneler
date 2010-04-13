@@ -60,6 +60,7 @@ void Evaluator::addReceiver(Receiver* r) {
 
 void Evaluator::clearStateAndStop() {
     readyCnt = 0;
+    model->reset();
     timer.stop();
     dumpSendersAndReceivers();
     quit();
