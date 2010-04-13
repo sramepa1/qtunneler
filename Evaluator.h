@@ -74,7 +74,7 @@ protected:
     virtual void handleTankShootChange(int tankID, int newState);
 
     //destruct projectile
-    QHash<qint32, Tank *> deletedTanks;
+    QHash<qint32, Tank *> hiddenTanks;
     QHash<qint32, Projectile *> deletedProjectiles;
     void explode(Projectile * obj);
     void explode(Tank * obj);

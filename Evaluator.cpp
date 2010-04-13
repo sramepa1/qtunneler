@@ -93,7 +93,7 @@ void Evaluator::generateWorldAndStartRound() {
         x2 = (qint32) (((qreal) qrand() / RAND_MAX) * (MATRIX_DIMENSION - 2 * BASE_MIN_DISTANCE_FROM_BORDER - 2 * BORDER_SIZE) + BASE_MIN_DISTANCE_FROM_BORDER);
         y2 = (qint32) (((qreal) qrand() / RAND_MAX) * (MATRIX_DIMENSION - 2 * BASE_MIN_DISTANCE_FROM_BORDER - 2 * BORDER_SIZE) + BASE_MIN_DISTANCE_FROM_BORDER);
 
-    }while(Model::checkRectOverlap(x1, y1 ,x1 + BASE_WIDTH, y1 + BASE_HEIGHT, x2, y2 ,x2 + BASE_WIDTH, y2 + BASE_HEIGHT));
+    }while(Model::checkRectOverlap(x1 - SCREEN / 2, y1 - SCREEN / 2 ,x1 + BASE_WIDTH + SCREEN / 2, y1 + BASE_HEIGHT + SCREEN / 2, x2 - SCREEN / 2, y2 - SCREEN / 2, x2 + BASE_WIDTH + SCREEN / 2, y2 + BASE_HEIGHT + SCREEN / 2));
 
     model->addBase(x1, y1, BASE_WIDTH, BASE_HEIGHT, RED_PLAYER, *(model->playerColors.value(RED_PLAYER)));
     model->addBase(x2, y2, BASE_WIDTH, BASE_HEIGHT, BLUE_PLAYER, *(model->playerColors.value(BLUE_PLAYER)));
@@ -114,7 +114,7 @@ void Evaluator::generateWorldAndStartRound() {
         //check bases colisions
         bool flag = true;
         foreach(Base * base, *model->bases){
-            if(Model::checkRectOverlap(x1, y1, x1 + width, y1 + heigth, base->x1, base->y1, base->x2, base->y2)){
+            if(Model::checkRectOverlap(x1 - 3 * TANK_RADIUS, y1 -3 * TANK_RADIUS, x1 + width + 3 * TANK_RADIUS, y1 + heigth + 3 * TANK_RADIUS, base->x1, base->y1, base->x2, base->y2)){
                 flag = false;
             } 
         }
@@ -206,15 +206,12 @@ void Evaluator::evaluateState() {
         list.removeFirst();
     }
 
-
-    // ---------------- TODO --------------------
-
-    // ----- Explode tanks with zero energy -----
-
-    // ------------------------------------------
-
-
-
+    //Explode tanks with zero energy
+    foreach(Tank * tank, *(model->tanks)) {
+        if(tank->energy <= 0){
+            tank->hp = 0;
+        }
+    }
 
     // move projectiles (and handle any resulting collisions & generate explosions)
     foreach(Projectile * projectile, *(model->projectiles)) {
@@ -239,13 +236,8 @@ void Evaluator::evaluateState() {
         delete projectile;
     }
 
-    foreach(Tank * tank, deletedTanks) {
-        model->tanks->remove(tank->id);
-        delete tank;
-    }
-
     deletedProjectiles.clear();
-    deletedTanks.clear();
+    hiddenTanks.clear();
     
 
     //all moving tanks, move!
@@ -417,12 +409,12 @@ void Evaluator::flushPacketList() {
 }
 
 void Evaluator::explode(Projectile * projectile){
+    Packet temp;
 
     if(deletedProjectiles.contains(projectile->id)){
         return;
     }
-
-    Packet temp;
+    deletedProjectiles.insert(projectile->id, projectile);
 
     Explosion explosion(projectile->getX(), projectile->getY(), projectile->color, qrand());
 
@@ -438,16 +430,11 @@ void Evaluator::explode(Projectile * projectile){
         if(model->isTankCollision(& explosion) && tank->id != projectile->tankID){
             tank->hp -= explosion.countDamageToObj(tank);
 
-            if(tank->hp < 0){
-                tank->hp = 0;
-
-                //TODO possible bug
-             //   explode(tank);
+            if(tank->hp <= 0){
+                explode(tank);
             }
         }
     }
-
-    deletedProjectiles.insert(projectile->id, projectile);
 
     //destroy shots within radius
     foreach(Projectile * shot, *model->projectiles){
@@ -459,12 +446,12 @@ void Evaluator::explode(Projectile * projectile){
 }
 
 void Evaluator::explode(Tank * tank){
+    Packet temp;
 
-    if(deletedTanks.contains(tank->id)){
+    if(hiddenTanks.contains(tank->id)){
         return;
     }
-
-    Packet temp;
+    hiddenTanks.insert(tank->id, tank);
 
     Explosion explosion(tank->getX(), tank->getY(), tank->color, qrand(), TANK_EXPLOSION_RADIUS);
 
@@ -480,13 +467,11 @@ void Evaluator::explode(Tank * tank){
         if(model->isTankCollision((& explosion))){
             tank->hp -= explosion.countDamageToObj(tank, TANK_EXPLOSION_DAMAGE);
 
-            if(tank->hp < 0){
+            if(tank->hp <= 0){
                 explode(tank);
             }
         }
     }
-
-    deletedTanks.insert(tank->id, tank);
 
     //destroy shots within radius
     foreach(Projectile * shot, *model->projectiles){
