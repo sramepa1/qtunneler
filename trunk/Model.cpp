@@ -90,6 +90,9 @@ void Model::deleteObjectsInContainers(){
 }
 
 void Model::reset() {
+
+    qDebug("Model::reset()");
+
     deleteObjectsInContainers();
 
     matrix->reset();
