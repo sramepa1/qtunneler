@@ -48,7 +48,7 @@ Model::Model(QObject* parent) : QObject(parent) {
 }
 
 Model::~Model() {
-    cleanContainers();
+    deleteObjectsInContainers();
 
     delete matrix;
     delete border;
@@ -59,7 +59,7 @@ Model::~Model() {
     delete explosions;
 }
 
-void Model::cleanContainers(){
+void Model::deleteObjectsInContainers(){
     //Delete bases
     foreach (Base * base, *bases) {
         delete base;
@@ -87,7 +87,7 @@ void Model::cleanContainers(){
 }
 
 void Model::reset() {
-    cleanContainers();
+    deleteObjectsInContainers();
 
     matrix->reset();
     bases->clear();
@@ -96,6 +96,9 @@ void Model::reset() {
     tanks->clear();
     projectiles->clear();
     explosions->clear();
+
+    playerID = NO_PLAYER;
+    nextProjectileID = qrand();
 }
 
 const uchar* Model::getTunnelBitmapData(qint32 x, qint32 y, qint32 width, qint32 height) const {

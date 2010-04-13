@@ -48,7 +48,7 @@ public slots:
 
     void redrawViewToCenter(qint32 x, qint32 y);
 
-    // sets statusbar message (near-permanent). Maybe TODO replace with progressbars etc...
+    // sets statusbar message (near-permanent). Maybe replace with progressbars etc in version 2.0
     virtual void setStatus(QString status);
 
 signals:
