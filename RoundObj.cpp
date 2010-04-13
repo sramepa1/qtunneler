@@ -7,7 +7,7 @@
 
 #include "RoundObj.h"
 
-RoundObj::RoundObj(qint32 _x, qint32 _y, qint32 _radius,quint8 _color) : x(_x), y(_y), radius(_radius), color(_color) {
+RoundObj::RoundObj(qint32 _x, qint32 _y, qint32 _radius,quint8 _color) : color(_color), x(_x), y(_y), radius(_radius) {
     x1 = x - radius;
     y1 = y - radius;
     x2 = x + radius;

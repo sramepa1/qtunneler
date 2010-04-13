@@ -1,8 +1,26 @@
-/* 
- * File:   Matrix.cpp
- * Author: pavel
- * 
- * Created on 19. březen 2010, 11:41
+/*
+ *      -----------------------------------------------
+ *      QTunneler - a classic DOS game remake in QT
+ *      -----------------------------------------------
+ *
+ *      semestral project for API programming course
+ *      (Y36API) at the FEE CTU Prague
+ *
+ *      Created by:
+ *           Pavel Sramek (sramepa1@fel.cvut.cz)
+ *           Martin Smarda (smardmar@fel.cvut.cz)
+ *
+ *      March & April 2010
+ *
+ *      This is free software, licensed under GNU LGPL
+ *      (GNU Lesser General Public License, version 3)
+ *      http://www.gnu.org/licenses/lgpl.html
+ *
+ *      Project homepage:
+ *      http://code.google.com/p/qtunneler/
+ *
+ *      Version 1.0
+ *
  */
 
 #include <QtCore>
@@ -19,29 +37,7 @@ Matrix::Matrix() {
         for (qint32 j = 0; j < MATRIX_DIMENSION; j++) {
             setByte(i,j,0xFF);
         }
-    }
-
-
-    // for testing purposes <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    
-    for(qint32 i = 0; i < MATRIX_DIMENSION/8; i++) {
-        for (qint32 j = 128; j < 256; j++) {
-            setByte(i,j,0);
-        }
-    }
-    for(qint32 i = 16; i < 32; i++) {
-        for (qint32 j = 0; j < MATRIX_DIMENSION; j++) {
-            setByte(i,j,0);
-        }
-    }
-    for(qint32 i = 0; i < MATRIX_DIMENSION; i++) {        
-        setXY(i,i,false);
-    }
-    setXY(42,21,false);
-    setXY(167,167,true);
-    setXY(169,169,true);
-
-    
+    }  
 }
 
 Matrix::~Matrix() {

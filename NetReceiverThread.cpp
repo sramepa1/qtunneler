@@ -9,7 +9,7 @@
 
 #include <QtEndian>
 
-NetReceiverThread::NetReceiverThread(QObject* parent, QTcpSocket* socket, PacketQueue* packetQueue) : QThread(parent), queue(packetQueue), sock(socket) {
+NetReceiverThread::NetReceiverThread(QObject* parent, QTcpSocket* socket, PacketQueue* packetQueue) : QThread(parent), sock(socket), queue(packetQueue) {
     connect(sock,SIGNAL(readyRead()),this,SLOT(readBytes()));
     writeIndex = 0;
     buffer = new uchar[PACKET_BYTES];
