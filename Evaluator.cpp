@@ -188,12 +188,11 @@ void Evaluator::evaluateState() {
     Packet temp;
     while(!list.isEmpty()) {
 
-        Packet p = list.first();
-        //qDebug("Evaluating %d, data1 %d, data2 %d",p.opcode,p.data1,p.data2);
+        temp = list.first();
 
-        switch(p.opcode) {
-            case OP_MOVE:  handleTankMovementChange(p.data1,p.data2); break;
-            case OP_SHOOT:  handleTankShootChange(p.data1,p.data2);
+        switch(temp.opcode) {
+            case OP_MOVE:  handleTankMovementChange(temp.data1,temp.data2); break;
+            case OP_SHOOT:  handleTankShootChange(temp.data1,temp.data2);
         }
 
         list.removeFirst();
@@ -249,6 +248,7 @@ void Evaluator::evaluateState() {
     }
 
 
+
     //all moving tanks, move!
     foreach(Tank* t, *(model->tanks)) {
         if(t->isMoving) {
@@ -287,27 +287,75 @@ void Evaluator::evaluateState() {
             temp = Packet(OP_PROJECTILE,(qint32)p->rotation,p->id,p->getX(),p->getY());
             tempList.append(temp);
         }
+    }  // TODO above - make sure that explosions are NOT generated for destroyed NEW projectiles!!!!! <<<<<<<<<<<<<<<<<<<<<<<<<<<<,,
+
+    // evaluate tank energy/HP gain from bases (distinguish own and enemy)
+    foreach(Tank* t, *(model->tanks)) {
+        foreach(Base* b, *(model->bases)) {
+            if(b->isWithinBase(t->getX(),t->getY()) && t->hp >= 0) { // replace with linear calculation?
+                if(t->id == (qint32)b->color) {
+                    t->hp += TANK_HP_GAIN_OWN_BASE;
+                    t->energy += TANK_ENERGY_GAIN_OWN_BASE;
+                }else {
+                    t->hp += TANK_HP_GAIN_OWN_BASE;
+                    t->energy += TANK_ENERGY_GAIN_OWN_BASE;
+                }
+                if(t->hp > DEFAULT_TANK_HP) t->hp = DEFAULT_TANK_HP;
+                if(t->energy > DEFAULT_TANK_ENERGY) t->energy = DEFAULT_TANK_ENERGY;
+                break;
+            }
+        }
     }
-
-    // TODO evaluate tank energy/HP gain from bases (distinguish own and enemy)
-
+    // send tank status
     foreach(Tank* t, *(model->tanks)) {
         temp = Packet(OP_TANK_STATUS,t->roundsWon,t->id,t->hp,t->energy);
         tempList.append(temp);
     }
 
-    // TODO check for victory condition - if there is one last tank standing, send OP_END_ROUND (and reset tanks) or OP_END_GAME
+    // check for victory condition - if there is one last tank standing, wins round
+    qint32 tanksAlive = 0;
+    Tank* winner = NULL; // only holds winner if tanksAlive <= 0
+    foreach(Tank* t, *(model->tanks)) {
+        if(t->hp >= 0) {
+            tanksAlive++;
+            winner = t;
+        }
+    }
+    if(tanksAlive <= 1 && winner != NULL) {
+        winner->roundsWon++;
+    }
+
+
+    if(tanksAlive <= 1) {
+        // insert extra frame to show this state
+        temp = Packet(OP_FRAME_BOUNDARY);
+        tempList.append(temp);
+        flushPacketList();
+        wait(FRAME_MSECS);
+
+        if(winner != NULL && winner->roundsWon >= MAX_WINS) {   // end of game
+            temp = Packet(OP_END_GAME,0,winner->id,0,0);
+            tempList.append(temp);
+
+        }else {                                                 // end of round
+            model->moveTanksBackToBases();
+            temp = Packet(OP_END_ROUND);
+            tempList.append(temp);
+
+            foreach(Tank* t, *(model->tanks)) {
+                t->hp = DEFAULT_TANK_HP;
+                t->energy = DEFAULT_TANK_ENERGY;
+                temp = Packet(OP_TANK_STATUS,t->roundsWon,t->id,t->hp,t->energy);
+                tempList.append(temp);
+            }
+        }
+    }
 
     temp = Packet(OP_FRAME_BOUNDARY);
     tempList.append(temp);
 
     //send changes
-    foreach(Packet pack, tempList ) {
-        dispatchPacket(pack);
-        //qDebug("Dispatched opcode %d, data1 %d, data2 %d",pack.opcode,pack.data1,pack.data2);
-    }
-    tempList.clear();
-    foreach(Sender* sender, senders) sender->flush();
+    flushPacketList();
 
     timer.start(FRAME_MSECS);
 }
@@ -348,4 +396,13 @@ void Evaluator::handleTankShootChange(int tankID, int newState) {
 
     model->tanks->value(tankID)->isShoting = (bool)newState;
     
+}
+
+void Evaluator::flushPacketList() {
+    foreach(Packet pack, tempList ) {
+        dispatchPacket(pack);
+        //qDebug("Dispatched opcode %d, data1 %d, data2 %d",pack.opcode,pack.data1,pack.data2);
+    }
+    tempList.clear();
+    foreach(Sender* sender, senders) sender->flush();
 }

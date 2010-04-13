@@ -50,6 +50,7 @@ signals:
 protected:
 
     virtual void dispatchPacket(Packet& packet);
+    virtual void flushPacketList();
 
     virtual void dumpSendersAndReceivers();
 
