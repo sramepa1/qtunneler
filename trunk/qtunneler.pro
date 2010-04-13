@@ -51,7 +51,6 @@ SOURCES += Base.cpp \
            BitmapObj.cpp \
            Border.cpp \
            Clicker.cpp \
-           Communicator.cpp \
            Controller.cpp \
            Evaluator.cpp \
            Explosion.cpp \
@@ -66,7 +65,6 @@ SOURCES += Base.cpp \
            NetSender.cpp \
            OrientedRoundObj.cpp \
            PacketQueue.cpp \
-           Projectile.cpp \
            QueueReceiver.cpp \
            RoundObj.cpp \
            SettingsController.cpp \

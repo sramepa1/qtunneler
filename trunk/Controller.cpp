@@ -1,8 +1,26 @@
-/* 
- * File:   Controller.cpp
- * Author: pavel
- * 
- * Created on 19. březen 2010, 11:42
+/*
+ *      -----------------------------------------------
+ *      QTunneler - a classic DOS game remake in QT
+ *      -----------------------------------------------
+ *
+ *      semestral project for API programming course
+ *      (Y36API) at the FEE CTU Prague
+ *
+ *      Created by:
+ *           Pavel Sramek (sramepa1@fel.cvut.cz)
+ *           Martin Smarda (smardmar@fel.cvut.cz)
+ *
+ *      March & April 2010
+ *
+ *      This is free software, licensed under GNU LGPL
+ *      (GNU Lesser General Public License, version 3)
+ *      http://www.gnu.org/licenses/lgpl.html
+ *
+ *      Project homepage:
+ *      http://code.google.com/p/qtunneler/
+ *
+ *      Version 1.0
+ *
  */
 
 #include "Controller.h"
@@ -122,7 +140,7 @@ void Controller::handleExplosion(qint32 projectileID, qint32 x, qint32 y, qint32
     delete ex;
 }
 
-void Controller::handleTankExplosion(qint32 tankID, qint32 x, qint32 y, qint32 srand) {
+void Controller::handleTankExplosion(qint32 /*tankID*/, qint32 x, qint32 y, qint32 srand) {
 
     // QTunneler2 : add explosion to model and draw, next frame - remove
 

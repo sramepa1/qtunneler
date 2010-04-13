@@ -1,8 +1,26 @@
-/* 
- * File:   Model.cpp
- * Author: pavel
- * 
- * Created on 19. březen 2010, 11:33
+/*
+ *      -----------------------------------------------
+ *      QTunneler - a classic DOS game remake in QT
+ *      -----------------------------------------------
+ *
+ *      semestral project for API programming course
+ *      (Y36API) at the FEE CTU Prague
+ *
+ *      Created by:
+ *           Pavel Sramek (sramepa1@fel.cvut.cz)
+ *           Martin Smarda (smardmar@fel.cvut.cz)
+ *
+ *      March & April 2010
+ *
+ *      This is free software, licensed under GNU LGPL
+ *      (GNU Lesser General Public License, version 3)
+ *      http://www.gnu.org/licenses/lgpl.html
+ *
+ *      Project homepage:
+ *      http://code.google.com/p/qtunneler/
+ *
+ *      Version 1.0
+ *
  */
 
 #include "Model.h"
@@ -22,14 +40,11 @@ Model::Model(QObject* parent) : QObject(parent) {
 
     playerID = NO_PLAYER;
 
-    //keep it uninicialized ... random value
-    //nextProjectileID = 42*42;
+    nextProjectileID = qrand();
 
     playerColors[RED_PLAYER] = new QColor("red");
     playerColors[BLUE_PLAYER] = new QColor("blue");
     playerColors[GREEN_PLAYER] = new QColor("green");
-
-    //init();
 }
 
 Model::~Model() {
@@ -70,38 +85,6 @@ void Model::cleanContainers(){
         delete explosion;
     }
 }
-
-/* TODO delete
-void Model::init() {
-
-    // ----------------------Testing purposes
-
-    //create bases and basewalls
-
-    bases->append(new Base(400, 400, 240, 240, 1));
-    BaseWall * baseWall = new BaseWall(400, 400, 240, 240, QColor("red"));
-    matrix->maskMatrix(baseWall);
-
-    solidObjects->append(baseWall);
-    matrix->maskMatrix(baseWall);
-
-    // ...
-    
-    tanks->insert(RED_PLAYER, new Tank(500,500,RED_PLAYER,RED_PLAYER));
-
-    solidObjects->append(new Stone(300, 100, 88, 100));
- 
-    Explosion * ex = new Explosion(300,300,1,1,200);
-    matrix->invertMaskMatrix(& ex->getExplosionMask());
-
-    Projectile * pr = new Projectile(50, 50, 11, 11, OrientedRoundObj::NORTH);
-    projectiles->insert(11, pr);
-
-    projectileExplosion(11,50,50,42);
-
-
-}
- * */
 
 void Model::reset() {
     cleanContainers();
