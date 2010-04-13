@@ -32,6 +32,8 @@
 #include "Receiver.h"
 #include "Model.h"
 
+#include <ao/ao.h>
+
 class Controller : public QThread {
 
     Q_OBJECT
@@ -77,11 +79,25 @@ protected:
     virtual void handleEndRound();
     virtual void handleEndGame(qint32 tankID);
 
+    virtual void mapSoundFile(QString filename, char** destPtr, qint64* sizePtr);
+
     Receiver* receiver;
 
     qint32 roundNr;
 
     bool moveProjectiles;
+    
+    char* fireWav;
+    qint64 fireSize;
+
+    char* hitWav;
+    qint64 hitSize;
+
+    char* boomWav;
+    qint64 boomSize;
+
+    ao_device * audio;
+    ao_sample_format format;
 
     // not owner
     Model* model;

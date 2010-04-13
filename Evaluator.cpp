@@ -266,9 +266,9 @@ void Evaluator::evaluateState() {
 
     foreach (Tank * tank, *model->tanks) {
         if(tank->isShoting){
-            qDebug("Tank ID %d is firing, tank orientation is %d",tank->id,(int)tank->rotation);
+            //qDebug("Tank ID %d is firing, tank orientation is %d",tank->id,(int)tank->rotation);
             Projectile * projectile = tank->fire(model->provideProjectileID());
-            qDebug("Shot ID %d fired,  projectile orientation %d",projectile->id,(int)projectile->rotation);
+            //qDebug("Shot ID %d fired,  projectile orientation %d",projectile->id,(int)projectile->rotation);
             model->projectiles->insert(projectile->id, projectile);
             firedProjectiles.append(projectile->id);
         }

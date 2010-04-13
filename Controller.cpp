@@ -26,16 +26,52 @@
 #include "Controller.h"
 #include "BaseWall.h"
 
+#include <iostream>
+
 Controller::Controller(QObject* parent, Model* _model) : QThread(parent) {
     receiver = NULL;
     model = _model;
     roundNr = 0; // init phase
     moveProjectiles = false;
+
+    format.bits = 16;
+    format.byte_format = AO_FMT_NATIVE;
+    format.channels = 1;
+    format.matrix = NULL;
+    format.rate = 22050;
+
+    int driver = ao_default_driver_id();
+
+    audio = ao_open_live(driver, &format, NULL);
+
+    if(audio == NULL) qDebug("ao_open_live failed with errno %d, ao_default_driver_id is %d",errno,driver);
+
+    mapSoundFile("sounds/fire.wav",&fireWav,&fireSize);
+    mapSoundFile("sounds/hit.wav",&hitWav,&hitSize);
+    mapSoundFile("sounds/boom.wav",&boomWav,&boomSize);
+}
+
+void Controller::mapSoundFile(QString filename, char** destPtr, qint64* sizePtr) {
+    QFile file(filename);
+    if(file.open(QIODevice::ReadOnly)) {
+        *sizePtr = file.size();
+        *destPtr = (char*)file.map(0,*sizePtr);
+        file.close();
+    }else {
+        std::cerr << "Error: " << file.fileName().constData() << " not found, this sound effect won't play.";
+        *destPtr = NULL;
+    }
 }
 
 Controller::~Controller() {
     quit();
     while(isRunning()) {}
+
+    delete[] fireWav;
+    delete[] hitWav;
+    delete[] boomWav;
+
+    if(audio != NULL) ao_close(audio);
 }
 
 void Controller::run() {
@@ -128,6 +164,8 @@ void Controller::handleTankStatus(qint32 tankID, qint32 hp, qint32 energy, qint3
 void Controller::handleProjectileSpawn(qint32 projectileID, qint32 x, qint32 y, qint32 rotation) {
 
     model->projectiles->insert(projectileID, new Projectile(x,y,NO_PLAYER,projectileID,(OrientedRoundObj::direction)rotation));
+
+    if(fireWav != NULL) ao_play(audio, fireWav, (uint_32) fireSize);
 }
 
 void Controller::handleExplosion(qint32 projectileID, qint32 x, qint32 y, qint32 srand) {
@@ -138,6 +176,8 @@ void Controller::handleExplosion(qint32 projectileID, qint32 x, qint32 y, qint32
     model->projectiles->remove(projectileID);
     model->matrix->invertMaskMatrix( (&(ex->getExplosionMask())) );
     delete ex;
+
+    if(hitWav != NULL) qDebug("%d",ao_play(audio, hitWav, (uint_32) hitSize));
 }
 
 void Controller::handleTankExplosion(qint32 /*tankID*/, qint32 x, qint32 y, qint32 srand) {
@@ -147,6 +187,8 @@ void Controller::handleTankExplosion(qint32 /*tankID*/, qint32 x, qint32 y, qint
     Explosion* ex = new Explosion(x,y,NO_PLAYER,srand,TANK_EXPLOSION_RADIUS);
     model->matrix->invertMaskMatrix( (&(ex->getExplosionMask())) );
     delete ex;
+
+    if(boomWav != NULL) ao_play(audio, boomWav, (uint_32) boomSize);
 }
 
 

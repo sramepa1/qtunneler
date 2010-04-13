@@ -24,15 +24,22 @@
  */
 
 #include <QApplication>
+#include <ao/ao.h>
 
 #include "Initializer.h"
 
 int main(int argc, char *argv[]) {
 
+    ao_initialize();
+
     QApplication app(argc, argv);
     
     Initializer init;
     init.initGUI();
+    
+    int returnCode = app.exec();
 
-    return app.exec();
+    ao_shutdown();
+
+    return returnCode;
 }
