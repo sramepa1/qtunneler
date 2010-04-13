@@ -98,19 +98,19 @@ void SettingsModel::setMaxRoundTime(qint32 _maxRoundTime) {
 
 void SettingsModel::addPlayer(Player player) {
 
-    // TODO
+    // not implemented
 
 }
 
 void SettingsModel::updatePlayer(Player player) {
 
-    // TODO
+    // not implemented
 
 }
 
 void SettingsModel::removePlayer(quint8 playerID) {
 
-    // TODO
+    // not implemented
 
 }
 
@@ -120,7 +120,7 @@ quint8 SettingsModel::getPlayerCount() {
 
 Player SettingsModel::getPlayerAt(quint8 index) {
 
-    // TODO assert?
+    // assert?
 
     return players[index];
 }

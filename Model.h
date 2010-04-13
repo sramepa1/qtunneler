@@ -131,7 +131,7 @@ public:
 protected:
     quint32 nextProjectileID;
 
-    void cleanContainers();
+    void deleteObjectsInContainers();
 
 private:
     Model(const Model& /*orig*/) : QObject() {} // disabled

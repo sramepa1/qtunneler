@@ -121,23 +121,23 @@
 
 //Server-to-client packets
 #define OP_TANK 7
-// OP_TANK - timecode used for orientation
+// OP_TANK - timecode field used for orientation
 // OP_TANK - data1 = tank ID, data2 = X, data 3 = Y
 
 #define OP_TANK_STATUS 8
-// OP_TANK_STATUS - timecode used for rounds won
+// OP_TANK_STATUS - timecode field used for rounds won
 // OP_TANK_STATUS - data1 = tank ID, data2 = HP, data3 = energy
 
 #define OP_PROJECTILE 9
-// OP_PROJECTILE - timecode used for orientation
+// OP_PROJECTILE - timecode field used for orientation
 // OP_PROJECTILE - data1 = projectile ID, data2 = X, data 3 = Y
 
 #define OP_EXPLOSION 10
-// OP_EXPLOSION - timecode used for random seed
+// OP_EXPLOSION - timecode field used for random seed
 // OP_EXPLOSION - data1 = projectile ID, data2 = X, data 3 = Y
 
 #define OP_TANK_EXPLOSION 11
-// OP_TANK_EXPLOSION - timecode used for random seed
+// OP_TANK_EXPLOSION - timecode field used for random seed
 // OP_TANK_EXPLOSION - data1 = tank ID, data2 = X, data 3 = Y
 
 #define OP_BASE 12
@@ -145,7 +145,7 @@
 // OP_BASE - data1 = tank ID, data2 = X1, data3 = Y1
 
 #define OP_STONE 13
-// OP_STONE - timecode = x1, data1 = y1, data2 = width, data3 = height
+// OP_STONE - timecode field = x1, data1 = y1, data2 = width, data3 = height
 
 
 // Server-to-Client control

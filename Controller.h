@@ -71,7 +71,7 @@ protected:
     virtual void handleTankExplosion(qint32 tankID, qint32 x, qint32 y, qint32 srand);
 
     virtual void handleAddBase(qint32 tankID, qint32 x, qint32 y);
-    virtual void handleAddStone(qint32 x, qint32 y, qint32 width, qint32 height); // TODO parameters
+    virtual void handleAddStone(qint32 x, qint32 y, qint32 width, qint32 height);
 
     virtual void handleFrameBoundary();
     virtual void handleEndRound();

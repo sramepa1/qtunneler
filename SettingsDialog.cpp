@@ -29,8 +29,6 @@ SettingsDialog::SettingsDialog(SettingsModel* _model) {
 
     model = _model;
 
-    // TODO final GUI
-
     statusLabel = new QLabel(tr("Initializing..."),this);
     buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel, Qt::Horizontal, this);
     startButton = new QPushButton(tr("Start game"),this);

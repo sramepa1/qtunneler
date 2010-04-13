@@ -32,12 +32,6 @@ Evaluator::Evaluator(QObject* parent) : QThread(parent) {
     model = new Model(this);
     readyCnt = 0;
     connect(&timer,SIGNAL(timeout()),this,SLOT(evaluateState()));
-
-
-    //TODO remove
-    x = 512;
-    y = 388;
-    dx = dy = 0;
 }
 
 Evaluator::~Evaluator() {
@@ -216,8 +210,7 @@ void Evaluator::evaluateState() {
         list.removeFirst();
     }
 
-    // TODO move projectiles here (and handle any resulting collisions & generate explosions)
-
+    // move projectiles (and handle any resulting collisions & generate explosions)
     foreach(Projectile * projectile, *(model->projectiles)) {
 
         for (int i = 0; i < PROJECTILE_SPEED; i++) {
@@ -294,10 +287,6 @@ void Evaluator::evaluateState() {
     }
     // fired projectiles are spawned but not yet evaluated (will try to move next frame)
 
-    // TODO execute all explosions - mask matrix, modify tank HPs
-
-    // TODO check tank HPs for <= 0, generate any tankExplosions (and eval them, checking tank HP again)
-
     //send new projectiles that survived evaluation
     foreach(quint32 id, firedProjectiles) {
         if(model->projectiles->contains(id)) {
@@ -305,7 +294,7 @@ void Evaluator::evaluateState() {
             temp = Packet(OP_PROJECTILE,(qint32)p->rotation,p->id,p->getX(),p->getY());
             tempList.append(temp);
         }
-    }  // TODO above - make sure that explosions are NOT generated for destroyed NEW projectiles!!!!! <<<<<<<<<<<<<<<<<<<<<<<<<<<<,,
+    }
 
     // evaluate tank energy/HP gain from bases (distinguish own and enemy)
     foreach(Tank* t, *(model->tanks)) {

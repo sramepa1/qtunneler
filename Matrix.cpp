@@ -63,14 +63,32 @@ void Matrix::setByte(qint32 xDiv8, qint32 y, quint8 val) {
     arr[xDiv8][y] = val;
 }
 
-// TODO more efficiently when byte-aligned !!!!!
+
+// copy-pasted code for performance reasons. This is called quite often...
 
 void Matrix::maskMatrix(const BitmapObj * mask){
     int x = mask->getX1();
     int y = mask->getY1();
-    for (int i = 0; i < mask->getWidth() && (i+x < MATRIX_DIMENSION); i++) {
-        for (int j = 0; j < mask->getHeight() && (j+y < MATRIX_DIMENSION); j++) {
-            if(getXY(x+i,y+j)) setXY(x+i,y+j,(mask->getXY(i,j)));
+    int wid = mask->getWidth();
+    int hei = mask->getHeight();
+
+    if(x%8 == 0) { // byte-aligned
+
+        x /= 8;
+        wid = wid%8 == 0 ? wid/8 : wid/8 + 1;
+        
+        for (int i = 0; i < wid && (i+x < MATRIX_DIMENSION/8); i++) {
+            for (int j = 0; j < hei && (j+y < MATRIX_DIMENSION); j++) {
+                setByte(x+i,y+j, getByte(x+i,y+j) & mask->getByte(i,j));
+            }
+        }
+
+    }else { // not byte-aligned
+
+        for (int i = 0; i < wid && (i+x < MATRIX_DIMENSION); i++) {
+            for (int j = 0; j < hei && (j+y < MATRIX_DIMENSION); j++) {
+                if(getXY(x+i,y+j)) setXY(x+i,y+j, mask->getXY(i,j) );
+            }
         }
     }
 }
@@ -78,9 +96,26 @@ void Matrix::maskMatrix(const BitmapObj * mask){
 void Matrix::invertMaskMatrix(const BitmapObj * mask){
     int x = mask->getX1();
     int y = mask->getY1();
-    for (int i = 0; i < mask->getWidth() && (i+x < MATRIX_DIMENSION); i++) {
-        for (int j = 0; j < mask->getHeight() && (j+y < MATRIX_DIMENSION); j++) {
-            if(getXY(x+i,y+j)) setXY(x+i,y+j,!(mask->getXY(i,j)));
+    int wid = mask->getWidth();
+    int hei = mask->getHeight();
+
+    if(x%8 == 0) { // byte-aligned
+
+        x /= 8;
+        wid = (wid%8 == 0) ? (wid/8) : (wid/8 + 1);
+
+        for (int i = 0; i < wid && (i+x < MATRIX_DIMENSION/8); i++) {
+            for (int j = 0; j < hei && (j+y < MATRIX_DIMENSION); j++) {
+                setByte(x+i,y+j, getByte(x+i,y+j) & ~(mask->getByte(i,j)));
+            }
+        }
+
+    }else { // not byte-aligned
+
+        for (int i = 0; i < wid && (i+x < MATRIX_DIMENSION); i++) {
+            for (int j = 0; j < hei && (j+y < MATRIX_DIMENSION); j++) {
+                if(getXY(x+i,y+j)) setXY(x+i,y+j, !(mask->getXY(i,j)) );
+            }
         }
     }
 }

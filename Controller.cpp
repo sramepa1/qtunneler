@@ -155,8 +155,7 @@ void Controller::handleAddBase(qint32 tankID, qint32 x, qint32 y) {
     model->addBase(x,y,BASE_WIDTH,BASE_HEIGHT,(quint8)tankID,*(model->playerColors.value(tankID)));
 }
 
-void Controller::handleAddStone(qint32 x, qint32 y, qint32 width, qint32 height) { // TODO parameters
-
+void Controller::handleAddStone(qint32 x, qint32 y, qint32 width, qint32 height) {
     model->solidObjects->append(new Stone(x,y,width,height));
 }
 

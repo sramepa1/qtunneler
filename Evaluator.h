@@ -89,12 +89,6 @@ protected:
 
     QTimer timer;
 
-    //testing - TODO remove
-    int x;
-    int y;
-    int dx;
-    int dy;
-
 private:
     Evaluator(const Evaluator& /*orig*/) : QThread() {} // disabled
 };
