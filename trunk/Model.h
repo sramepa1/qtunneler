@@ -63,7 +63,7 @@ public:
     virtual bool isSolidCollision (const RoundObj * obj) const;
     virtual bool isTankCollision (const RoundObj * obj) const;
     virtual bool isTankCollision (const Projectile * projectile) const;
-    virtual bool isProjectileCollision (const Projectile * projectile) const;
+    virtual bool isProjectileCollision (const RoundObj * projectile) const;
     virtual bool isAnyCollision (const RoundObj * obj) const;
     virtual bool isAnyCollisionExceptOwnTank (const Projectile * projectile) const;
 

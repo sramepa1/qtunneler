@@ -250,21 +250,22 @@ void Model::addBase(qint32 _x, qint32 _y, qint32 _width, qint32 _height, quint8 
 }
 
 bool Model::isMatrixCollision (const RoundObj * obj) const{
-    int cnt = 0;
 
     for (int i = obj->getX1(); i < obj->getX2(); i++) {
         for (int j = obj->getY1(); j < obj->getY2(); j++) {
-            //colides
             if(matrix->getXY(i, j) && obj->isWithinCircle(i, j)){
-                ++cnt;
+                return true
+                        ;
             }
         }
     }
 
-    return cnt > 10 ? true : false;
+    return false;
 }
 
 bool Model::isSolidCollision (const RoundObj * obj) const{
+
+    //TODO bug in base
 
     //Border collision
     if(border->isBorderCollision(obj)){
@@ -295,6 +296,10 @@ bool Model::isSolidCollision (const RoundObj * obj) const{
 bool Model::isTankCollision (const RoundObj * obj) const{
 
     foreach(Tank * tank, *tanks){
+
+        if(tank == obj){
+            continue;
+        }
 
         if(checkRectOverlap(obj->getX1() ,obj->getY1(), obj->getX2(), obj->getY2(), tank->getX1(), tank->getY1(), tank->getX2(), tank->getY2())){
 
@@ -337,20 +342,20 @@ bool Model::isTankCollision (const Projectile * projectile) const{
     return false;
 }
 
-bool Model::isProjectileCollision (const Projectile * projectile) const{
+bool Model::isProjectileCollision (const RoundObj * obj) const{
 
     foreach(Projectile * shot, *projectiles){
 
-        if(shot->id == projectile->id){
+        if(shot == obj){
             continue;
         }
 
-        if(checkRectOverlap(projectile->getX1() ,projectile->getY1(), projectile->getX2(), projectile->getY2(), shot->getX1(), shot->getY1(), shot->getX2(), shot->getY2())){
+        if(checkRectOverlap(obj->getX1() ,obj->getY1(), obj->getX2(), obj->getY2(), shot->getX1(), shot->getY1(), shot->getX2(), shot->getY2())){
 
-            for (int i = projectile->getX1(); i < projectile->getX2(); i++) {
-                for (int j = projectile->getY1(); j < projectile->getY2(); j++) {
+            for (int i = obj->getX1(); i < obj->getX2(); i++) {
+                for (int j = obj->getY1(); j < obj->getY2(); j++) {
                     //colides
-                    if(projectile->isWithinCircle(i, j) && shot->isWithinCircle(i, j)){
+                    if(obj->isWithinCircle(i, j) && shot->isWithinCircle(i, j)){
                         return true;
                     }
                 }
@@ -363,7 +368,7 @@ bool Model::isProjectileCollision (const Projectile * projectile) const{
 }
 
 bool Model::isAnyCollision (const RoundObj * obj) const{
-    return isMatrixCollision(obj) ;//|| isSolidCollision(obj) || isTankCollision(obj) || isProjectileCollision(obj);
+    return isMatrixCollision(obj) || isSolidCollision(obj) || isTankCollision(obj) || isProjectileCollision(obj);
 }
 
 bool Model::isAnyCollisionExceptOwnTank (const Projectile * projectile) const{
@@ -374,8 +379,12 @@ void Model::moveTankWhilePossible(Tank* tank) {
 
 
     // TODO implement
+    QPair<qint32, qint32> coord = tank->getMoveCoorinates(16);
+
+    maskMatrixWithTank(tank->id, coord.first, coord.second);
 
     tank->move(16);
+
 
 }
 
