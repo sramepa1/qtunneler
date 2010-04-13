@@ -55,15 +55,15 @@
 //Tank
 #define TANK_RADIUS 32
 
-#define DEFAULT_TANK_ROTATION NORTH //defined in OrientedRoundObj
-#define DEFAULT_TANK_HP 10000 //100%
-#define DEFAULT_TANK_ENERGY (3 * MATRIX_DIMENSION ) //100% = can 1.5x traverse map
-
-#define TANK_SPEED 10
+#define TANK_SPEED 12
 #define TANK_MAX_TUNNEL 4 * TANK_RADIUS
 
-#define TANK_ENERGY_COST_OF_WAIT (TANK_SPEED / 2)
-#define TANK_ENERGY_COST_OF_MOVE (TANK_SPEED * 2) // count per frame
+#define DEFAULT_TANK_ROTATION NORTH //defined in OrientedRoundObj
+#define DEFAULT_TANK_HP 10000 //100%
+#define DEFAULT_TANK_ENERGY (MATRIX_DIMENSION * 4)
+
+#define TANK_ENERGY_COST_OF_WAIT (TANK_SPEED / 4)
+#define TANK_ENERGY_COST_OF_MOVE TANK_SPEED // count per frame
 #define TANK_ENERGY_COST_OF_FIRE (TANK_ENERGY_COST_OF_MOVE * 2) // energy goes down 3x faster when firing
 
 #define TANK_ENERGY_STATIC_THRESHOLD (DEFAULT_TANK_ENERGY / 5)

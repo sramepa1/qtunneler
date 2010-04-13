@@ -67,7 +67,7 @@ bool Clicker::handleKey(QKeyEvent* evt, uchar val) {
         case Qt::Key_Left : handleChange(val, &left); return true;
         case Qt::Key_Up : handleChange(val, &up); return true;
         case Qt::Key_Down : handleChange(val, &down); return true;
-        case Qt::Key_Space : handleChange(val, &shoot); return true;
+        case Qt::Key_Control : handleChange(val, &shoot); return true;
     }
     return false;
 }
@@ -101,7 +101,7 @@ void Clicker::handleChange(uchar val, uchar* stored) {
                             case 0: direction = MOVE_N; break;
                             case 1: direction = MOVE_NE;
                         }
-        }
+        }        
         sender->sendPacket(Packet(OP_MOVE, time.elapsed(), model->playerID, direction, 0));
     }
     sender->flush();

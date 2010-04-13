@@ -368,7 +368,7 @@ void Evaluator::evaluateState() {
 
 void Evaluator::handleTankMovementChange(int tankID, int newDirection) {
 
-    qDebug("Changing movement status of tank %d, new direction in packet: %d",tankID,newDirection);
+    //qDebug("Changing movement status of tank %d, new direction in packet: %d",tankID,newDirection);
 
     Tank* t = model->tanks->value(tankID);
     OrientedRoundObj::direction dir = t->rotation;
@@ -385,6 +385,7 @@ void Evaluator::handleTankMovementChange(int tankID, int newDirection) {
     }
 
     if(newDirection == MOVE_STOP) {
+        if(t->turned) t->rotation = t->lastRotation;
         t->isMoving = false;
         t->turned = false;
     }else {
@@ -392,7 +393,8 @@ void Evaluator::handleTankMovementChange(int tankID, int newDirection) {
             t->isMoving = true;
             t->turned = false;
         }else {
-            qDebug("Setting rotation of tank %d to %d",t->id,(int)dir);
+            //qDebug("Setting rotation of tank %d to %d",t->id,(int)dir);
+            t->lastRotation = t->rotation;
             t->rotation = dir;
             t->turned = true;
         }

@@ -43,6 +43,8 @@ public:
 
     qint32 roundsWon;
 
+    direction lastRotation;
+
     bool isMoving;
     bool isShoting;
     bool turned;
