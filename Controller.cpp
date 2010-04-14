@@ -195,9 +195,11 @@ void Controller::handleExplosion(qint32 projectileID, qint32 x, qint32 y, qint32
 
     // QTunneler2 : add explosion to model and draw, next frame - remove
 
-    Explosion* ex = new Explosion(x,y,NO_PLAYER,srand);
+    Explosion * ex = new Explosion(x,y,NO_PLAYER,srand);
+    BitmapObj * mask = new BitmapObj(ex->getExplosionMask());
     model->projectiles->remove(projectileID);
-    model->matrix->invertMaskMatrix( (&(ex->getExplosionMask())) );
+    model->matrix->invertMaskMatrix(mask);
+    delete mask;
     delete ex;
 }
 
@@ -206,7 +208,9 @@ void Controller::handleTankExplosion(qint32 /*tankID*/, qint32 x, qint32 y, qint
     // QTunneler2 : add explosion to model and draw, next frame - remove
 
     Explosion* ex = new Explosion(x,y,NO_PLAYER,srand,TANK_EXPLOSION_RADIUS);
-    model->matrix->invertMaskMatrix( (&(ex->getExplosionMask())) );
+    BitmapObj * mask = new BitmapObj(ex->getExplosionMask());
+    model->matrix->invertMaskMatrix(mask);
+    delete mask;
     delete ex;
 
     boom = true;

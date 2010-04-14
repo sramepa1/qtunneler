@@ -35,6 +35,8 @@ Evaluator::Evaluator(QObject* parent) : QObject(parent) {
 }
 
 Evaluator::~Evaluator() {
+    disconnect(&timer,0,0,0);
+    timer.stop();
     dumpSendersAndReceivers();
 }
 
@@ -243,22 +245,22 @@ void Evaluator::evaluateState() {
 
     //all moving tanks, move!
     foreach(Tank* t, *(model->tanks)) {
+        if(t->hp > 0){
+            if(t->isMoving) {
+                model->moveTankWhilePossible(t);
+            }else {
+                t->energy -= TANK_ENERGY_COST_OF_WAIT;
+            }
 
-        if(t->isMoving) {
-            model->moveTankWhilePossible(t);
-        }else {
-            t->energy -= TANK_ENERGY_COST_OF_WAIT;
+            if(t->isMoving || t->turned) {
+                Packet p(OP_TANK,(qint32)t->rotation,t->id,t->getX(),t->getY());
+                tempList.append(p);
+            }
+            if(t->turned) {
+                t->turned = false;
+                t->isMoving = true;
+            }
         }
-        
-        if(t->isMoving || t->turned) {
-            Packet p(OP_TANK,(qint32)t->rotation,t->id,t->getX(),t->getY());
-            tempList.append(p);
-        }
-        if(t->turned) {
-            t->turned = false;
-            t->isMoving = true;
-        }
-        
     }
 
     //all firing tanks, fire!!!
