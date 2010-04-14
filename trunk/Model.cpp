@@ -336,6 +336,10 @@ bool Model::isTankCollision (const RoundObj * obj) const{
 bool Model::isTankCollision (const Projectile * projectile) const{
 
     foreach(Tank * tank, *tanks){
+        //No collision with dead tanks
+        if(tank->hp <= 0){
+            continue;
+        }
 
         if(checkRectOverlap(projectile->getX1() ,projectile->getY1(), projectile->getX2(), projectile->getY2(), tank->getX1(), tank->getY1(), tank->getX2(), tank->getY2())){
 

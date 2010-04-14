@@ -64,49 +64,48 @@ public:
     virtual QVector<QPoint> getShotsInRect(qint32 x, qint32 y, qint32 width, qint32 height) const;
     virtual QVector<OrientedRoundObj*> getTanksInRect(qint32 x, qint32 y, qint32 width, qint32 height) const;
 
-    virtual quint32 provideProjectileID() { return nextProjectileID++;}
-
-    
-    virtual void maskMatrixWithTank(qint32 tankID, qint32 newX, qint32 newY);
-
     /**
      * Collision detection;
      */
-
     virtual bool isMatrixCollision (const RoundObj * obj) const;
 
     //Collision with stone, basewall or border.
     virtual bool isSolidCollision (const RoundObj * obj) const;
+
     virtual bool isTankCollision (const RoundObj * obj) const;
     virtual bool isTankCollision (const Projectile * projectile) const;
+
     virtual bool isProjectileCollision (const RoundObj * projectile) const;
+
     virtual bool isCollisionForTank (const Tank * obj) const;
     virtual bool isCollisionForProjectile (const Projectile * projectile) const;
 
     /**
-     * Explosion methods
-     */
-
-    /**
      * Tank control methods
      */
-
     virtual void moveTanksBackToBases();
     virtual void moveTankWhilePossible(Tank* tank);
-    virtual qint32 getPixelCountInCircle(const RoundObj * obj);
 
     /**
      * Costruction methods
      */
-
     virtual void addBase(qint32 _x, qint32 _y, qint32 _width, qint32 _height, quint8 _color, QColor _wallColor);
 
     /**
      * Static methods
      */
-
     static bool checkRectOverlap(qint32 x11, qint32 y11, qint32 x12, qint32 y12, qint32 x21, qint32 y21, qint32 x22, qint32 y22);
     static bool checkRectInsideRect(qint32 x11, qint32 y11, qint32 x12, qint32 y12, qint32 x21, qint32 y21, qint32 x22, qint32 y22);
+    
+    /**
+     * Other methods
+     */
+    virtual quint32 provideProjectileID() { return nextProjectileID++;}
+
+    virtual qint32 getPixelCountInCircle(const RoundObj * obj);
+
+    virtual void maskMatrixWithTank(qint32 tankID, qint32 newX, qint32 newY);
+
 
     // making these private or protected would result in a tremendous method count
     // better leave them public and open to Controller's logic
