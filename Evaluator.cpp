@@ -85,6 +85,8 @@ void Evaluator::generateWorldAndStartRound() {
     //generate bases
     qsrand( time(NULL) );
 
+    model->containerAccess.lock();
+
     qint32 x1, y1, x2, y2, width, heigth;
 
     x1 = (qint32) (((qreal) qrand() / RAND_MAX) * (MATRIX_DIMENSION - 2 * BASE_MIN_DISTANCE_FROM_BORDER - 2 * BORDER_SIZE) + BASE_MIN_DISTANCE_FROM_BORDER);
@@ -167,6 +169,8 @@ void Evaluator::generateWorldAndStartRound() {
     dispatchPacket(p);
     foreach(Sender* s, senders) s->flush();
 
+    model->containerAccess.unlock();
+
     // will now wait for confirmations to arrive
 }
 
@@ -193,6 +197,9 @@ void Evaluator::handlePacket(Receiver* r) {
 }
 
 void Evaluator::evaluateState() {
+
+    model->containerAccess.lock();
+
     // evaluate packets
     Packet temp;
     while(!list.isEmpty()) {
@@ -266,7 +273,7 @@ void Evaluator::evaluateState() {
     QList<qint32> firedProjectiles;
 
     foreach (Tank * tank, *model->tanks) {
-        if(tank->isShoting){
+        if(tank->isShoting && tank->hp > 0){
             //qDebug("Tank ID %d is firing, tank orientation is %d",tank->id,(int)tank->rotation);
             Projectile * projectile = tank->fire(model->provideProjectileID());
             //qDebug("Shot ID %d fired,  projectile orientation %d",projectile->id,(int)projectile->rotation);
@@ -358,6 +365,8 @@ void Evaluator::evaluateState() {
     }else {
         timer.start(FRAME_MSECS); // new frame
     }
+
+    model->containerAccess.unlock();
 }
 
 void Evaluator::handleTankMovementChange(int tankID, int newDirection) {

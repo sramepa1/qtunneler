@@ -33,7 +33,24 @@ Initializer::Initializer() {
     evaluator = NULL;
 }
 
+Initializer::~Initializer() {
+    controllerThread->quit();
+    while(controllerThread->isRunning()) {}
+}
+
+void Initializer::startThreads() {    
+    controllerThread = new ControllerThread(this);
+    connect(controllerThread,SIGNAL(ready()),this,SLOT(threadStarted()));
+    controllerThread->start();
+}
+
+void Initializer::threadStarted() {
+    initGUI();
+}
+
 void Initializer::initGUI() {
+
+    model = controllerThread->getModel();
 
     comm = new Communicator(this);
 
@@ -41,8 +58,7 @@ void Initializer::initGUI() {
     settingsDialog = new SettingsDialog(settingsModel);
     settingsController = new SettingsController(this,settingsModel,settingsDialog,comm);
 
-    model = new Model(this);
-    controller = new Controller(this,model);
+    controller = controllerThread->getController();
     clicker = new Clicker(this,model);
 
     initDialog = new InitDialog();
@@ -112,8 +128,6 @@ void Initializer::initCore() {
         controller->setReceiver(new NetReceiver(controller,comm->socket));
         clicker->resetSender(new NetSender(clicker,comm->socket));
     }
-
-    controller->start(); 
 }
 
 void Initializer::displayInitInProgress() {
@@ -138,8 +152,7 @@ void Initializer::endGame(QString message, bool ok) {
     msgBox.setInformativeText(message);
     msgBox.setStandardButtons(QMessageBox::Ok);
     msgBox.setIcon(ok ? QMessageBox::Information : QMessageBox::Critical);
-    msgBox.exec();    
-    controller->quit();
+    msgBox.exec();
     if(evaluator) evaluator->quit();
     gameWindow->hide();
     initDialog->show();

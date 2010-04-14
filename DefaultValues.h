@@ -75,7 +75,7 @@
 #define EXPLOSION_DAMAGE 700 //100% of explosion damage, decrease with distance linearly
 #define EXPLOSION_RAND_SOLID_PART 0.5
 
-#define TANK_EXPLOSION_RADIUS (2 * TANK_RADIUS)
+#define TANK_EXPLOSION_RADIUS (4 * TANK_RADIUS)
 #define TANK_EXPLOSION_DAMAGE (10 * EXPLOSION_DAMAGE)
 
 //Map
