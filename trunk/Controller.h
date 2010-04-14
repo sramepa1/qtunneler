@@ -32,17 +32,15 @@
 #include "Receiver.h"
 #include "Model.h"
 
-#include <ao/ao.h>
+#include <portaudio.h>
 
-class Controller : public QThread {
+class Controller : public QObject {
 
     Q_OBJECT
 
 public:
     Controller(QObject* parent = NULL, Model* _model = NULL);
     virtual ~Controller();
-
-    virtual void run();
 
     virtual void resetStateAndStop();
 
@@ -86,6 +84,7 @@ protected:
     qint32 roundNr;
 
     bool moveProjectiles;
+    bool boom;
     
     char* fireWav;
     qint64 fireSize;
@@ -96,14 +95,48 @@ protected:
     char* boomWav;
     qint64 boomSize;
 
-    ao_device * audio;
-    ao_sample_format format;
+    PaStream* stream;
 
     // not owner
     Model* model;
 
 private:    
-    Controller(const Controller& /*orig*/) : QThread() {} // disabled
+    Controller(const Controller& /*orig*/) : QObject() {} // disabled
+};
+
+
+
+
+
+class ControllerThread : public QThread {
+
+    Q_OBJECT
+
+public:
+    ControllerThread(QObject* parent = NULL) : QThread(parent) {}
+    virtual ~ControllerThread() {
+        delete model;
+        delete controller;
+    }
+
+    virtual void run() {
+        model = new Model(NULL);
+        controller = new Controller(NULL,model);
+        emit ready();
+        exec();
+    }
+
+    virtual Controller* getController() { return controller; }
+    virtual Model* getModel() { return model; }
+
+signals:
+    void ready();
+
+protected:
+
+    Controller* controller;
+    Model* model;
+
 };
 
 #endif	/* _CONTROLLER_H */

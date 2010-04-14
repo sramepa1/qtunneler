@@ -24,22 +24,23 @@
  */
 
 #include <QApplication>
-#include <ao/ao.h>
+
+#include <portaudio.h>
 
 #include "Initializer.h"
 
 int main(int argc, char *argv[]) {
 
-    ao_initialize();
+    Pa_Initialize();
 
     QApplication app(argc, argv);
     
     Initializer init;
-    init.initGUI();
+    init.startThreads();
     
     int returnCode = app.exec();
 
-    ao_shutdown();
+    Pa_Terminate();
 
     return returnCode;
 }

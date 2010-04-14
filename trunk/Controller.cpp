@@ -26,44 +26,32 @@
 #include "Controller.h"
 #include "BaseWall.h"
 
-#include <QString>
 
-#include <iostream>
-#include <string>
-
-
-
-// TODO play sounds from a separate thread!
-
-
-
-Controller::Controller(QObject* parent, Model* _model) : QThread(parent) {
+Controller::Controller(QObject* parent, Model* _model) : QObject(parent) {
     receiver = NULL;
     model = _model;
     roundNr = 0; // init phase
     moveProjectiles = false;
 
-    format.bits = 16;
-    format.byte_format = AO_FMT_NATIVE;
-    format.channels = 1;
-    format.rate = 22050;
+    stream = NULL;
 
-    int driver = ao_default_driver_id();
+    qDebug("Pa_Open - error code %d", (int)Pa_OpenDefaultStream(&stream, 0, 1, paInt16, 22050, 0, NULL, NULL));
 
-    audio = ao_open_live(driver, &format, NULL);
+    mapSoundFile("sounds/boom.wav",&boomWav,&boomSize);
 
-    if(audio == NULL) qDebug("ao_open_live failed with errno %d, ao_default_driver_id is %d",errno,driver);
-
+    // unused in this build, but load anyway...
     mapSoundFile("sounds/fire.wav",&fireWav,&fireSize);
     mapSoundFile("sounds/hit.wav",&hitWav,&hitSize);
-    mapSoundFile("sounds/boom.wav",&boomWav,&boomSize);
 }
 
 void Controller::mapSoundFile(QString filename, char** destPtr, qint64* sizePtr) {
     QFile file(filename);
     if(file.open(QIODevice::ReadOnly)) {
-        *sizePtr = file.size();
-        *destPtr = (char*)file.map(0,*sizePtr);
+        int offset = 64; // wav header?
+        *sizePtr = file.size() - offset;
+        char* ptr = (char*)file.map(offset,*sizePtr);
+        *destPtr = new char[*sizePtr];
+        memcpy(*destPtr,ptr,*sizePtr);
         file.close();
         qDebug() << "file " <<  file.fileName() << " of size " << *sizePtr << " loaded.";
     }else {
@@ -73,23 +61,16 @@ void Controller::mapSoundFile(QString filename, char** destPtr, qint64* sizePtr)
 }
 
 Controller::~Controller() {
-    quit();
-    while(isRunning()) {}
 
-    delete[] fireWav;
-    delete[] hitWav;
-    delete[] boomWav;
+    if(fireWav != NULL) delete[] fireWav;
+    if(hitWav != NULL) delete[] hitWav;
+    if(boomWav != NULL) delete[] boomWav;
 
-    if(audio != NULL) ao_close(audio);
-}
-
-void Controller::run() {
-    exec();
+    if(stream != NULL) Pa_CloseStream(stream);
 }
 
 void Controller::resetStateAndStop() {
     model->reset();
-    quit();
 }
 
 void Controller::setReceiver(Receiver* r) {
@@ -135,6 +116,26 @@ void Controller::handlePacket(Receiver* /*r*/) {
     }
 
     model->containerAccess.unlock();
+
+    // frame boundary after tank explosion
+    if(boom && moveProjectiles && stream != NULL) {
+
+        // Blocking call. Multi-channel sound is quite complicated to write
+        // and this also has the advantage of holding the view for a while
+        // so that tank explosion is seen
+
+        qDebug("Pa_Start - error code %d", (int)Pa_StartStream(stream));
+
+        PaError err;
+        qint16* ptr = (qint16*)boomWav;
+        int frames = boomSize / 1024;
+        for( int i=0; i < (boomSize/2); i += frames ) {
+           err = Pa_WriteStream( stream, ptr + i, frames );
+           if( err ) break;
+        }
+        qDebug("Pa_Stop - error code %d", (int)Pa_StopStream(stream));
+
+    }
 }
 
 void Controller::handleTankMovement(qint32 tankID, qint32 x, qint32 y, qint32 rotation) {
@@ -173,8 +174,6 @@ void Controller::handleTankStatus(qint32 tankID, qint32 hp, qint32 energy, qint3
 void Controller::handleProjectileSpawn(qint32 projectileID, qint32 x, qint32 y, qint32 rotation) {
 
     model->projectiles->insert(projectileID, new Projectile(x,y,NO_PLAYER,projectileID,(OrientedRoundObj::direction)rotation));
-
-    //if(fireWav != NULL) ao_play(audio, fireWav, (uint_32) fireSize);
 }
 
 void Controller::handleExplosion(qint32 projectileID, qint32 x, qint32 y, qint32 srand) {
@@ -185,8 +184,6 @@ void Controller::handleExplosion(qint32 projectileID, qint32 x, qint32 y, qint32
     model->projectiles->remove(projectileID);
     model->matrix->invertMaskMatrix( (&(ex->getExplosionMask())) );
     delete ex;
-
-    //if(hitWav != NULL) qDebug("%d",ao_play(audio, hitWav, (uint_32) hitSize));
 }
 
 void Controller::handleTankExplosion(qint32 /*tankID*/, qint32 x, qint32 y, qint32 srand) {
@@ -197,7 +194,7 @@ void Controller::handleTankExplosion(qint32 /*tankID*/, qint32 x, qint32 y, qint
     model->matrix->invertMaskMatrix( (&(ex->getExplosionMask())) );
     delete ex;
 
-    //if(boomWav != NULL) ao_play(audio, boomWav, (uint_32) boomSize);
+    boom = true;
 }
 
 

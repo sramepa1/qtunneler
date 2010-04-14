@@ -51,12 +51,18 @@ class Initializer : public QObject {
 
 public:
     Initializer();
-    virtual ~Initializer() {}
+    virtual ~Initializer();
+    
+    virtual void startThreads();
 
     // initializes GUI-related members and shows form, wires signals between them
     virtual void initGUI();
 
 public slots:
+
+    virtual void threadStarted();
+
+
     virtual void validate(InitVector vec);
 
     // Starts game core. Or REinitializes, core might already be present from last game.
@@ -92,6 +98,7 @@ protected:
     Evaluator* evaluator;
     Clicker* clicker;
 
+    ControllerThread* controllerThread;
 };
 
 #endif	/* _INITIALIZER_H */
