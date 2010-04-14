@@ -1,31 +1,61 @@
-/* 
- * File:   NetReceiverThread.cpp
- * Author: pavel
- * 
- * Created on 10. duben 2010, 13:22
+/*
+ *      -----------------------------------------------
+ *      QTunneler - a classic DOS game remake in QT
+ *      -----------------------------------------------
+ *
+ *      semestral project for API programming course
+ *      (Y36API) at the FEE CTU Prague
+ *
+ *      Created by:
+ *           Pavel Sramek (sramepa1@fel.cvut.cz)
+ *           Martin Smarda (smardmar@fel.cvut.cz)
+ *
+ *      March & April 2010
+ *
+ *      This is free software, licensed under GNU LGPL
+ *      (GNU Lesser General Public License, version 3)
+ *      http://www.gnu.org/licenses/lgpl.html
+ *
+ *      Project homepage:
+ *      http://code.google.com/p/qtunneler/
+ *
+ *      Version 1.0
+ *
  */
 
 #include "NetReceiverThread.h"
 
 #include <QtEndian>
 
-NetReceiverThread::NetReceiverThread(QObject* parent, QTcpSocket* socket, PacketQueue* packetQueue) : QThread(parent), sock(socket), queue(packetQueue) {
-    connect(sock,SIGNAL(readyRead()),this,SLOT(readBytes()));
+NetReceiverThread::NetReceiverThread(QObject* parent, QTcpSocket* socket, PacketQueue* packetQueue) : QThread(parent) {
+    sock = socket;
+    queue = packetQueue;
+    helper = NULL;
+}
+
+NetReceiverThread::~NetReceiverThread() {
+    if(helper != NULL) delete helper;
+}
+
+void NetReceiverThread::run() {
+    helper = new NetReceiverHelper(NULL, sock, queue);
+    connect(sock,SIGNAL(readyRead()),helper,SLOT(readBytes()));
+    exec();
+}
+
+
+
+
+NetReceiverHelper::NetReceiverHelper(QObject* parent, QTcpSocket* socket, PacketQueue* packetQueue) : QObject(parent), sock(socket), queue(packetQueue) {
     writeIndex = 0;
     buffer = new uchar[PACKET_BYTES];
 }
 
-NetReceiverThread::~NetReceiverThread() {
+NetReceiverHelper::~NetReceiverHelper() {
     delete[] buffer;
-    quit();
-    while(isRunning()) {}
 }
 
-void NetReceiverThread::run() {
-    exec();
-}
-
-void NetReceiverThread::readBytes() {
+void NetReceiverHelper::readBytes() {
     //qDebug("NetThread: readBytes()");
     while(sock->bytesAvailable()) {
         sock->getChar((char*)(buffer + writeIndex));
@@ -44,4 +74,3 @@ void NetReceiverThread::readBytes() {
         }
     }
 }
-
