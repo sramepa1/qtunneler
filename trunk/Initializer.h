@@ -99,6 +99,9 @@ protected:
     Clicker* clicker;
 
     ControllerThread* controllerThread;
+    EvaluatorThread* evalThread;
+
+    int runningThreads;
 };
 
 #endif	/* _INITIALIZER_H */

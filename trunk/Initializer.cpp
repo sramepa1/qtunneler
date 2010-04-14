@@ -30,22 +30,26 @@
 #include "NetSender.h"
 
 Initializer::Initializer() {
-    evaluator = NULL;
+    runningThreads = 0;
 }
 
 Initializer::~Initializer() {
     controllerThread->quit();
-    while(controllerThread->isRunning()) {}
+    evalThread->quit();
+    while(controllerThread->isRunning() && evalThread->isRunning()) {}
 }
 
 void Initializer::startThreads() {    
     controllerThread = new ControllerThread(this);
+    evalThread = new EvaluatorThread(this);
     connect(controllerThread,SIGNAL(ready()),this,SLOT(threadStarted()));
     controllerThread->start();
+    connect(evalThread,SIGNAL(ready()),this,SLOT(threadStarted()));
+    evalThread->start();
 }
 
 void Initializer::threadStarted() {
-    initGUI();
+    if(++runningThreads >= 2) initGUI();
 }
 
 void Initializer::initGUI() {
@@ -105,12 +109,10 @@ void Initializer::initCore() {
     controller->resetStateAndStop();
 
     if(settingsModel->isCreating()) {
-        if(!evaluator) {
-            evaluator = new Evaluator(this);
-            connect(settingsDialog,SIGNAL(startGame()),evaluator,SLOT(generateWorldAndStartRound()));
-        }else {
-            evaluator->clearStateAndStop();
-        }
+
+        evaluator = evalThread->getEvaluator();
+
+        connect(settingsDialog,SIGNAL(startGame()),evaluator,SLOT(generateWorldAndStartRound()));
 
         evaluator->addSender(new NetSender(evaluator,comm->socket));
         evaluator->addReceiver(new NetReceiver(evaluator,comm->socket));
@@ -122,8 +124,6 @@ void Initializer::initCore() {
         q = new PacketQueue();
         clicker->resetSender(new QueueSender(clicker,q));
         evaluator->addReceiver(new QueueReceiver(evaluator,q));
-
-        evaluator->start();
     }else {
         controller->setReceiver(new NetReceiver(controller,comm->socket));
         clicker->resetSender(new NetSender(clicker,comm->socket));
@@ -153,7 +153,6 @@ void Initializer::endGame(QString message, bool ok) {
     msgBox.setStandardButtons(QMessageBox::Ok);
     msgBox.setIcon(ok ? QMessageBox::Information : QMessageBox::Critical);
     msgBox.exec();
-    if(evaluator) evaluator->quit();
     gameWindow->hide();
     initDialog->show();
 }
