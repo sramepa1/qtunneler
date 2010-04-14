@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=QTunneler
+PROJECTNAME=qtunneler
 
 # Active Configuration
 DEFAULTCONF=Debug
