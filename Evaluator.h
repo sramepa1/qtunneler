@@ -34,15 +34,13 @@
 #include "Sender.h"
 #include "Model.h"
 
-class Evaluator : public QThread {
+class Evaluator : public QObject {
 
     Q_OBJECT
 
 public:
     Evaluator(QObject* parent = NULL);
     virtual ~Evaluator();
-
-    virtual void run();
 
     virtual void addSender(Sender* s);
     virtual void addReceiver(Receiver* r);    
@@ -93,7 +91,38 @@ protected:
     QTimer timer;
 
 private:
-    Evaluator(const Evaluator& /*orig*/) : QThread() {} // disabled
+    Evaluator(const Evaluator& /*orig*/) : QObject() {} // disabled
+};
+
+
+
+
+
+
+class EvaluatorThread : public QThread {
+
+    Q_OBJECT
+
+public:
+    EvaluatorThread(QObject* parent = NULL) : QThread(parent) {}
+    virtual ~EvaluatorThread() {
+        delete eval;
+    }
+
+    virtual void run() {
+        eval = new Evaluator(NULL);
+        emit ready();
+        exec();
+    }
+
+    virtual Evaluator* getEvaluator() { return eval; }
+
+signals:
+    void ready();
+
+protected:
+    Evaluator* eval;
+
 };
 
 #endif	/* _EVALUATOR_H */

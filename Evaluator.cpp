@@ -28,7 +28,7 @@
 #include "Evaluator.h"
 #include "BaseWall.h"
 
-Evaluator::Evaluator(QObject* parent) : QThread(parent) {
+Evaluator::Evaluator(QObject* parent) : QObject(parent) {
     model = new Model(this);
     readyCnt = 0;
     connect(&timer,SIGNAL(timeout()),this,SLOT(evaluateState()));
@@ -36,13 +36,6 @@ Evaluator::Evaluator(QObject* parent) : QThread(parent) {
 
 Evaluator::~Evaluator() {
     dumpSendersAndReceivers();
-    quit();
-    while(isRunning()) {}
-}
-
-void Evaluator::run() {
-    //enter event loop
-    exec();
 }
 
 void Evaluator::dispatchPacket(Packet& packet) {
@@ -63,7 +56,6 @@ void Evaluator::clearStateAndStop() {
     model->reset();
     timer.stop();
     dumpSendersAndReceivers();
-    quit();
 }
 
 void Evaluator::dumpSendersAndReceivers() {
@@ -334,7 +326,7 @@ void Evaluator::evaluateState() {
         temp = Packet(OP_FRAME_BOUNDARY);
         tempList.append(temp);
         flushPacketList();
-        msleep(FRAME_MSECS);
+        thread()->yieldCurrentThread();
 
         if(winner != NULL && winner->roundsWon >= MAX_WINS) {   // end of game
             temp = Packet(OP_END_GAME,0,winner->id,0,0);
