@@ -31,7 +31,7 @@ Controller::Controller(QObject* parent, Model* _model) : QObject(parent) {
     receiver = NULL;
     model = _model;
     roundNr = 0; // init phase
-    moveProjectiles = false;
+    boom = moveProjectiles = false;
 
     stream = NULL;
 
@@ -135,6 +135,7 @@ void Controller::handlePacket(Receiver* /*r*/) {
         }
         qDebug("Pa_Stop - error code %d", (int)Pa_StopStream(stream));
 
+        boom = false;
     }
 }
 
