@@ -38,7 +38,11 @@ class NetReceiver : public Receiver {
 
 public:
     NetReceiver(QObject* parent = NULL, QTcpSocket* socket = NULL);
-    virtual ~NetReceiver() {}
+    virtual ~NetReceiver() {
+        thread->quit();
+        while(thread->isRunning()) {}
+        qDebug("NetReceiver terminated");
+    }
 
     virtual bool hasPacketReady() { return queueRec->hasPacketReady(); }
     virtual Packet getPacket() { return queueRec->getPacket(); }

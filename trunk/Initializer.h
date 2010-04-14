@@ -83,6 +83,15 @@ public slots:
 signals:
     void validated(QString message);
 
+
+    void evalAddQueueRec(PacketQueue** qPtr);
+    void evalAddNetRec(QTcpSocket* sock);
+    void evalAddQueueSend(PacketQueue* q);
+    void evalAddNetSend(QTcpSocket* sock);
+
+    void ctrlSetQueueRec(PacketQueue** qPtr);
+    void ctrlSetNetRec(QTcpSocket* sock);
+
 protected:
     GameWindow* gameWindow;
     InitDialog* initDialog;

@@ -33,6 +33,10 @@
 #include "Receiver.h"
 #include "Sender.h"
 #include "Model.h"
+#include "QueueSender.h"
+#include "NetSender.h"
+#include "QueueReceiver.h"
+#include "NetReceiver.h"
 
 class Evaluator : public QObject {
 
@@ -51,8 +55,28 @@ public slots:
     // when world confirmed by all clients, dispatches start packets and enters evaluation/dispatch state machine
     virtual void generateWorldAndStartRound();
 
-    // Stop thread, dump queue contents, timer, senders and receivers
+    // dump queue contents, timer, senders and receivers
     virtual void clearStateAndStop();
+
+
+    // init phase slots
+
+    virtual void addNetReceiver(QTcpSocket* sock) {
+        addReceiver(new NetReceiver(this,sock));
+    }
+
+    virtual void addNetSender(QTcpSocket* sock) {
+        addSender(new NetSender(this, sock));
+    }
+
+    virtual void addQueueSender(PacketQueue* q) {
+        addSender(new QueueSender(this, q));
+    }
+
+    virtual void addQueueReceiver(PacketQueue** queuePtr) {
+        *queuePtr = new PacketQueue();
+        addReceiver(new QueueReceiver(this,*queuePtr));
+    }
 
 protected slots:
 

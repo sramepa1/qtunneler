@@ -37,6 +37,7 @@ Initializer::~Initializer() {
     controllerThread->quit();
     evalThread->quit();
     while(controllerThread->isRunning() && evalThread->isRunning()) {}
+    qDebug("Initializer terminated");
 }
 
 void Initializer::startThreads() {    
@@ -54,21 +55,24 @@ void Initializer::threadStarted() {
 
 void Initializer::initGUI() {
 
+    controller = controllerThread->getController();
     model = controllerThread->getModel();
+    evaluator = evalThread->getEvaluator();
 
     comm = new Communicator(this);
 
     settingsModel = new SettingsModel(this);
     settingsDialog = new SettingsDialog(settingsModel);
     settingsController = new SettingsController(this,settingsModel,settingsDialog,comm);
-
-    controller = controllerThread->getController();
+    
     clicker = new Clicker(this,model);
 
     initDialog = new InitDialog();
     gameWindow = new GameWindow(model,clicker);
 
     initDialog->show();
+
+    // Mrazek, ustredna...
 
     connect(initDialog,SIGNAL(switchToSettings()),settingsDialog,SLOT(showSettings()));
     connect(gameWindow,SIGNAL(switchToDialog()),initDialog,SLOT(showDialog()));
@@ -91,6 +95,14 @@ void Initializer::initGUI() {
     connect(controller,SIGNAL(gameStarts()),clicker,SLOT(startClock()));
 
     connect(gameWindow,SIGNAL(closeConnection()),this,SLOT(closeConnection()));
+
+    connect(this,SIGNAL(ctrlSetNetRec(QTcpSocket*)),controller,SLOT(setNetReceiver(QTcpSocket*)),Qt::BlockingQueuedConnection);
+    connect(this,SIGNAL(ctrlSetQueueRec(PacketQueue**)),controller,SLOT(setQueueReceiver(PacketQueue**)),Qt::BlockingQueuedConnection);
+
+    connect(this,SIGNAL(evalAddNetRec(QTcpSocket*)),evaluator,SLOT(addNetReceiver(QTcpSocket*)),Qt::BlockingQueuedConnection);
+    connect(this,SIGNAL(evalAddQueueRec(PacketQueue**)),evaluator,SLOT(addQueueReceiver(PacketQueue**)),Qt::BlockingQueuedConnection);
+    connect(this,SIGNAL(evalAddNetSend(QTcpSocket*)),evaluator,SLOT(addNetSender(QTcpSocket*)),Qt::BlockingQueuedConnection);
+    connect(this,SIGNAL(evalAddQueueSend(PacketQueue*)),evaluator,SLOT(addQueueSender(PacketQueue*)),Qt::BlockingQueuedConnection);
 }
 
 
@@ -106,26 +118,27 @@ void Initializer::validate(InitVector vec) {
 
 void Initializer::initCore() {
 
-    controller->resetStateAndStop();
+    controller->resetState();
 
     if(settingsModel->isCreating()) {
 
-        evaluator = evalThread->getEvaluator();
+        
 
         connect(settingsDialog,SIGNAL(startGame()),evaluator,SLOT(generateWorldAndStartRound()));
 
-        evaluator->addSender(new NetSender(evaluator,comm->socket));
-        evaluator->addReceiver(new NetReceiver(evaluator,comm->socket));
+        emit evalAddNetSend(comm->socket);
+        emit evalAddNetRec(comm->socket);
 
-        PacketQueue* q = new PacketQueue();
-        evaluator->addSender(new QueueSender(evaluator,q));
-        controller->setReceiver(new QueueReceiver(controller,q));
+        PacketQueue* q;
 
-        q = new PacketQueue();
+        emit ctrlSetQueueRec(&q);
+        emit evalAddQueueSend(q);
+
+        emit evalAddQueueRec(&q);
         clicker->resetSender(new QueueSender(clicker,q));
-        evaluator->addReceiver(new QueueReceiver(evaluator,q));
+
     }else {
-        controller->setReceiver(new NetReceiver(controller,comm->socket));
+        emit ctrlSetNetRec(comm->socket);
         clicker->resetSender(new NetSender(clicker,comm->socket));
     }
 }

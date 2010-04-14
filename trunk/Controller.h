@@ -31,6 +31,7 @@
 #include "DefaultValues.h"
 #include "Receiver.h"
 #include "Model.h"
+#include "NetReceiver.h"
 
 #include <portaudio.h>
 
@@ -42,13 +43,25 @@ public:
     Controller(QObject* parent = NULL, Model* _model = NULL);
     virtual ~Controller();
 
-    virtual void resetStateAndStop();
+    virtual void resetState();
 
     virtual void setReceiver(Receiver* r);
 
 public slots:
 
     virtual void handlePacket(Receiver* /*r*/);
+
+
+    // init phase slots
+
+    virtual void setNetReceiver(QTcpSocket* sock) {
+        setReceiver(new NetReceiver(this,sock));
+    }
+
+    virtual void setQueueReceiver(PacketQueue** queuePtr) {
+        *queuePtr = new PacketQueue();
+        setReceiver(new QueueReceiver(this,*queuePtr));
+    }
 
 signals:
 
@@ -78,6 +91,8 @@ protected:
     virtual void handleEndGame(qint32 tankID);
 
     virtual void mapSoundFile(QString filename, char** destPtr, qint64* sizePtr);
+
+    virtual void playSoundBlocking(void* dataPtr, qint64 size);
 
     Receiver* receiver;
 

@@ -35,13 +35,11 @@ Controller::Controller(QObject* parent, Model* _model) : QObject(parent) {
 
     stream = NULL;
 
-    qDebug("Pa_Open - error code %d", (int)Pa_OpenDefaultStream(&stream, 0, 1, paInt16, 22050, 0, NULL, NULL));
-
     mapSoundFile("sounds/boom.wav",&boomWav,&boomSize);
 
     // unused in this build, but load anyway...
     mapSoundFile("sounds/fire.wav",&fireWav,&fireSize);
-    mapSoundFile("sounds/hit.wav",&hitWav,&hitSize);
+    mapSoundFile("sounds/hit.wav",&hitWav,&hitSize);    
 }
 
 void Controller::mapSoundFile(QString filename, char** destPtr, qint64* sizePtr) {
@@ -64,12 +62,10 @@ Controller::~Controller() {
 
     if(fireWav != NULL) delete[] fireWav;
     if(hitWav != NULL) delete[] hitWav;
-    if(boomWav != NULL) delete[] boomWav;
-
-    if(stream != NULL) Pa_CloseStream(stream);
+    if(boomWav != NULL) delete[] boomWav;    
 }
 
-void Controller::resetStateAndStop() {
+void Controller::resetState() {
     model->reset();
 }
 
@@ -118,25 +114,43 @@ void Controller::handlePacket(Receiver* /*r*/) {
     model->containerAccess.unlock();
 
     // frame boundary after tank explosion
-    if(boom && moveProjectiles && stream != NULL) {
+    if(boom && moveProjectiles) {
 
-        // Blocking call. Multi-channel sound is quite complicated to write
-        // and this also has the advantage of holding the view for a while
-        // so that tank explosion is seen
-
-        qDebug("Pa_Start - error code %d", (int)Pa_StartStream(stream));
-
-        PaError err;
-        qint16* ptr = (qint16*)boomWav;
-        int frames = boomSize / 1024;
-        for( int i=0; i < (boomSize/2); i += frames ) {
-           err = Pa_WriteStream( stream, ptr + i, frames );
-           if( err ) break;
-        }
-        qDebug("Pa_Stop - error code %d", (int)Pa_StopStream(stream));
-
+        playSoundBlocking(boomWav,boomSize);
         boom = false;
     }
+}
+
+void Controller::playSoundBlocking(void* dataPtr, qint64 size) {
+
+    if(dataPtr == NULL) return;
+
+    // single-use stream to prevent buffer underrun...
+    PaError e = Pa_OpenDefaultStream(&stream, 0, 1, paInt16, 22050, 0, NULL, NULL);
+
+    qDebug("Pa_Open - error code %d", (int)e);
+    if((int)e != 0) return;
+
+    qDebug("Pa_Start - error code %d", (int)Pa_StartStream(stream));
+
+    // Blocking call. Multi-channel sound is quite complicated to write
+    // and this also has the advantage of holding the view for a while
+    // so that tank explosion is seen
+    PaError err;
+    qint16* ptr = (qint16*)dataPtr;
+    int frames = size / 1024;
+
+    qDebug("Starting to feed sound stream...");
+    for( int i=0; i < (size/2); i += frames ) {
+       err = Pa_WriteStream( stream, ptr + i, frames );
+       if( err ) break;
+    }
+    qDebug("Finished feeding sound stream, err = %d",err);
+
+    qDebug("Pa_Stop - error code %d", (int)Pa_StopStream(stream));
+    Pa_CloseStream(stream);
+    
+    qDebug("Sound stream closed");
 }
 
 void Controller::handleTankMovement(qint32 tankID, qint32 x, qint32 y, qint32 rotation) {
