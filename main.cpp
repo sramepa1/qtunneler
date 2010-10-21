@@ -25,13 +25,17 @@
 
 #include <QApplication>
 
+#if portaudio
 #include <portaudio.h>
+#endif
 
 #include "Initializer.h"
 
 int main(int argc, char *argv[]) {
 
+#if portaudio
     Pa_Initialize();
+#endif
 
     QApplication app(argc, argv);
     
@@ -40,7 +44,9 @@ int main(int argc, char *argv[]) {
     
     int returnCode = app.exec();
 
+#if portaudio
     Pa_Terminate();
+#endif
 
     return returnCode;
 }
