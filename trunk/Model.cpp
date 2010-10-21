@@ -27,6 +27,7 @@
 #include "BaseWall.h"
 #include "Stone.h"
 #include <cmath>
+#include <ctime>
 
 Model::Model(QObject* parent) : QObject(parent) {
     qsrand( time(NULL) );

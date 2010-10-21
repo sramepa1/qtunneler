@@ -33,7 +33,9 @@
 #include "Model.h"
 #include "NetReceiver.h"
 
+#if portaudio
 #include <portaudio.h>
+#endif
 
 class Controller : public QObject {
 
@@ -90,9 +92,8 @@ protected:
     virtual void handleEndRound();
     virtual void handleEndGame(qint32 tankID);
 
-    virtual void mapSoundFile(QString filename, char** destPtr, qint64* sizePtr);
-
-    virtual void playSoundBlocking(void* dataPtr, qint64 size);
+    // not owner
+    Model* model;
 
     Receiver* receiver;
 
@@ -100,6 +101,11 @@ protected:
 
     bool moveProjectiles;
     bool boom;
+
+#if portaudio
+    virtual void mapSoundFile(QString filename, char** destPtr, qint64* sizePtr);
+
+    virtual void playSoundBlocking(void* dataPtr, qint64 size);  
     
     char* fireWav;
     qint64 fireSize;
@@ -111,9 +117,7 @@ protected:
     qint64 boomSize;
 
     PaStream* stream;
-
-    // not owner
-    Model* model;
+#endif
 
 private:    
     Controller(const Controller& /*orig*/) : QObject() {} // disabled

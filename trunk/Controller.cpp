@@ -33,15 +33,18 @@ Controller::Controller(QObject* parent, Model* _model) : QObject(parent) {
     roundNr = 0; // init phase
     boom = moveProjectiles = false;
 
+#if portaudio
     stream = NULL;
 
     mapSoundFile("sounds/boom.wav",&boomWav,&boomSize);
 
     // unused in this build, but load anyway...
     mapSoundFile("sounds/fire.wav",&fireWav,&fireSize);
-    mapSoundFile("sounds/hit.wav",&hitWav,&hitSize);    
+    mapSoundFile("sounds/hit.wav",&hitWav,&hitSize);
+#endif
 }
 
+#if portaudio
 void Controller::mapSoundFile(QString filename, char** destPtr, qint64* sizePtr) {
     QFile file(filename);
     if(file.open(QIODevice::ReadOnly)) {
@@ -57,12 +60,15 @@ void Controller::mapSoundFile(QString filename, char** destPtr, qint64* sizePtr)
         *destPtr = NULL;
     }
 }
+#endif
+
 
 Controller::~Controller() {
-
+#if portaudio
     if(fireWav != NULL) delete[] fireWav;
     if(hitWav != NULL) delete[] hitWav;
-    if(boomWav != NULL) delete[] boomWav;    
+    if(boomWav != NULL) delete[] boomWav;
+#endif
 }
 
 void Controller::resetState() {
@@ -116,11 +122,14 @@ void Controller::handlePacket(Receiver* /*r*/) {
     // frame boundary after tank explosion
     if(boom && moveProjectiles) {
 
+#if portaudio
         playSoundBlocking(boomWav,boomSize);
+#endif
         boom = false;
     }
 }
 
+#if portaudio
 void Controller::playSoundBlocking(void* dataPtr, qint64 size) {
 
     if(dataPtr == NULL) return;
@@ -152,6 +161,7 @@ void Controller::playSoundBlocking(void* dataPtr, qint64 size) {
     
     qDebug("Sound stream closed");
 }
+#endif
 
 void Controller::handleTankMovement(qint32 tankID, qint32 x, qint32 y, qint32 rotation) {
     
