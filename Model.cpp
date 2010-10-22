@@ -268,17 +268,21 @@ bool Model::isSolidCollision (const RoundObj * obj) const{
     //Solid objects collision
     foreach(BitmapObj * solid, *solidObjects){
         if(checkRectOverlap(obj->getX1() ,obj->getY1(), obj->getX2(), obj->getY2(), solid->getX1(), solid->getY1(), solid->getX2(), solid->getY2())){
+            // 4 point optimalizatiom
+            if(
+                    solid->getXYGlobalCoordiantes(obj->getX1(), obj->getY()) ||
+                    solid->getXYGlobalCoordiantes(obj->getX2(), obj->getY()) ||
+                    solid->getXYGlobalCoordiantes(obj->getY1(), obj->getX()) ||
+                    solid->getXYGlobalCoordiantes(obj->getY2(), obj->getX())
+              )
+            {
+                return true;
+            }
 
             //whole object inside solid - optimalization
             if(checkRectInsideRect(obj->getX1() ,obj->getY1(), obj->getX2(), obj->getY2(), solid->getX1(), solid->getY1(), solid->getX2(), solid->getY2())){
                 for (int i = obj->getX1(); i < obj->getX2(); i++) {
                     for (int j = obj->getY1(); j < obj->getY2(); j++) {
-                        //byte optimization
-                        if(solid->getByteGlobalCoordiantes(i/8,j) == 0){
-                            i += 8;
-                            continue;
-                        }
-
                         //colides
                         if(obj->isWithinCircle(i, j) && solid->getXYGlobalCoordiantes(i, j)){
                             return true;
@@ -300,12 +304,6 @@ bool Model::isSolidCollision (const RoundObj * obj) const{
 
                     //univerasl search
                     for (int j = solid->getY1(); j < solid->getY2(); j++) {
-                        //byte optimization
-                        if(solid->getByteGlobalCoordiantes(i/8,j) == 0){
-                            i += 8;
-                            continue;
-                        }
-
                         if(obj->isWithinCircle(i, j) && solid->getXYGlobalCoordiantes(i, j)){
                             return true;
                         }
@@ -344,7 +342,7 @@ bool Model::isTankCollision (const RoundObj * obj) const{
         {
             return true;
         }
-            
+                
     }
 
     return false;

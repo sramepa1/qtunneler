@@ -80,8 +80,8 @@ BitmapObj::~BitmapObj() {
     delete qbitmap;
 }
 
-quint8 BitmapObj::getByteGlobalCoordiantes(qint32 _xDiv8, qint32 _y) const {
-    return bitmap[_xDiv8 - x][_y - y];
+quint8 BitmapObj::getByteGlobalCoordiantes(qint32 _x, qint32 _y) const {
+    return bitmap[(_x - x) / 8][_y - y];
 }
 
 quint8 BitmapObj::getByte(qint32 xDiv8, qint32 y) const {
@@ -89,6 +89,9 @@ quint8 BitmapObj::getByte(qint32 xDiv8, qint32 y) const {
 }
 
 bool BitmapObj::getXY(qint32 x, qint32 y) const {
+    if(x < 0 || y < 0 || x >= width || y >= height){
+        return false;
+    }
     return (bitmap[x / 8][y]) & (1 << x % 8);
 }
 

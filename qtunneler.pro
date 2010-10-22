@@ -5,7 +5,6 @@ CONFIG += qt debug
 TEMPLATE = app
 MOC_DIR = build
 OBJECTS_DIR = build
-DESTDIR = dist
 TARGET = QTunneler
 RCC_DIR = build
 DEPENDPATH += .
