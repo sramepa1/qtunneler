@@ -106,10 +106,17 @@ void View::paintEvent(QPaintEvent* /*evt*/) {
         painter.drawTiledPixmap(0,0,wid,hei,tile, x % tile.width(), y % tile.height());
 
         // draw tunnel network
+        painter.setPen(tunnel);
+        painter.drawPixmap(-x,-y,*(model->getTunnelBitmap()));
+
+
+        /*
+        // draw tunnel network
         const uchar* data = model->getTunnelBitmapData(x,y,wid,hei);
         painter.setPen(tunnel);
         painter.drawPixmap(0,0,QBitmap::fromData(QSize(wid,hei),data,QImage::Format_MonoLSB));
         delete[] data;
+        */
 
         // draw border
         painter.setPen(Qt::NoPen);
@@ -141,6 +148,12 @@ void View::paintEvent(QPaintEvent* /*evt*/) {
         QPoint view(x,y);
         QVector<QPoint> shots = model->getShotsInRect(x,y,wid,hei);
         foreach(QPoint center, shots) {
+            if(qrand() % 3) {
+                shot.setColor(Qt::yellow);
+            }else {
+                shot.setColor(Qt::darkYellow);
+            }
+            painter.setBrush(shot);
             painter.drawEllipse(center - view,PROJECTILE_RADIUS,PROJECTILE_RADIUS);
         }
 

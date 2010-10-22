@@ -51,7 +51,7 @@
 
 //Matrix
 #define SCREEN 1024
-#define MATRIX_DIMENSION (10 * SCREEN)
+#define MATRIX_DIMENSION (8 * SCREEN)
 
 //Tank
 #define TANK_RADIUS 32

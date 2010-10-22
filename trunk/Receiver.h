@@ -45,7 +45,7 @@ public:
     virtual Packet getPacket() =0;
 
 signals:
-    virtual void packetReady(Receiver* self);
+    void packetReady(Receiver* self);
 };
 
 #endif	/* _RECEIVER_H */
