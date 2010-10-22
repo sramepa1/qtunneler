@@ -273,6 +273,12 @@ bool Model::isSolidCollision (const RoundObj * obj) const{
             if(checkRectInsideRect(obj->getX1() ,obj->getY1(), obj->getX2(), obj->getY2(), solid->getX1(), solid->getY1(), solid->getX2(), solid->getY2())){
                 for (int i = obj->getX1(); i < obj->getX2(); i++) {
                     for (int j = obj->getY1(); j < obj->getY2(); j++) {
+                        //byte optimization
+                        if(solid->getByteGlobalCoordiantes(i/8,j) == 0){
+                            i += 8;
+                            continue;
+                        }
+
                         //colides
                         if(obj->isWithinCircle(i, j) && solid->getXYGlobalCoordiantes(i, j)){
                             return true;
@@ -294,6 +300,12 @@ bool Model::isSolidCollision (const RoundObj * obj) const{
 
                     //univerasl search
                     for (int j = solid->getY1(); j < solid->getY2(); j++) {
+                        //byte optimization
+                        if(solid->getByteGlobalCoordiantes(i/8,j) == 0){
+                            i += 8;
+                            continue;
+                        }
+
                         if(obj->isWithinCircle(i, j) && solid->getXYGlobalCoordiantes(i, j)){
                             return true;
                         }
@@ -317,18 +329,22 @@ bool Model::isTankCollision (const RoundObj * obj) const{
             continue;
         }
 
-        if(checkRectOverlap(obj->getX1() ,obj->getY1(), obj->getX2(), obj->getY2(), tank->getX1(), tank->getY1(), tank->getX2(), tank->getY2())){
+        qint32 x1 = tank->getX();
+        qint32 y1 = tank->getY();
+        qint32 x2 = obj->getX();
+        qint32 y2 = obj->getY();
+        qint32 r1 = tank->getRadius();
+        qint32 r2 = obj->getRadius();
 
-            for (int i = obj->getX1(); i < obj->getX2(); i++) {
-                for (int j = obj->getY1(); j < obj->getY2(); j++) {
-                    //colides
-                    if(obj->isWithinCircle(i, j) && tank->isWithinCircle(i, j)){
-                        return true;
-                    }
-                }
-            }
-
+        if(
+                (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)
+                <
+                (r1 + r2) * (r1 + r2)
+          )
+        {
+            return true;
         }
+            
     }
 
     return false;
@@ -342,21 +358,25 @@ bool Model::isTankCollision (const Projectile * projectile) const{
             continue;
         }
 
-        if(checkRectOverlap(projectile->getX1() ,projectile->getY1(), projectile->getX2(), projectile->getY2(), tank->getX1(), tank->getY1(), tank->getX2(), tank->getY2())){
+        qint32 x1 = tank->getX();
+        qint32 y1 = tank->getY();
+        qint32 x2 = projectile->getX();
+        qint32 y2 = projectile->getY();
+        qint32 r1 = tank->getRadius();
+        qint32 r2 = projectile->getRadius();
 
-            for (int i = projectile->getX1(); i < projectile->getX2(); i++) {
-                for (int j = projectile->getY1(); j < projectile->getY2(); j++) {
-                    //colides
-                    if(projectile->isWithinCircle(i, j) && tank->isWithinCircle(i, j)){
-                        if(tank->id != projectile->tankID){
-                            //do not colide with own  tank
-                            return true;
-                        }
-                    }
-                }
+        if(
+                (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)
+                <
+                (r1 + r2) * (r1 + r2)
+          )
+        {
+            if(tank->id != projectile->tankID){
+                //do not colide with own  tank
+                return true;
             }
-
         }
+
     }
 
     return false;

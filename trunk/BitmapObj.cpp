@@ -80,6 +80,10 @@ BitmapObj::~BitmapObj() {
     delete qbitmap;
 }
 
+quint8 BitmapObj::getByteGlobalCoordiantes(qint32 _xDiv8, qint32 _y) const {
+    return bitmap[_xDiv8 - x][_y - y];
+}
+
 quint8 BitmapObj::getByte(qint32 xDiv8, qint32 y) const {
     return bitmap[xDiv8][y];
 }

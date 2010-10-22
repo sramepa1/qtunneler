@@ -35,10 +35,10 @@ public:
     virtual ~Matrix();
 
     virtual bool getXY(qint32 x, qint32 y) const { return (arr[x/8][y]) & (1 << (x%8)); }
-    virtual quint8 getByte(qint32 xDiv8, qint32 y) const;
+    virtual quint8 getByte(qint32 xDiv8, qint32 y) const { return arr[xDiv8][y]; }
 
     virtual void setXY(qint32 x, qint32 y, bool val) { arr[x/8][y] = val ? (arr[x/8][y] | (1 << (x%8))) : (arr[x/8][y] & ~(1 << (x%8))); }
-    virtual void setByte(qint32 xDiv8, qint32 y, quint8 val);
+    virtual void setByte(qint32 xDiv8, qint32 y, quint8 val) { arr[xDiv8][y] = val; }
 
     virtual void reset();
 
