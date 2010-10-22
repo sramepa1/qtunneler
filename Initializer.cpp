@@ -180,6 +180,5 @@ void Initializer::closeConnection() {
     if(settingsModel->isCreating()) {
         comm->server->close();        
     }
-    comm->socket->abort();
     comm->socket->close();
 }

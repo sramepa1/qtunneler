@@ -294,8 +294,8 @@ void Evaluator::evaluateState() {
                     t->hp += TANK_HP_GAIN_OWN_BASE;
                     t->energy += TANK_ENERGY_GAIN_OWN_BASE;
                 }else {
-                    t->hp += TANK_HP_GAIN_OWN_BASE;
-                    t->energy += TANK_ENERGY_GAIN_OWN_BASE;
+                    t->hp += TANK_HP_GAIN_ENEMY_BASE;
+                    t->energy += TANK_ENERGY_GAIN_ENEMY_BASE;
                 }
                 if(t->hp > DEFAULT_TANK_HP) t->hp = DEFAULT_TANK_HP;
                 if(t->energy > DEFAULT_TANK_ENERGY) t->energy = DEFAULT_TANK_ENERGY;
