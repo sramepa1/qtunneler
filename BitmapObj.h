@@ -52,6 +52,7 @@ public:
     virtual bool getXYGlobalCoordiantes(qint32 _x, qint32 _y) const;
 
     virtual quint8 getByte(qint32 xDiv8, qint32 y) const;
+    virtual quint8 getByteGlobalCoordiantes (qint32 _xDiv8, qint32 _y) const;
 
     virtual void setXY(qint32 x, qint32 y, bool val);
     virtual void setXYGlobalCoordiantes(qint32 _x, qint32 _y, bool val);

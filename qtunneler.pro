@@ -11,6 +11,16 @@ RCC_DIR = build
 DEPENDPATH += .
 INCLUDEPATH += .
 
+win32 {
+    DESTDIR = dist/win32
+    LIBS += -L/usr/lib
+}
+
+unix {
+    DESTDIR = dist/unix
+    LIBS += -L/usr/lib -lportaudio
+}
+
 # Input
 HEADERS += Base.h \
            BaseWall.h \
@@ -75,5 +85,3 @@ SOURCES += Base.cpp \
            View.cpp
 RESOURCES += tile.qrc \
              tanks.qrc
-LIBS += -L/usr/lib
-#-lportaudio

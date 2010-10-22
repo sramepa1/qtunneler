@@ -28,8 +28,6 @@
 #include "Matrix.h"
 
 
-#include <iostream>
-
 Matrix::Matrix() {
     arr = new quint8* [MATRIX_DIMENSION/8];
     for(qint32 i = 0; i < MATRIX_DIMENSION/8; i++) {
@@ -47,20 +45,12 @@ Matrix::~Matrix() {
     delete[] arr;
 }
 
-quint8 Matrix::getByte(qint32 xDiv8, qint32 y) const {
-    return arr[xDiv8][y];
-}
-
 void Matrix::reset() {
     for(qint32 x = 0; x < MATRIX_DIMENSION/8; x++) {
         for(qint32 y = 0; y < MATRIX_DIMENSION; y++) {
             arr[x][y] = (quint8) 0xff;
         }
     }
-}
-
-void Matrix::setByte(qint32 xDiv8, qint32 y, quint8 val) {
-    arr[xDiv8][y] = val;
 }
 
 
