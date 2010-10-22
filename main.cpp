@@ -25,7 +25,7 @@
 
 #include <QApplication>
 
-#if portaudio
+#ifdef portaudio
 #include <portaudio.h>
 #endif
 
@@ -33,7 +33,7 @@
 
 int main(int argc, char *argv[]) {
 
-#if portaudio
+#ifdef portaudio
     Pa_Initialize();
 #endif
 
@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
     
     int returnCode = app.exec();
 
-#if portaudio
+#ifdef portaudio
     Pa_Terminate();
 #endif
 

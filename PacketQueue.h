@@ -46,7 +46,7 @@ public:
     virtual bool isEmpty() const;
 
 signals:
-    virtual void packetPushed();
+    void packetPushed();
 
 protected:
     QQueue<Packet> queue;

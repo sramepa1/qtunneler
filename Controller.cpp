@@ -33,7 +33,7 @@ Controller::Controller(QObject* parent, Model* _model) : QObject(parent) {
     roundNr = 0; // init phase
     boom = moveProjectiles = false;
 
-#if portaudio
+#ifdef portaudio
     stream = NULL;
 
     mapSoundFile("sounds/boom.wav",&boomWav,&boomSize);
@@ -44,7 +44,7 @@ Controller::Controller(QObject* parent, Model* _model) : QObject(parent) {
 #endif
 }
 
-#if portaudio
+#ifdef portaudio
 void Controller::mapSoundFile(QString filename, char** destPtr, qint64* sizePtr) {
     QFile file(filename);
     if(file.open(QIODevice::ReadOnly)) {
@@ -64,7 +64,7 @@ void Controller::mapSoundFile(QString filename, char** destPtr, qint64* sizePtr)
 
 
 Controller::~Controller() {
-#if portaudio
+#ifdef portaudio
     if(fireWav != NULL) delete[] fireWav;
     if(hitWav != NULL) delete[] hitWav;
     if(boomWav != NULL) delete[] boomWav;
@@ -122,14 +122,14 @@ void Controller::handlePacket(Receiver* /*r*/) {
     // frame boundary after tank explosion
     if(boom && moveProjectiles) {
 
-#if portaudio
+#ifdef portaudio
         playSoundBlocking(boomWav,boomSize);
 #endif
         boom = false;
     }
 }
 
-#if portaudio
+#ifdef portaudio
 void Controller::playSoundBlocking(void* dataPtr, qint64 size) {
 
     if(dataPtr == NULL) return;
@@ -209,6 +209,7 @@ void Controller::handleExplosion(qint32 projectileID, qint32 x, qint32 y, qint32
     BitmapObj * mask = new BitmapObj(ex->getExplosionMask());
     model->projectiles->remove(projectileID);
     model->matrix->invertMaskMatrix(mask);
+    model->updateTunnelMap(x - EXPLOSION_RADIUS,y - EXPLOSION_RADIUS, 2*EXPLOSION_RADIUS, 2*EXPLOSION_RADIUS);
     delete mask;
     delete ex;
 }
@@ -220,6 +221,7 @@ void Controller::handleTankExplosion(qint32 /*tankID*/, qint32 x, qint32 y, qint
     Explosion* ex = new Explosion(x,y,NO_PLAYER,srand,TANK_EXPLOSION_RADIUS);
     BitmapObj * mask = new BitmapObj(ex->getExplosionMask());
     model->matrix->invertMaskMatrix(mask);
+    model->updateTunnelMap(x - TANK_EXPLOSION_RADIUS,y - TANK_EXPLOSION_RADIUS, 2*TANK_EXPLOSION_RADIUS, 2*TANK_EXPLOSION_RADIUS);
     delete mask;
     delete ex;
 

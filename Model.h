@@ -28,6 +28,7 @@
 
 #include <QtCore>
 #include <QPoint>
+#include <QBitmap>
 
 #include "DefaultValues.h"
 
@@ -55,6 +56,9 @@ public:
      * Data for transforming Matrix to QBitmap
      */
     virtual const uchar* getTunnelBitmapData(qint32 x, qint32 y, qint32 width, qint32 height) const;
+    virtual const QBitmap* getTunnelBitmap() const;
+
+    void updateTunnelMap(qint32 x, qint32 y, qint32 width, qint32 height);
 
     /**
      * Object drawing
@@ -128,6 +132,8 @@ public:
 
 protected:
     quint32 nextProjectileID;
+
+    QBitmap* tunnelMap;
 
     void deleteObjectsInContainers();
 

@@ -29,6 +29,10 @@
 #include <cmath>
 #include <ctime>
 
+#include <QBrush>
+#include <QPen>
+#include <QPainter>
+
 Model::Model(QObject* parent) : QObject(parent) {
     qsrand( time(NULL) );
 
@@ -49,6 +53,10 @@ Model::Model(QObject* parent) : QObject(parent) {
     playerColors[RED_PLAYER] = new QColor("red");
     playerColors[BLUE_PLAYER] = new QColor("blue");
     playerColors[GREEN_PLAYER] = new QColor("green");
+
+    const uchar* data = getTunnelBitmapData(0,0,MATRIX_DIMENSION,MATRIX_DIMENSION);
+    tunnelMap = new QBitmap(QBitmap::fromData(QSize(MATRIX_DIMENSION,MATRIX_DIMENSION),data,QImage::Format_MonoLSB));
+    delete[] data;
 }
 
 Model::~Model() {
@@ -61,6 +69,8 @@ Model::~Model() {
     delete projectiles;
     delete tanks;
     delete explosions;
+
+    if(tunnelMap) delete tunnelMap;
 }
 
 void Model::deleteObjectsInContainers(){
@@ -106,6 +116,11 @@ void Model::reset() {
 
     playerID = NO_PLAYER;
     nextProjectileID = qrand();
+
+    if(tunnelMap) delete tunnelMap;
+    const uchar* data = getTunnelBitmapData(0,0,MATRIX_DIMENSION,MATRIX_DIMENSION);
+    tunnelMap = new QBitmap(QBitmap::fromData(QSize(MATRIX_DIMENSION,MATRIX_DIMENSION),data,QImage::Format_MonoLSB));
+    delete[] data;
 }
 
 const uchar* Model::getTunnelBitmapData(qint32 x, qint32 y, qint32 width, qint32 height) const {
@@ -129,6 +144,10 @@ const uchar* Model::getTunnelBitmapData(qint32 x, qint32 y, qint32 width, qint32
     }
 
     return buffer;    
+}
+
+const QBitmap* Model::getTunnelBitmap() const {
+    return tunnelMap;
 }
 
 bool checkRectOverlap(qint32 x11, qint32 y11, qint32 x12, qint32 y12, qint32 x21, qint32 y21, qint32 x22, qint32 y22);
@@ -221,6 +240,9 @@ QVector<OrientedRoundObj*> Model::getTanksInRect(qint32 x, qint32 y, qint32 widt
 void Model::maskMatrixWithTank(qint32 tankID, qint32 newX, qint32 newY) {
     Tank tank(*tanks->value(tankID));
 
+    qint32 x1 = tank.getX();
+    qint32 y1 = tank.getY();
+
     tank.setRadius(TANK_MASK_RADIUS);
     while(tank.getX() != newX || tank.getY() != newY){
         for (int i = tank.getX1(); i < tank.getX2(); i++) {
@@ -233,6 +255,11 @@ void Model::maskMatrixWithTank(qint32 tankID, qint32 newX, qint32 newY) {
 
         tank.move();
     }
+
+    qint32 minX = std::min(x1,newX);
+    qint32 minY = std::min(y1,newY);
+    
+    updateTunnelMap(minX - TANK_RADIUS, minY - TANK_RADIUS, std::max(x1,newX) - minX + 2*TANK_RADIUS, std::max(y1,newY) - minY + 2*TANK_RADIUS);
 }
 
 void Model::addBase(qint32 _x, qint32 _y, qint32 _width, qint32 _height, quint8 _color, QColor _wallColor) {
@@ -241,6 +268,7 @@ void Model::addBase(qint32 _x, qint32 _y, qint32 _width, qint32 _height, quint8 
     BaseWall * baseWall = new BaseWall(_x, _y, _width, _height, _wallColor);
     solidObjects->append(baseWall);
     matrix->maskMatrix(baseWall);
+    updateTunnelMap(_x, _y, _width, _height);
 }
 
 bool Model::isMatrixCollision (const RoundObj * obj) const{
@@ -553,4 +581,22 @@ bool Model::checkRectInsideRect(qint32 x11, qint32 y11, qint32 x12, qint32 y12, 
     }
 
     return false;
+}
+
+void Model::updateTunnelMap(qint32 x, qint32 y, qint32 width, qint32 height) {
+
+    QPainter painter(tunnelMap);
+    QPen blackPen;
+    blackPen.setColor(Qt::black);
+
+    QBrush whiteBrush;
+    whiteBrush.setColor(Qt::white);
+    whiteBrush.setStyle(Qt::SolidPattern);
+
+    const uchar* data = getTunnelBitmapData(x,y,width,height);
+    painter.setPen(blackPen);
+    painter.setBackground(whiteBrush);
+    painter.setBackgroundMode(Qt::OpaqueMode);
+    painter.drawPixmap(x,y,QBitmap::fromData(QSize(width,height),data,QImage::Format_MonoLSB));
+    delete[] data;
 }
