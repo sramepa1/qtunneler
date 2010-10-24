@@ -4,3 +4,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 
 = ToDo list =
   * optimalize collison detection by using bit operators 
+
+= Bug list =
+  * ocasional deadlock of threads
+  * invisible stone inside of base
