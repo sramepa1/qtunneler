@@ -1,10 +1,19 @@
 = QTunneler =
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+A simple multiplayer network game, based on the original "Tunneler" DOS game and written in C++ using the Qt framework.
 
-= ToDo list =
-  * optimalize collison detection by using bit operators 
+= Design workbench =
 
-= Bug list =
+== Docs ==
+Internal paper documents from project inception phase. Do not attempt to understand unless you are a project member.
+
+[http://img440.imageshack.us/i/qtunneler1.jpg http://img440.imageshack.us/img440/3631/qtunneler1.th.jpg] 
+[http://img169.imageshack.us/i/qtunneler2.jpg http://img169.imageshack.us/img169/3858/qtunneler2.th.jpg]
+
+== TODO list ==
+  * optimize collison detection by using bit operators
+  * rework network model (allow asynchronous processing to reduce client lag)
+
+== Bug list ==
   * ocasional deadlock of threads
-  * invisible stone inside of base
+  * invisible stone inside of base (???)
