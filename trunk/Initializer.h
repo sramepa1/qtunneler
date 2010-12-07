@@ -43,7 +43,11 @@
 #include "Evaluator.h"
 #include "Model.h"
 
-
+class StartEvent : public QEvent {
+public:
+    StartEvent();
+    static const QEvent::Type startType = static_cast<QEvent::Type>(2001);
+};
 
 class Initializer : public QObject {
 
@@ -55,13 +59,12 @@ public:
     
     virtual void startThreads();
 
-    // initializes GUI-related members and shows form, wires signals between them
-    virtual void initGUI();
+    virtual bool event(QEvent* evt);
 
 public slots:
 
-    virtual void threadStarted();
-
+    // initializes GUI-related members and shows form, wires signals between them
+    virtual void initGUI();
 
     virtual void validate(InitVector vec);
 
@@ -111,6 +114,21 @@ protected:
     EvaluatorThread* evalThread;
 
     int runningThreads;
+
+    friend class Waiter;
+};
+
+class Waiter : public QThread {
+    Q_OBJECT
+public:
+    Waiter(Initializer* i, QApplication* a) : init(i), app(a) {}
+    virtual ~Waiter() {}
+    virtual void run();
+signals:
+    void ready();
+protected:
+    Initializer* init;
+    QApplication* app;
 };
 
 #endif	/* _INITIALIZER_H */

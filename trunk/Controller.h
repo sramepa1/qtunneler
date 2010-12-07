@@ -141,15 +141,12 @@ public:
     virtual void run() {
         model = new Model(NULL);
         controller = new Controller(NULL,model);
-        emit ready();
+        yieldCurrentThread();
         exec();
     }
 
     virtual Controller* getController() { return controller; }
     virtual Model* getModel() { return model; }
-
-signals:
-    void ready();
 
 protected:
 

@@ -133,16 +133,13 @@ public:
         delete eval;
     }
 
-    virtual void run() {
+    virtual void run() {        
         eval = new Evaluator(NULL);
-        emit ready();
+        yieldCurrentThread();
         exec();
     }
 
     virtual Evaluator* getEvaluator() { return eval; }
-
-signals:
-    void ready();
 
 protected:
     Evaluator* eval;
