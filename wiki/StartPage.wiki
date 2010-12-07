@@ -17,3 +17,4 @@ Internal paper documents from project inception phase. Do not attempt to underst
 == Bug list ==
   * ocasional deadlock of threads
   * invisible stone inside of base (???)
+  * after the end of game is the client core still running and the dialogue text-boxes can not be edited
