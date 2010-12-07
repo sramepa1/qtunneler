@@ -74,7 +74,17 @@ void View::paintEvent(QPaintEvent* /*evt*/) {
     QPainter painter(this);
     painter.setPen(Qt::NoPen);
 
+#ifdef DEBUG
+    if(model->containerAccess.tryLock() == false){
+        qDebug() << "Possible deadlock at" << __FILE__ << __LINE__;
+        model->containerAccess.lock();
+    }
+#else
     model->containerAccess.lock();
+#endif
+#ifdef DEBUG
+    qDebug() << "Mutex containerAccess locked at" << __FILE__ << __LINE__;
+#endif
 
     qint32 energy = model->tanks->value(model->playerID)->energy;
     double probability = 0;
@@ -160,6 +170,11 @@ void View::paintEvent(QPaintEvent* /*evt*/) {
     }
 
     model->containerAccess.unlock();
+    
+#ifdef DEBUG
+    qDebug() << "Mutex containerAccess unlocked at" << __FILE__ << __LINE__;
+#endif
+    
 }
 
 void View::setViewpoint(qint32 _x, qint32 _y) {

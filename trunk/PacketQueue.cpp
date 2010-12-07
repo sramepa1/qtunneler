@@ -25,23 +25,65 @@
 
 #include "PacketQueue.h"
 
+
+PacketQueue::~PacketQueue() {
+    mutex.unlock();
+    
+#ifdef DEBUG
+    qDebug() << "Mutex PacketQueue unlocked at" << __FILE__ << __LINE__;
+#endif
+}
+
+
 const Packet PacketQueue::peek() const {
     return queue.empty() ? Packet() : queue.first();
 }
 
 Packet PacketQueue::pop() {
     //qDebug("PacketQueue: pop()");
-    mutex.lock(); // very simple sync, deadlock can't happen
+
+#ifdef DEBUG
+    if(mutex.tryLock() == false){
+        qDebug() << "Possible deadlock at" << __FILE__ << __LINE__;
+        mutex.lock();
+    }
+#else
+    mutex.lock();
+#endif
+#ifdef DEBUG
+    qDebug() << "Mutex PacketQueue locked at" << __FILE__ << __LINE__;
+#endif
+
     Packet p = queue.dequeue();
     mutex.unlock();
+
+#ifdef DEBUG
+    qDebug() << "Mutex PacketQueue unlocked at" << __FILE__ << __LINE__;
+#endif
+
     return p;
 }
 
 void PacketQueue::push(Packet p) {
-    //qDebug("PacketQueue: push()");
+#ifdef DEBUG
+    if(mutex.tryLock() == false){
+        qDebug() << "Possible deadlock at" << __FILE__ << __LINE__;
+        mutex.lock();
+    }
+#else
     mutex.lock();
+#endif
+#ifdef DEBUG
+    qDebug() << "Mutex PacketQueue locked at" << __FILE__ << __LINE__;
+#endif
+    
     queue.enqueue(p);
     mutex.unlock();
+
+#ifdef DEBUG
+    qDebug() << "Mutex PacketQueue unlocked at" << __FILE__ << __LINE__;
+#endif
+
     emit packetPushed();
 }
 

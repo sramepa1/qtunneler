@@ -89,7 +89,17 @@ void Controller::handlePacket(Receiver* /*r*/) {
     //qDebug("controller got packet");
     Packet pack = receiver->getPacket();
 
+#ifdef DEBUG
+    if(model->containerAccess.tryLock() == false){
+        qDebug() << "Possible deadlock at" << __FILE__ << __LINE__;
+        model->containerAccess.lock();
+    }
+#else
     model->containerAccess.lock();
+#endif
+#ifdef DEBUG
+    qDebug() << "Mutex containerAccess locked at" << __FILE__ << __LINE__;
+#endif
 
     if(moveProjectiles) {
         foreach(Projectile* p, *(model->projectiles)) {
@@ -118,6 +128,10 @@ void Controller::handlePacket(Receiver* /*r*/) {
     }
 
     model->containerAccess.unlock();
+
+#ifdef DEBUG
+    qDebug() << "Mutex containerAccess unlocked at" << __FILE__ << __LINE__;
+#endif
 
     // frame boundary after tank explosion
     if(boom && moveProjectiles) {

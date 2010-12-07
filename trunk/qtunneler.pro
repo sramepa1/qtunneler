@@ -3,6 +3,8 @@ QT += network
 CONFIG += qt debug
 CONFIG += console
 
+DEFINES += DEBUG
+
 TEMPLATE = app
 MOC_DIR = build
 OBJECTS_DIR = build
