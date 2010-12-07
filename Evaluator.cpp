@@ -79,7 +79,17 @@ void Evaluator::generateWorldAndStartRound() {
     //generate bases
     qsrand( time(NULL) );
 
+#ifdef DEBUG
+    if(model->containerAccess.tryLock() == false){
+        qDebug() << "Possible deadlock at" << __FILE__ << __LINE__;
+        model->containerAccess.lock();
+    }
+#else
     model->containerAccess.lock();
+#endif
+#ifdef DEBUG
+    qDebug() << "Mutex containerAccess locked at" << __FILE__ << __LINE__;
+#endif
 
     qint32 x1, y1, x2, y2, width, heigth;
 
@@ -165,6 +175,10 @@ void Evaluator::generateWorldAndStartRound() {
 
     model->containerAccess.unlock();
 
+#ifdef DEBUG
+    qDebug() << "Mutex containerAccess unlocked at" << __FILE__ << __LINE__;
+#endif
+
     // will now wait for confirmations to arrive
 }
 
@@ -192,7 +206,17 @@ void Evaluator::handlePacket(Receiver* r) {
 
 void Evaluator::evaluateState() {
 
+#ifdef DEBUG
+    if(model->containerAccess.tryLock() == false){
+        qDebug() << "Possible deadlock at" << __FILE__ << __LINE__;
+        model->containerAccess.lock();
+    }
+#else
     model->containerAccess.lock();
+#endif
+#ifdef DEBUG
+    qDebug() << "Mutex containerAccess locked at" << __FILE__ << __LINE__;
+#endif
 
     // evaluate packets
     Packet temp;
@@ -361,6 +385,10 @@ void Evaluator::evaluateState() {
     }
 
     model->containerAccess.unlock();
+
+#ifdef DEBUG
+    qDebug() << "Mutex containerAccess unlocked at" << __FILE__ << __LINE__;
+#endif
 }
 
 void Evaluator::handleTankMovementChange(int tankID, int newDirection) {
