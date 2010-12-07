@@ -24,6 +24,7 @@
  */
 
 #include <QApplication>
+#include <QThread>
 
 #ifdef portaudio
 #include <portaudio.h>
@@ -41,12 +42,17 @@ int main(int argc, char *argv[]) {
     
     Initializer init;
     init.startThreads();
-    
+
+    Waiter* w = new Waiter(&init,&app);
+    w->start();
+
     int returnCode = app.exec();
 
 #ifdef portaudio
     Pa_Terminate();
 #endif
+
+    delete w;
 
     return returnCode;
 }

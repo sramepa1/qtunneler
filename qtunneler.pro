@@ -1,6 +1,7 @@
 QT += network
 
 CONFIG += qt debug
+CONFIG += console
 
 TEMPLATE = app
 MOC_DIR = build

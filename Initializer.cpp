@@ -43,17 +43,13 @@ Initializer::~Initializer() {
 void Initializer::startThreads() {    
     controllerThread = new ControllerThread(this);
     evalThread = new EvaluatorThread(this);
-    connect(controllerThread,SIGNAL(ready()),this,SLOT(threadStarted()));
     controllerThread->start();
-    connect(evalThread,SIGNAL(ready()),this,SLOT(threadStarted()));
     evalThread->start();
 }
 
-void Initializer::threadStarted() {
-    if(++runningThreads >= 2) initGUI();
-}
-
 void Initializer::initGUI() {
+
+    qDebug("Initializing GUI");
 
     controller = controllerThread->getController();
     model = controllerThread->getModel();
@@ -80,7 +76,10 @@ void Initializer::initGUI() {
     connect(initDialog, SIGNAL(validateDialog(InitVector)), this, SLOT(validate(InitVector)));
     connect(this, SIGNAL(validated(QString)), initDialog, SLOT(validated(QString)));
 
+    //  ------- BUG --------
     connect(controller,SIGNAL(initInProgress()),this,SLOT(displayInitInProgress()));
+    // ------- /BUG ---------
+
     connect(controller,SIGNAL(confirmInitEnd()),clicker,SLOT(confirmInitEnd()));
 
     connect(settingsDialog,SIGNAL(disconnect()),settingsController,SLOT(closeConnection()));
@@ -103,6 +102,8 @@ void Initializer::initGUI() {
     connect(this,SIGNAL(evalAddQueueRec(PacketQueue**)),evaluator,SLOT(addQueueReceiver(PacketQueue**)),Qt::BlockingQueuedConnection);
     connect(this,SIGNAL(evalAddNetSend(QTcpSocket*)),evaluator,SLOT(addNetSender(QTcpSocket*)),Qt::BlockingQueuedConnection);
     connect(this,SIGNAL(evalAddQueueSend(PacketQueue*)),evaluator,SLOT(addQueueSender(PacketQueue*)),Qt::BlockingQueuedConnection);
+
+    qDebug("InitGUI done");
 }
 
 
@@ -181,4 +182,20 @@ void Initializer::closeConnection() {
         comm->server->close();        
     }
     comm->socket->close();
+}
+
+StartEvent::StartEvent() : QEvent(StartEvent::startType) {}
+
+bool Initializer::event(QEvent *event) {
+    if(event->type() == StartEvent::startType) {
+        initGUI();
+        return true;
+    }
+    return QObject::event(event);
+}
+
+
+void Waiter::run() {
+    msleep(2000);
+    app->postEvent(init,new StartEvent());
 }
