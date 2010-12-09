@@ -30,6 +30,9 @@
 
 #include "DefaultValues.h"
 
+/**
+ * This class represents the tank's base, where the tanks regenerates its HP and energy. The base is rectangle shaped.
+ */
 class Base {
 public:
     Base(qint32 _x, qint32 _y, qint32 _width, qint32 _height, quint8 _color) : x1(_x), y1(_y), x2(_x + _width), y2(_y + _height), color(_color) {}

@@ -25,6 +25,13 @@
 
 #include "Base.h"
 
+/**
+ * Checks if the given point is within base.
+ *
+ * @param _x x-axes coordinates of point
+ * @param _y x-axes coordinates of point
+ * @return logic value if the given point is in base
+ */
 bool Base::isWithinBase(qint32 _x, qint32 _y) const{
     if((x1 <= _x && x2 >= _x) && (y1 <= _y && y2 >= _y)){
         return true;

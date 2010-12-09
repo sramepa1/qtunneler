@@ -25,6 +25,14 @@
 
 #include "Stone.h"
 
+/**
+ * Construts the stone.
+ *
+ * @param _x 
+ * @param _y
+ * @param _width MUST be divisible by 8
+ * @param _height
+ */
 Stone::Stone(qint32 _x, qint32 _y, qint32 _width, qint32 _height) : BitmapObj(_x, _y, _width, _height) {
     color = QColor("darkGray");
 

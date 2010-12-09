@@ -29,6 +29,9 @@
 #include "DefaultValues.h"
 #include "BitmapObj.h"
 
+/**
+ * The class represents the undeground land-mass and the tunels in it.
+ */
 class Matrix {
 public:
     Matrix();

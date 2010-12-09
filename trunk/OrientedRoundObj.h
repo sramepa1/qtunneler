@@ -11,15 +11,10 @@
 #include "RoundObj.h"
 #include "DefaultValues.h"
 
-/* Round object's rotation
- *
- *         7  0  1
- *          \ | /
- *        6 - + - 2
- *          / | \
- *         5  4  3
+/**
+ * This class represents round object with orientation, which can move in it's
+ * direction.
  */
-
 class OrientedRoundObj : public RoundObj {
 public:
     enum direction {
@@ -32,6 +27,15 @@ public:
 
     virtual QPair<qint32, qint32> getMoveCoorinates(qint32 steps = 1);
     virtual void move(qint32 steps = 1);    
+
+/* Round object's rotation
+ *
+ *         7  0  1
+ *          \ | /
+ *        6 - + - 2
+ *          / | \
+ *         5  4  3
+ */
 
     direction rotation;
     qint32 id;

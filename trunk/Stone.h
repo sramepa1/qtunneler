@@ -29,12 +29,12 @@
 #include "BitmapObj.h"
 #include "DefaultValues.h"
 
+/**
+ * Class represents stones in the gameplay area.
+ */
 class Stone : public BitmapObj {
 public:
     
-    /**
-     * _width MUST be divisible by 8
-     */
     Stone(qint32 _x, qint32 _y, qint32 _width, qint32 _height);
     
     virtual ~Stone() {}

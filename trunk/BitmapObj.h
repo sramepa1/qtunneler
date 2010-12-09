@@ -31,6 +31,11 @@
 #include <QColor>
 #include "DefaultValues.h"
 
+/**
+ * Generic class of some object, which mass is represented by the bitmap 
+ * (true is solid point). For the save of memory is bitmap represented
+ * by bit array.
+ */
 class BitmapObj{
 public:
     BitmapObj(qint32 _x = 0, qint32 _y = 0, qint32 _width = 0, qint32 _height = 0);

@@ -31,6 +31,9 @@
 #include "Projectile.h"
 #include "BitmapObj.h"
 
+/**
+ * This class represents the tanks.
+ */
 class Tank : public OrientedRoundObj {
 public:
     Tank(qint32 x, qint32 y, quint8 color, qint32 id);

@@ -29,6 +29,9 @@
 #include "DefaultValues.h"
 #include "RoundObj.h"
 
+/**
+ * This class represents the rectangle-shaped border of the gameplay area.
+ */
 class Border{
 public:
     Border();

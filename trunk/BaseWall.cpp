@@ -25,8 +25,16 @@
 
 #include "BaseWall.h"
 
-
-BaseWall::BaseWall(qint32 _x, qint32 _y,qint32 _width, qint32 _height, QColor _color) : BitmapObj(_x, _y, _width, _height) {
+/**
+ * Constructor. Dimensions should be same lake of the @see Base
+ *
+ * @param _x
+ * @param _y
+ * @param _width
+ * @param _height
+ * @param _color
+ */
+BaseWall::BaseWall(qint32 _x, qint32 _y, qint32 _width, qint32 _height, QColor _color) : BitmapObj(_x, _y, _width, _height) {
 
     color = _color;
 

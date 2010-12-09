@@ -100,7 +100,7 @@ void Evaluator::generateWorldAndStartRound() {
         x2 = (qint32) (((qreal) qrand() / RAND_MAX) * (MATRIX_DIMENSION - 2 * BASE_MIN_DISTANCE_FROM_BORDER - 2 * BORDER_SIZE) + BASE_MIN_DISTANCE_FROM_BORDER);
         y2 = (qint32) (((qreal) qrand() / RAND_MAX) * (MATRIX_DIMENSION - 2 * BASE_MIN_DISTANCE_FROM_BORDER - 2 * BORDER_SIZE) + BASE_MIN_DISTANCE_FROM_BORDER);
 
-    }while(Model::checkRectOverlap(x1 - SCREEN / 2, y1 - SCREEN / 2 ,x1 + BASE_WIDTH + SCREEN / 2, y1 + BASE_HEIGHT + SCREEN / 2, x2 - SCREEN / 2, y2 - SCREEN / 2, x2 + BASE_WIDTH + SCREEN / 2, y2 + BASE_HEIGHT + SCREEN / 2));
+    }while(model->checkRectOverlap(x1 - SCREEN / 2, y1 - SCREEN / 2 ,x1 + BASE_WIDTH + SCREEN / 2, y1 + BASE_HEIGHT + SCREEN / 2, x2 - SCREEN / 2, y2 - SCREEN / 2, x2 + BASE_WIDTH + SCREEN / 2, y2 + BASE_HEIGHT + SCREEN / 2));
 
     model->addBase(x1, y1, BASE_WIDTH, BASE_HEIGHT, RED_PLAYER, *(model->playerColors.value(RED_PLAYER)));
     model->addBase(x2, y2, BASE_WIDTH, BASE_HEIGHT, BLUE_PLAYER, *(model->playerColors.value(BLUE_PLAYER)));
@@ -121,7 +121,7 @@ void Evaluator::generateWorldAndStartRound() {
         //check bases colisions
         bool flag = true;
         foreach(Base * base, *model->bases){
-            if(Model::checkRectOverlap(x1 - 3 * TANK_RADIUS, y1 -3 * TANK_RADIUS, x1 + width + 3 * TANK_RADIUS, y1 + heigth + 3 * TANK_RADIUS, base->x1, base->y1, base->x2, base->y2)){
+            if(model->checkRectOverlap(x1 - 3 * TANK_RADIUS, y1 -3 * TANK_RADIUS, x1 + width + 3 * TANK_RADIUS, y1 + heigth + 3 * TANK_RADIUS, base->x1, base->y1, base->x2, base->y2)){
                 flag = false;
             } 
         }
@@ -470,11 +470,13 @@ void Evaluator::explode(Projectile * projectile){
     }
 
     //destroy shots within radius
+    /*
     foreach(Projectile * shot, *model->projectiles){
         if(model->isProjectileCollision(& explosion) && shot->tankID != projectile->tankID){
             explode(shot);
         }
     }
+    */
                  
 }
 
@@ -506,11 +508,13 @@ void Evaluator::explode(Tank * tank){
         }
     }
 
+    /*
     //destroy shots within radius
     foreach(Projectile * shot, *model->projectiles){
         if(model->isProjectileCollision(& explosion) && shot->tankID != tank->id){
             explode(shot);
         }
     }
+    */
 
 }

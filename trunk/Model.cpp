@@ -33,6 +33,11 @@
 #include <QPen>
 #include <QPainter>
 
+/**
+ * Consructs the model.
+ *
+ * @param parent
+ */
 Model::Model(QObject* parent) : QObject(parent) {
     qsrand( time(NULL) );
 
@@ -59,6 +64,9 @@ Model::Model(QObject* parent) : QObject(parent) {
     delete[] data;
 }
 
+/**
+ * Destructs model.
+ */
 Model::~Model() {
     deleteObjectsInContainers();
 
@@ -73,6 +81,9 @@ Model::~Model() {
     if(tunnelMap) delete tunnelMap;
 }
 
+/**
+ * Delete objects stored in model's containers and the containers.
+ */
 void Model::deleteObjectsInContainers(){
     //Delete bases
     foreach (Base * base, *bases) {
@@ -100,6 +111,9 @@ void Model::deleteObjectsInContainers(){
     }
 }
 
+/**
+ * Reset the model to the state after the construction.
+ */
 void Model::reset() {
 
     qDebug("Model::reset()");
@@ -123,6 +137,15 @@ void Model::reset() {
     delete[] data;
 }
 
+/**
+ * Returns cutted part of the matrix for needs of the View.
+ *
+ * @param x
+ * @param y
+ * @param width
+ * @param height
+ * @return
+ */
 const uchar* Model::getTunnelBitmapData(qint32 x, qint32 y, qint32 width, qint32 height) const {
     
     uchar* buffer = new uchar [(width*height)/8 + height];
@@ -146,12 +169,15 @@ const uchar* Model::getTunnelBitmapData(qint32 x, qint32 y, qint32 width, qint32
     return buffer;    
 }
 
-const QBitmap* Model::getTunnelBitmap() const {
-    return tunnelMap;
-}
-
-bool checkRectOverlap(qint32 x11, qint32 y11, qint32 x12, qint32 y12, qint32 x21, qint32 y21, qint32 x22, qint32 y22);
-
+/**
+ * Returns vector of all Solid objects in given rectangle.
+ *
+ * @param x
+ * @param y
+ * @param width
+ * @param height
+ * @return
+ */
 QVector<BitmapObj*> Model::getSolidObjInRect(qint32 x, qint32 y, qint32 width, qint32 height) const {
 
     int size = solidObjects->size();
@@ -169,6 +195,15 @@ QVector<BitmapObj*> Model::getSolidObjInRect(qint32 x, qint32 y, qint32 width, q
     return vector;
 }
 
+/**
+ * Return QRectangles representing border in given rectangle.
+ *
+ * @param x1
+ * @param y1
+ * @param width
+ * @param height
+ * @return
+ */
 QVector<QRect> Model::getBorderInRect(qint32 x1, qint32 y1, qint32 width, qint32 height) const{
 
     QVector<QRect> vector;
@@ -199,6 +234,15 @@ QVector<QRect> Model::getBorderInRect(qint32 x1, qint32 y1, qint32 width, qint32
     return vector;
 }
 
+/**
+ * Returns vector of all shots in given rectangle.
+ *
+ * @param x
+ * @param y
+ * @param width
+ * @param height
+ * @return
+ */
 QVector<QPoint> Model::getShotsInRect(qint32 x, qint32 y, qint32 width, qint32 height) const{
 
     qint32 x1 = (qint32)(x) - PROJECTILE_RADIUS;
@@ -217,6 +261,15 @@ QVector<QPoint> Model::getShotsInRect(qint32 x, qint32 y, qint32 width, qint32 h
     return shots;
 }
 
+/**
+ * Returns vector of all tanks in given rectangle.
+ *
+ * @param x
+ * @param y
+ * @param width
+ * @param height
+ * @return
+ */
 QVector<OrientedRoundObj*> Model::getTanksInRect(qint32 x, qint32 y, qint32 width, qint32 height) const {
 
     QVector<OrientedRoundObj*> vector;
@@ -237,6 +290,13 @@ QVector<OrientedRoundObj*> Model::getTanksInRect(qint32 x, qint32 y, qint32 widt
     return vector;
 }
 
+/**
+ * Make tunel between tanks last and new position
+ *
+ * @param tankID
+ * @param newX
+ * @param newY
+ */
 void Model::maskMatrixWithTank(qint32 tankID, qint32 newX, qint32 newY) {
     Tank tank(*tanks->value(tankID));
 
@@ -262,6 +322,16 @@ void Model::maskMatrixWithTank(qint32 tankID, qint32 newX, qint32 newY) {
     updateTunnelMap(minX - TANK_RADIUS, minY - TANK_RADIUS, std::max(x1,newX) - minX + 2*TANK_RADIUS, std::max(y1,newY) - minY + 2*TANK_RADIUS);
 }
 
+/**
+ * Add base to gameplay area.
+ *
+ * @param _x
+ * @param _y
+ * @param _width
+ * @param _height
+ * @param _color
+ * @param _wallColor
+ */
 void Model::addBase(qint32 _x, qint32 _y, qint32 _width, qint32 _height, quint8 _color, QColor _wallColor) {
     bases->append(new Base(_x, _y, _width, _height, _color));
 
@@ -271,6 +341,12 @@ void Model::addBase(qint32 _x, qint32 _y, qint32 _width, qint32 _height, quint8 
     updateTunnelMap(_x, _y, _width, _height);
 }
 
+/**
+ * Checks if the given round object colides with matrix.
+ *
+ * @param obj
+ * @return
+ */
 bool Model::isMatrixCollision (const RoundObj * obj) const{
 
     for (int i = obj->getX1(); i < obj->getX2(); i++) {
@@ -284,6 +360,12 @@ bool Model::isMatrixCollision (const RoundObj * obj) const{
     return false;
 }
 
+/**
+ * Checks if the given round object colides with some solid object.
+ *
+ * @param obj
+ * @return
+ */
 bool Model::isSolidCollision (const RoundObj * obj) const{
     //Optimalized for common situlation
     //Could be contraproductive to totaly different world
@@ -335,18 +417,22 @@ bool Model::isSolidCollision (const RoundObj * obj) const{
                         if(obj->isWithinCircle(i, j) && solid->getXYGlobalCoordiantes(i, j)){
                             return true;
                         }
-                        
                     }
                 }
             }
-
         }
-       
     }
 
     return false;
 }
 
+
+/**
+ * Checks if the given round object colides with some tank.
+ *
+ * @param obj
+ * @return
+ */
 bool Model::isTankCollision (const RoundObj * obj) const{
 
     foreach(Tank * tank, *tanks){
@@ -376,6 +462,12 @@ bool Model::isTankCollision (const RoundObj * obj) const{
     return false;
 }
 
+/**
+ * Checks if the given @see Projectile colides with some tank.
+ *
+ * @param projectile
+ * @return
+ */
 bool Model::isTankCollision (const Projectile * projectile) const{
 
     foreach(Tank * tank, *tanks){
@@ -408,6 +500,12 @@ bool Model::isTankCollision (const Projectile * projectile) const{
     return false;
 }
 
+/**
+ * Checks if the given round object colides with some projectile.
+ *
+ * @param obj
+ * @return
+ */
 bool Model::isProjectileCollision (const RoundObj * obj) const{
 
     foreach(Projectile * shot, *projectiles){
@@ -433,14 +531,31 @@ bool Model::isProjectileCollision (const RoundObj * obj) const{
     return false;
 }
 
+/**
+ * Checks if the given tank colides with another tank or solid object.
+ *
+ * @param obj
+ * @return
+ */
 bool Model::isCollisionForTank (const Tank * obj) const{
     return isSolidCollision(obj) || isTankCollision(obj);
 }
 
+/**
+ *  Checks if the given projectile colides with another projectile, matrix, tank or solid object.
+ *
+ * @param projectile
+ * @return
+ */
 bool Model::isCollisionForProjectile (const Projectile * projectile) const{
-    return isMatrixCollision(projectile) || isSolidCollision(projectile) || isTankCollision(projectile) || isProjectileCollision(projectile);
+    return isMatrixCollision(projectile) || isSolidCollision(projectile) || isTankCollision(projectile)/*|| isProjectileCollision(projectile)*/;
 }
 
+/**
+ * Moves tank by default count of moves (per frame) as far as is possible.
+ *
+ * @param tank
+ */
 void Model::moveTankWhilePossible(Tank* tank) {
 
     QPair<qint32, qint32> coord = tank->getMoveCoorinates(TANK_SPEED);
@@ -487,7 +602,6 @@ void Model::moveTankWhilePossible(Tank* tank) {
             }
             tank->setRadius(TANK_RADIUS);
 
-            
         }
         
     }
@@ -496,6 +610,9 @@ void Model::moveTankWhilePossible(Tank* tank) {
    
 }
 
+/**
+ * Move tank to it's start position.
+ */
 void Model::moveTanksBackToBases() {
 
     foreach(Base* base, *bases) {
@@ -506,6 +623,12 @@ void Model::moveTanksBackToBases() {
     }
 }
 
+/**
+ * Returns the count of solid pixels in matrix within a given round object.
+ *
+ * @param obj
+ * @return
+ */
 qint32 Model::getPixelCountInCircle(const RoundObj * obj){
     RoundObj round(*obj);
     round.setRadius(round.getRadius() + 1);
@@ -523,7 +646,20 @@ qint32 Model::getPixelCountInCircle(const RoundObj * obj){
     return count;
 }
 
-bool Model::checkRectOverlap(qint32 x11, qint32 y11, qint32 x12, qint32 y12, qint32 x21, qint32 y21, qint32 x22, qint32 y22) {
+/**
+ * Check if the two given rectangles colides.
+ *
+ * @param x11
+ * @param y11
+ * @param x12
+ * @param y12
+ * @param x21
+ * @param y21
+ * @param x22
+ * @param y22
+ * @return
+ */
+bool Model::checkRectOverlap(qint32 x11, qint32 y11, qint32 x12, qint32 y12, qint32 x21, qint32 y21, qint32 x22, qint32 y22) const{
 
     if(x11 >= x21 && x12 > x22 && x11 < x22) { // a prekryva levou cast r
         if(y11 < y22 && y12 > y22 && y11 >= y21){ // levy dolni roh
@@ -574,8 +710,20 @@ bool Model::checkRectOverlap(qint32 x11, qint32 y11, qint32 x12, qint32 y12, qin
 
 }
 
-
-bool Model::checkRectInsideRect(qint32 x11, qint32 y11, qint32 x12, qint32 y12, qint32 x21, qint32 y21, qint32 x22, qint32 y22){
+/**
+ * Check the second rectangle is inside of the first one.
+ *
+ * @param x11
+ * @param y11
+ * @param x12
+ * @param y12
+ * @param x21
+ * @param y21
+ * @param x22
+ * @param y22
+ * @return
+ */
+bool Model::checkRectInsideRect(qint32 x11, qint32 y11, qint32 x12, qint32 y12, qint32 x21, qint32 y21, qint32 x22, qint32 y22) const{
     if(x11 >= x21 && x12 <= x22 && y11 >= y21 && y12 <= y22){
         return true;
     }
@@ -583,6 +731,15 @@ bool Model::checkRectInsideRect(qint32 x11, qint32 y11, qint32 x12, qint32 y12, 
     return false;
 }
 
+
+/**
+ * Creates QBitmap (cache) of tunel within given rectangle.
+ *
+ * @param x
+ * @param y
+ * @param width
+ * @param height
+ */
 void Model::updateTunnelMap(qint32 x, qint32 y, qint32 width, qint32 height) {
 
     QPainter painter(tunnelMap);
@@ -599,4 +756,8 @@ void Model::updateTunnelMap(qint32 x, qint32 y, qint32 width, qint32 height) {
     painter.setBackgroundMode(Qt::OpaqueMode);
     painter.drawPixmap(x,y,QBitmap::fromData(QSize(width,height),data,QImage::Format_MonoLSB));
     delete[] data;
+}
+
+const QBitmap* Model::getTunnelBitmap() const {
+    return tunnelMap;
 }

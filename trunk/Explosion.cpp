@@ -26,6 +26,13 @@
 #include "Explosion.h"
 #include "BitmapObj.h"
 
+/**
+ * Returns random round explosion of the ser diameter and returns the 
+ * @see BitmapObj where true is point of explosion effect and false is
+ * uneffected point.
+ *
+ * @return
+ */
 BitmapObj Explosion::getExplosionMask() {
 
     BitmapObj mask(x1, y1, 2 * radius, 2 * radius);
@@ -60,6 +67,14 @@ BitmapObj Explosion::getExplosionMask() {
     return mask;
 }
 
+/**
+ * Counts damage to the given @see BitmapObj. The damage decreases linearly with
+ * object's distance from center of explosion.
+ *
+ * @param obj
+ * @param maxDamage
+ * @return
+ */
 qint32 Explosion::countDamageToObj(const RoundObj * obj, qint32 maxDamage){
 
     qreal distance = getDistanceFormCenter(obj->getX(), obj->getY()) - obj->getRadius();
