@@ -29,6 +29,9 @@
 #include "BitmapObj.h"
 #include "DefaultValues.h"
 
+/**
+ * This class represents the colored wall around the tank's base.
+ */
 class BaseWall : public BitmapObj {
 public:
     BaseWall(qint32 _x, qint32 _y,qint32 _width, qint32 _height, QColor _color);

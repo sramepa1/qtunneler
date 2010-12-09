@@ -23,6 +23,10 @@
  *
  */
 
+/**
+ * Definitions of default values and constats.
+ */
+
 #ifndef _DEFAULTVALUES_H
 #define	_DEFAULTVALUES_H
 

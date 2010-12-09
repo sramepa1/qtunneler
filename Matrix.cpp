@@ -27,7 +27,9 @@
 
 #include "Matrix.h"
 
-
+/**
+ * Constructs the Matrix and fill it with true values (no tunels).
+ */
 Matrix::Matrix() {
     arr = new quint8* [MATRIX_DIMENSION/8];
     for(qint32 i = 0; i < MATRIX_DIMENSION/8; i++) {
@@ -45,6 +47,9 @@ Matrix::~Matrix() {
     delete[] arr;
 }
 
+/**
+ * Resets the matrix to its initial state - fill it with true values (no tunels).
+ */
 void Matrix::reset() {
     for(qint32 x = 0; x < MATRIX_DIMENSION/8; x++) {
         for(qint32 y = 0; y < MATRIX_DIMENSION; y++) {
@@ -53,9 +58,11 @@ void Matrix::reset() {
     }
 }
 
-
-// copy-pasted code for performance reasons. This is called quite often...
-
+/**
+ * Mask Matrix (logical and) with given @see BitmapObj.
+ *
+ * @param mask
+ */
 void Matrix::maskMatrix(const BitmapObj * mask){
     int x = mask->getX1();
     int y = mask->getY1();
@@ -83,7 +90,15 @@ void Matrix::maskMatrix(const BitmapObj * mask){
     }
 }
 
+/**
+ * Mask Matrix (logical and not) with given @see BitmapObj.
+ *
+ * @param mask
+ */
 void Matrix::invertMaskMatrix(const BitmapObj * mask){
+
+    // copy-pasted code for performance reasons. This is called quite often...
+
     int x = mask->getX1();
     int y = mask->getY1();
     int wid = mask->getWidth();

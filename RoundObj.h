@@ -29,6 +29,9 @@
 #include <QtCore>
 #include "DefaultValues.h"
 
+/**
+ * This class represent general round object.
+ */
 class RoundObj {
 public:
     RoundObj(qint32 _x, qint32 _y, qint32 _radius,quint8 _color);
@@ -37,14 +40,7 @@ public:
 
     virtual ~RoundObj() {}
 
-    /**
-     * Check if given cooridantes colide witch circle
-     */
     virtual bool isWithinCircle(qint32 _x, qint32 _y) const;
-
-    /**
-     * Get absolute value of distance (round down) form center.
-     */
     virtual qint32 getDistanceFormCenter(qint32 _x, qint32 _y) const;
 
     virtual qint32 getX() const {return x;}

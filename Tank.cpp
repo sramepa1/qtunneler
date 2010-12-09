@@ -25,6 +25,14 @@
 
 #include "Tank.h"
 
+/**
+ * Constructs tank and set it's given and default values set in @see DefaultValues.h
+ *
+ * @param x
+ * @param y
+ * @param color
+ * @param id
+ */
 Tank::Tank(qint32 x, qint32 y, quint8 color, qint32 id) : OrientedRoundObj(x, y, TANK_RADIUS, color, id, DEFAULT_TANK_ROTATION) {
     hp = DEFAULT_TANK_HP;
     energy = DEFAULT_TANK_ENERGY;
@@ -33,6 +41,12 @@ Tank::Tank(qint32 x, qint32 y, quint8 color, qint32 id) : OrientedRoundObj(x, y,
     lastRotation = DEFAULT_TANK_ROTATION;
 }
 
+/**
+ * Constructs a new projectile in front of the tank.
+ *
+ * @param projectileID
+ * @return pointer to the new projectile
+ */
 Projectile * Tank::fire(quint32 projectileID){
     QPair<qint32, qint32> pair = getMoveCoorinates(radius);
 

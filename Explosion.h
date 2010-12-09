@@ -30,6 +30,9 @@
 #include "BitmapObj.h"
 #include "DefaultValues.h"
 
+/**
+ * This class represents explosion, which is descendatnt of @see RoundObj .
+ */
 class Explosion : public RoundObj{
 public:
     Explosion(qint32 _x, qint32 _y, quint8 _color, qint32 _seed, qint32 _radius = EXPLOSION_RADIUS, qint32 _increase = EXPLOSION_RAND_SOLID_PART) : RoundObj(_x,_y,_radius,_color), seed(_seed), increase(_increase) {}

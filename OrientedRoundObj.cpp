@@ -25,8 +25,12 @@
 
 #include "OrientedRoundObj.h"
 
-#include <cmath>
-
+/**
+ * ¨Returns pair of coordinates of new object's position.
+ *
+ * @param steps how many pixels shall the object move
+ * @return pair of new coordinates
+ */
 QPair<qint32, qint32> OrientedRoundObj::getMoveCoorinates(qint32 steps){
     qint32 x = this->x;
     qint32 y = this->y;
@@ -46,6 +50,11 @@ QPair<qint32, qint32> OrientedRoundObj::getMoveCoorinates(qint32 steps){
     return QPair<qint32, qint32>(x, y);
 }
 
+/**
+ * Change the objet's position by the given steps.
+ *
+ * @param steps how many pixels shall the object move
+ */
 void OrientedRoundObj::move(qint32 steps){
     QPair<qint32, qint32> pair = getMoveCoorinates(steps);
     x = pair.first;

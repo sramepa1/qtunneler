@@ -42,6 +42,9 @@
 #include "Projectile.h"
 #include "Stone.h"
 
+/**
+ * This class represents whole model and contains operation above it.
+ */
 class Model : public QObject {
 
     Q_OBJECT
@@ -52,25 +55,22 @@ public:
 
     virtual void reset();
 
-    /**
-     * Data for transforming Matrix to QBitmap
-     */
+    //Data for transforming Matrix to QBitmap
     virtual const uchar* getTunnelBitmapData(qint32 x, qint32 y, qint32 width, qint32 height) const;
     virtual const QBitmap* getTunnelBitmap() const;
 
     void updateTunnelMap(qint32 x, qint32 y, qint32 width, qint32 height);
 
-    /**
-     * Object drawing
-     */
+    //Object drawing
+ 
     virtual QVector<BitmapObj*> getSolidObjInRect(qint32 x, qint32 y, qint32 width, qint32 height) const;
     virtual QVector<QRect> getBorderInRect(qint32 x, qint32 y, qint32 width, qint32 height) const;
     virtual QVector<QPoint> getShotsInRect(qint32 x, qint32 y, qint32 width, qint32 height) const;
     virtual QVector<OrientedRoundObj*> getTanksInRect(qint32 x, qint32 y, qint32 width, qint32 height) const;
 
-    /**
-     * Collision detection;
-     */
+
+    //Collision detection;
+
     virtual bool isMatrixCollision (const RoundObj * obj) const;
 
     //Collision with stone, basewall or border.
@@ -84,26 +84,18 @@ public:
     virtual bool isCollisionForTank (const Tank * obj) const;
     virtual bool isCollisionForProjectile (const Projectile * projectile) const;
 
-    /**
-     * Tank control methods
-     */
+    //Tank control methods
     virtual void moveTanksBackToBases();
     virtual void moveTankWhilePossible(Tank* tank);
 
-    /**
-     * Costruction methods
-     */
+    //Costruction methods
     virtual void addBase(qint32 _x, qint32 _y, qint32 _width, qint32 _height, quint8 _color, QColor _wallColor);
 
-    /**
-     * Static methods
-     */
-    static bool checkRectOverlap(qint32 x11, qint32 y11, qint32 x12, qint32 y12, qint32 x21, qint32 y21, qint32 x22, qint32 y22);
-    static bool checkRectInsideRect(qint32 x11, qint32 y11, qint32 x12, qint32 y12, qint32 x21, qint32 y21, qint32 x22, qint32 y22);
+    //Static methods
+    virtual bool checkRectOverlap(qint32 x11, qint32 y11, qint32 x12, qint32 y12, qint32 x21, qint32 y21, qint32 x22, qint32 y22) const;
+    virtual bool checkRectInsideRect(qint32 x11, qint32 y11, qint32 x12, qint32 y12, qint32 x21, qint32 y21, qint32 x22, qint32 y22) const;
     
-    /**
-     * Other methods
-     */
+    //Other methods
     virtual quint32 provideProjectileID() { return nextProjectileID++;}
 
     virtual qint32 getPixelCountInCircle(const RoundObj * obj);
@@ -111,8 +103,8 @@ public:
     virtual void maskMatrixWithTank(qint32 tankID, qint32 newX, qint32 newY);
 
 
-    // making these private or protected would result in a tremendous method count
-    // better leave them public and open to Controller's logic
+    //making these private or protected would result in a tremendous method count
+    //better leave them public and open to Controller's logic
 
     Matrix* matrix;
     Border* border;
@@ -127,7 +119,7 @@ public:
     QHash<qint32,QColor*> playerColors;
     qint32 playerID;
 
-    // to synchronize access by view and controller
+    //to synchronize access by view and controller
     QMutex containerAccess;
 
 protected:
