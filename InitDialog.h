@@ -32,6 +32,10 @@
 #include "GameWindow.h"
 #include "InitVector.h"
 
+/**
+ * Class of the dialog window where the players set parameters of the LAN
+ * connection.
+ */
 class InitDialog : public QWidget {
 
     Q_OBJECT

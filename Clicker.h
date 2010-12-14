@@ -34,6 +34,9 @@
 #include "DefaultValues.h"
 #include "Model.h"
 
+/**
+ * Class designed to manage the human-game interaction.
+ */
 class Clicker : public QObject {
 
     Q_OBJECT
