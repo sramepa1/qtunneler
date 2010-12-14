@@ -32,6 +32,9 @@
 #include "View.h"
 #include "Model.h"
 
+/**
+ * Class of main game window where is the game played.
+ */
 class GameWindow : public QMainWindow {
 
     Q_OBJECT

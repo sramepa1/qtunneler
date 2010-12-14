@@ -28,6 +28,9 @@
 
 #include <QString>
 
+/**
+ * Class designed to store data given in @see InitDialog.
+ */
 struct InitVector {
 
     InitVector(bool _create, QString _port, QString _host = "") : host(_host), port(_port), create(_create) {}

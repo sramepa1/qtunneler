@@ -37,6 +37,9 @@
 #include "Clicker.h"
 #include "DefaultValues.h"
 
+/**
+ * Class representig the game view.
+ */
 class View : public QWidget {
 
     Q_OBJECT

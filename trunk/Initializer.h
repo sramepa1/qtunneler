@@ -49,6 +49,9 @@ public:
     static const QEvent::Type startType = static_cast<QEvent::Type>(2001);
 };
 
+/**
+ * Class which responsibility is to initialize the program and start it's core.
+ */
 class Initializer : public QObject {
 
     Q_OBJECT
