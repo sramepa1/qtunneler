@@ -43,9 +43,9 @@ Dále má hra několik známých chyb (bugů), které se z časových a technick
 Programování této hry bylo pro mě osobně velkým přínosem. Seznámil jsem se zde se knohovnou QT, které mě skutečně nadchla a naprogramoval jsem s ní svou první hru v C++. Semestrální práce mi rozhodně byla přínosem a umožnila mi nahlédnout do dosud neznámého světa herních enginů a grafických výpočtů.
 
 == Použité zdroje a nástroje ==
-Dokumentace [http://doc.qt.nokia.com/4.7/index.html QT]
-Dokumentace [http://www.cplusplus.com/ C++]
-Vývojové prostředí [http://netbeans.org/ NetBeans]
-The GNU Compiler Collection, [http://gcc.gnu.org/ GCC] 
-Version control system [http://subversion.tigris.org/ SVN]
-Minimalist GNU for Windows [http://www.mingw.org/ MINGW]
+ *Dokumentace [http://doc.qt.nokia.com/4.7/index.html QT]
+ *Dokumentace [http://www.cplusplus.com/ C++]
+ *Vývojové prostředí [http://netbeans.org/ NetBeans]
+ *The GNU Compiler Collection, [http://gcc.gnu.org/ GCC] 
+ *Version control system [http://subversion.tigris.org/ SVN]
+ *Minimalist GNU for Windows [http://www.mingw.org/ MINGW]
