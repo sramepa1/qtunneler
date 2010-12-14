@@ -1,0 +1,23 @@
+#summary Documentation in Czech for Y36PJC.
+
+= QTunneler =
+
+== Qtunneler jako následník Tunnelera ==
+QTunneler je nová a vylepšená imlementace slavné hry pro MS DOS z roku 1991, [http://www.bestoldgames.net/stare-hry/tunneler.php Tunnelera]. Základní myšlenka původní hry je ve využití neobvyklého konceptu podzemního boje dvou tanků v náhodně generované mapě.
+Každý tank začíná hru ve své základně aniž by věděl, kde je nebo kde je jeho protivník. Jediné co vidí je hromada hlíny. Začne tedy systematicky kopat v podzemí a vytváří tak tunely, kterými se pohybuje snadněji a stojí jej to méně paliva. Dochází-li mu palivo nebo je li raněn, může se vrátit zpět do své základny kde se zregeneruje. Celou dobu se snaží najít zničit protivníka, což není vůbec snadný úkol vzhledem k velikosti mapy a faktu, že jeho protivník usiluje o totéž. Tunneler je hra pro dva hráče plná dynamiky, strategického myšlení a rychlého rozhodování u které snadno strávíte s kamarádem večer a budete se dobře bavit.
+
+S ohledem na svůj věk má hra však z dnešního pohledu řadu nedostatků. Jsou to například nízké rozlišení hry, absence podpory pro hraní na LAN nebo pro hraní více hráčů. Proto jsem se rozhodl jeho geniální myšlence dát nové programové tělo.
+
+Hlavním cílem vývoje QTunnelera je vytvořit herní jádro Tunnelera v moderní grafické knihovně, ve [http://qt.nokia.com/products/ QT] za použití mechanizmů umožnujících hraní po lokální síti. Dále také umožnit podporu pro budoucí přidání vyššího počtu hráčů, například pro týmy 2v2 nebo konceptu všichni proti všem.
+
+== Návrh architektury ==
+Qtunneler je grafická aplikace řízená hráčem, tedy v podstatě událostmi které hráč vytváří. Pro tento typ programů a her obecně se výborně hodí architektonický vzor [http://en.wikipedia.org/wiki/Model%E2%80%93View%E2%80%93Controller MVC], který jsem se zde rozhodl použít (v mírné upravené podobě dle potřeb).
+Navíc je třeba brát v úvahu síťovou povahu zamýšlené aplikace, tedy navrhnout vhodným způsobem způsob komunikace mezi dvěma a potenciálně i více klienty. Komunikace na bázi peer-to-peer se nejeví jako dobrá volba. Protože hra musí být poměrně dobře sesynchronizovaná aby byla nedocházelo k nepředvídatelnému chování, zvolil jsem architekturu typu klient-server, kde serverem bude hráč který hru zakládá.
+
+Jelikož jakákoli síťová zpoždění (latence) by mohly vést k de-synchronizaci klientů oproti hernímu serveru, rozhodl jsem se pro pevnou synchronizaci síťových her. Komunikace tedy bude probíhat při každém vyhodnocení herní scény (25 Hz) a to i tehdy, není li žádná změna k odeslání.
+
+== Implementace ==
+
+== Zhodnocení a závěr ==
+
+== Použité zdroje ==
